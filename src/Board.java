@@ -8,6 +8,18 @@ public class Board {
 	private Piece piece;
 	private Position pos;
 	
+	/*
+	 * + - - - - - > y
+	 * | 0 0 0 0 0
+	 * | 0 0 0 0 0
+	 * | 0 0 0 0 0
+	 * | 0 0 0 0 0
+	 * | 0 0 0 0 0
+	 * v
+	 * x
+	 */
+	
+	
 	public Board(){
 		//hard coded board
 		board = new int[][] {{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -24,7 +36,7 @@ public class Board {
 	
 	public void placePiece(Piece piece, Position pos){
 		// If position is occupied, don't place.
-		if(!isOccupied(pos)){
+		if(!isOccupied(pos) && isValid(pos)){
 			place(piece, pos);
 			System.out.println("Placed piece " + piece.getRank() + " on " + piece.getPosition().toString());
 		}
