@@ -2,6 +2,7 @@
 public class Board {
 	
 	//did it work??
+	//testing!!!
 	
 	private int[][] board = new int[10][10]; //Represents the board as values empty (0),
 											 //occupied (1) or impassable (-1).
