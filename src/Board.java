@@ -4,7 +4,6 @@ public class Board {
 	private int[][] board = new int[10][10]; //Represents the board as values empty (0),
 											 //occupied (1) or impassable (-1).
 	private Piece[][] pieces = new Piece[10][10];
-	// This is highly inefficient but okay...
 	private Piece piece;
 	private Position pos;
 	
