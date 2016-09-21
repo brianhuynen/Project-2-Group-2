@@ -5,6 +5,8 @@ public class Test {
 		Piece a = new Piece(1,3);
 		int [] coord = {0,0};
 		board.placePiece(coord,a);
+		
+		
 		board.printBoard();
 	}
 }

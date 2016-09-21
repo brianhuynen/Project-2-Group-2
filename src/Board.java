@@ -30,8 +30,8 @@ public class Board {
 	
 	public void placePiece(int[] coord, Piece piece){
 		if(board[coord[0]][coord[1]] instanceof EmptyCell){
-			Cell newState = new OccupiedCell(piece);
-			board[coord[0]][coord[1]].setState(newState);
+			OccupiedCell newState = new OccupiedCell(piece);
+			board[coord[0]][coord[1]].setState(newState);;
 		}
 	}
 	public void printBoard(){
@@ -52,6 +52,10 @@ public class Board {
 				}
 			}
 			System.out.println();
+			
+		}
+		if(board[0][0] instanceof OccupiedCell){
+			System.out.println("I AM WORKING!");
 		}
 	}
 }

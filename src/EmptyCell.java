@@ -6,7 +6,8 @@ public class EmptyCell implements Cell {
 	public EmptyCell(){}
 
 	@Override
-	public void setState(Cell newCellState) {
+	public void setState(Cell cell) {
+		OccupiedCell newCellState = (OccupiedCell) cell;
 		this.cellState = newCellState;
 	}
 
