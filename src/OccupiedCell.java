@@ -7,5 +7,13 @@ public class OccupiedCell implements Cell {
 	public OccupiedCell(Piece piece){
 		content = piece;
 	}
+	
+	public void setContent(Piece p){
+		content = p;
+	}
+	
+	public Piece getContent(){
+		return content;
+	}
 
 }
