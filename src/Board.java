@@ -94,7 +94,8 @@ public class Board {
 					System.out.print("E ");
 				}
 				else if(board[i][j] instanceof OccupiedCell){
-					System.out.print("O ");
+					Piece p = ((OccupiedCell) board[i][j]).getContent();
+					System.out.print(p.getRank()+" ");
 				}
 			}
 			System.out.println();
