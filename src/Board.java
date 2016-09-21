@@ -4,7 +4,6 @@
 public class Board {
 	
 	private Cell[][] board = new Cell[10][10];
-	private Cell cell;
 	
 	final int[][] boardData = {{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		 	 				   { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -28,55 +27,55 @@ public class Board {
 		}
 	}
 	
-	public void placePiece(int[] coord, Piece piece){
-		if(board[coord[0]][coord[1]] instanceof EmptyCell){
+	public void placePiece(Position p, Piece piece){
+		if(board[p.getX()][p.getY()] instanceof EmptyCell){
 			OccupiedCell newState = new OccupiedCell(piece);
-			board[coord[0]][coord[1]] = newState;
+			board[p.getX()][p.getY()] = newState;
 		}
 	}
 	
-	public void removePiece(int[] coord){
+	public void removePiece(Position p){
 		EmptyCell newState = new EmptyCell();
-		board[coord[0]][coord[1]] = newState;
+		board[p.getX()][p.getY()] = newState;
 	}
 	
-	public void movePiece(int [] coord, int[] newCoord){	
-		if(validMove(coord,newCoord)){
-			Piece piece = ((OccupiedCell) board[coord[0]][coord[1]]).getContent();
-			removePiece(coord);
-			board[newCoord[0]][newCoord[1]] = new OccupiedCell(piece);
-			( (OccupiedCell) board[newCoord[0]][newCoord[1]]).setContent(piece);
+	public void movePiece(Position p, Position newP){	
+		if(validMove(p, newP)){
+			Piece piece = ((OccupiedCell) board[p.getX()][p.getY()]).getContent();
+			removePiece(p);
+			board[newP.getX()][newP.getY()] = new OccupiedCell(piece);
+			( (OccupiedCell) board[newP.getX()][newP.getY()]).setContent(piece);
 		}
 	}
 	
-	public boolean validMove(int [] coord, int[] newCoord){
-		if(board[newCoord[0]][newCoord[1]] instanceof ImpassableCell ||
-				(newCoord[0]!= coord[0] && newCoord[1]!= coord[1])){
+	public boolean validMove(Position p, Position newP){
+		if(board[newP.getX()][newP.getY()] instanceof ImpassableCell ||
+				(newP.getX() != p.getX() && newP.getY() != p.getY())){
 			return false;
 		}
 		
 		
 		else{
-			Piece piece = ((OccupiedCell) board[coord[0]][coord[1]]).getContent();
+			Piece piece = ((OccupiedCell) board[newP.getX()][newP.getY()]).getContent();
 			int spaces;
-			if(coord[0] == newCoord[0]){
-				spaces = Math.abs(coord[1]-newCoord[1]);
+			if(p.getX() == newP.getX()){
+				spaces = Math.abs(p.getY()-newP.getY());
 			}
 			else{
-				spaces = Math.abs(coord[0]-newCoord[0]);				
+				spaces = Math.abs(p.getX()-newP.getX());				
 			}
 			
-			if(board[newCoord[0]][newCoord[1]] instanceof EmptyCell && piece.validWalk(spaces)){
+			if(board[newP.getX()][newP.getY()] instanceof EmptyCell && piece.validWalk(spaces)){
 				
 				return true;
 			}
-			else if(board[newCoord[0]][newCoord[1]] instanceof OccupiedCell && piece.validWalk(spaces)){
-				Piece defensePiece = ((OccupiedCell) board[newCoord[0]][newCoord[1]]).getContent();
+			else if(board[newP.getX()][newP.getY()] instanceof OccupiedCell && piece.validWalk(spaces)){
+				Piece defensePiece = ((OccupiedCell) board[newP.getX()][newP.getY()]).getContent();
 				if(piece.win(defensePiece) == piece){
 					return true;
 				}
 				else{
-					removePiece(coord);
+					removePiece(p);
 					return false;
 				}
 			}
@@ -91,19 +90,14 @@ public class Board {
 				if (board[i][j] instanceof ImpassableCell){
 					System.out.print("I ");
 				}
-				else {
-					if (board[i][j] instanceof EmptyCell){
-				
+				else if (board[i][j] instanceof EmptyCell){	
 					System.out.print("E ");
-					}
-				
-					if(board[i][j] instanceof OccupiedCell){
+				}
+				else if(board[i][j] instanceof OccupiedCell){
 					System.out.print("O ");
-					}
 				}
 			}
 			System.out.println();
-			
 		}
 	}
 }
