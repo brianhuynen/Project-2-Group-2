@@ -1,16 +1,11 @@
 //Occupied Cell state, should contain a Piece.
 public class OccupiedCell implements Cell {
 
-	@Override
-	public Cell getState() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	Cell cellState;
 
 	@Override
-	public void setState() {
-		// TODO Auto-generated method stub
-
+	public void setState(Cell cellState) {
+		this.cellState = cellState;
 	}
 
 }
