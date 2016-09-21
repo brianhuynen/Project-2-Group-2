@@ -29,7 +29,6 @@ public class Field {
 
 	public void addPiece(int [] coord, Pieces piece){
 		if(field[coord[0]][coord[1]].getCellState()==0){
-			piece.setCoordinates(coord);
 			field[coord[0]][coord[1]].setContent(piece);
 			field[coord[0]][coord[1]].setCellState(1);
 		}
