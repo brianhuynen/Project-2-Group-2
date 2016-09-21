@@ -41,10 +41,10 @@ public class Board {
 	
 	public void movePiece(Position p, Position newP){	
 		if(validMove(p, newP)){
-			Piece piece = ((OccupiedCell) board[p.getX()][p.getY()]).getContent();
+			Piece piece =  board[p.getX()][p.getY()].getContent();
 			removePiece(p);
-			board[newP.getX()][newP.getY()] = new OccupiedCell(piece);
-			( (OccupiedCell) board[newP.getX()][newP.getY()]).setContent(piece);
+			OccupiedCell newState = new OccupiedCell(piece);
+			board[newP.getX()][newP.getY()] = newState;
 		}
 	}
 	
@@ -56,7 +56,7 @@ public class Board {
 		
 		
 		else{
-			Piece piece = ((OccupiedCell) board[newP.getX()][newP.getY()]).getContent();
+			Piece piece = board[p.getX()][p.getY()].getContent();
 			int spaces;
 			if(p.getX() == newP.getX()){
 				spaces = Math.abs(p.getY()-newP.getY());
@@ -70,7 +70,7 @@ public class Board {
 				return true;
 			}
 			else if(board[newP.getX()][newP.getY()] instanceof OccupiedCell && piece.validWalk(spaces)){
-				Piece defensePiece = ((OccupiedCell) board[newP.getX()][newP.getY()]).getContent();
+				Piece defensePiece = board[newP.getX()][newP.getY()].getContent();
 				if(piece.win(defensePiece) == piece){
 					return true;
 				}

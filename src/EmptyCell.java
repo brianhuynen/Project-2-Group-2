@@ -4,5 +4,9 @@ public class EmptyCell implements Cell {
 	Cell cellState;
 	
 	public EmptyCell(){}
+	
+	public Piece getContent(){
+		return null;
+	}
 
 }

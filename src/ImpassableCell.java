@@ -2,5 +2,9 @@
 public class ImpassableCell implements Cell{
 	
 	public ImpassableCell(){}
+	
+	public Piece getContent(){
+		return null;
+	}
 
 }
