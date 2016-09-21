@@ -42,10 +42,10 @@ public class Board {
 	
 	public void movePiece(int [] coord, int[] newCoord){	
 		if(validMove(coord,newCoord)){
-			Piece piece = board[coord[0]][coord[1]].getContent();
+			Piece piece = ((OccupiedCell) board[coord[0]][coord[1]]).getContent();
 			removePiece(coord);
 			board[newCoord[0]][newCoord[1]] = new OccupiedCell(piece);
-			board[newCoord[0]][newCoord[1]].setContent(piece);
+			( (OccupiedCell) board[newCoord[0]][newCoord[1]]).setContent(piece);
 		}
 	}
 	
@@ -57,7 +57,7 @@ public class Board {
 		
 		
 		else{
-			Piece piece = board[coord[0]][coord[1]].getContent();
+			Piece piece = ((OccupiedCell) board[coord[0]][coord[1]]).getContent();
 			int spaces;
 			if(coord[0] == newCoord[0]){
 				spaces = Math.abs(coord[1]-newCoord[1]);
@@ -71,7 +71,7 @@ public class Board {
 				return true;
 			}
 			else if(board[newCoord[0]][newCoord[1]] instanceof OccupiedCell && piece.validWalk(spaces)){
-				Piece defensePiece = board[newCoord[0]][newCoord[1]].getContent();
+				Piece defensePiece = ((OccupiedCell) board[newCoord[0]][newCoord[1]]).getContent();
 				if(piece.win(defensePiece) == piece){
 					return true;
 				}
@@ -84,6 +84,7 @@ public class Board {
 			return false;
 		}
 	}
+
 	public void printBoard(){
 		for (int i = 0; i< boardData.length; i++){
 			for (int j = 0; j< boardData[0].length; j++){
@@ -97,15 +98,12 @@ public class Board {
 					}
 				
 					if(board[i][j] instanceof OccupiedCell){
-					System.out.print("O");
+					System.out.print("O ");
 					}
 				}
 			}
 			System.out.println();
 			
-		}
-		if(board[0][0] instanceof OccupiedCell){
-			System.out.println("I AM WORKING!");
 		}
 	}
 }
