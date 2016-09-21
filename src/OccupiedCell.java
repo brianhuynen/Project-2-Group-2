@@ -1,8 +1,8 @@
 //Occupied Cell state, should contain a Piece.
 public class OccupiedCell implements Cell {
 
-	Cell cellState;
-	Piece content;
+	private Cell cellState;
+	private Piece content;
 
 	public OccupiedCell(Piece piece){
 		content = piece;

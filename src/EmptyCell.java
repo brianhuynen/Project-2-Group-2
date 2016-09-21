@@ -3,8 +3,7 @@ public class EmptyCell implements Cell {
 
 	Cell cellState;
 	
-	public EmptyCell(){
-	}
+	public EmptyCell(){}
 
 	@Override
 	public void setState(Cell cellState) {
