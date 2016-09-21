@@ -31,7 +31,57 @@ public class Board {
 	public void placePiece(int[] coord, Piece piece){
 		if(board[coord[0]][coord[1]] instanceof EmptyCell){
 			OccupiedCell newState = new OccupiedCell(piece);
-			board[coord[0]][coord[1]].setState(newState);;
+			board[coord[0]][coord[1]] = newState;
+		}
+	}
+	
+	public void removePiece(int[] coord){
+		EmptyCell newState = new EmptyCell();
+		board[coord[0]][coord[1]] = newState;
+	}
+	
+	public void movePiece(int [] coord, int[] newCoord){	
+		if(validMove(coord,newCoord)){
+			Piece piece = board[coord[0]][coord[1]].getContent();
+			removePiece(coord);
+			board[newCoord[0]][newCoord[1]] = new OccupiedCell(piece);
+			board[newCoord[0]][newCoord[1]].setContent(piece);
+		}
+	}
+	
+	public boolean validMove(int [] coord, int[] newCoord){
+		if(board[newCoord[0]][newCoord[1]] instanceof ImpassableCell ||
+				(newCoord[0]!= coord[0] && newCoord[1]!= coord[1])){
+			return false;
+		}
+		
+		
+		else{
+			Piece piece = board[coord[0]][coord[1]].getContent();
+			int spaces;
+			if(coord[0] == newCoord[0]){
+				spaces = Math.abs(coord[1]-newCoord[1]);
+			}
+			else{
+				spaces = Math.abs(coord[0]-newCoord[0]);				
+			}
+			
+			if(board[newCoord[0]][newCoord[1]] instanceof EmptyCell && piece.validWalk(spaces)){
+				
+				return true;
+			}
+			else if(board[newCoord[0]][newCoord[1]] instanceof OccupiedCell && piece.validWalk(spaces)){
+				Piece defensePiece = board[newCoord[0]][newCoord[1]].getContent();
+				if(piece.win(defensePiece) == piece){
+					return true;
+				}
+				else{
+					removePiece(coord);
+					return false;
+				}
+			}
+			
+			return false;
 		}
 	}
 	public void printBoard(){
