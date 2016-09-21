@@ -3,8 +3,4 @@ public class ImpassableCell implements Cell{
 	
 	public ImpassableCell(){}
 
-	@Override
-	public void setState(Cell cellState) {
-	}
-
 }

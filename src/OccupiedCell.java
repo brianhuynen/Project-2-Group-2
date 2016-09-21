@@ -7,9 +7,5 @@ public class OccupiedCell implements Cell {
 	public OccupiedCell(Piece piece){
 		content = piece;
 	}
-	@Override
-	public void setState(Cell cellState) {
-		this.cellState = cellState;
-	}
 
 }
