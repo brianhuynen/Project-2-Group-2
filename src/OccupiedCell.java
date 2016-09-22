@@ -1,5 +1,5 @@
 //Occupied Cell state, should contain a Piece.
-public class OccupiedCell implements Cell {
+public class OccupiedCell extends Cell {
 
 	private Piece content;
 
