@@ -1,5 +1,3 @@
-
-
 //Occupied Cell state, should contain a Piece.
 public class OccupiedCell implements Cell {
 
