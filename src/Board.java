@@ -83,6 +83,17 @@ public class Board {
 			return false;
 		}
 	}
+	
+	public void resetBoard(){
+		for (int i = 0; i< boardData.length; i++){
+			for (int j = 0; j< boardData[0].length; j++){
+				if (boardData[i][j] == -1)
+					board[i][j] = new ImpassableCell();
+				else
+					board[i][j] = new EmptyCell();
+			}
+		}
+	}
 
 	public void printBoard(){
 		for (int i = 0; i< boardData.length; i++){
