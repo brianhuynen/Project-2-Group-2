@@ -1,10 +1,16 @@
 public class Piece {
 	
 	private int rank, playerID;
+	private Player pID;
 	private Position position;
 	
 	public Piece(int playerID, int rank){
 		this.playerID = playerID;
+		this.rank = rank;
+	}
+	
+	public Piece(Player pID, int rank){
+		this.pID = pID;
 		this.rank = rank;
 	}
 	
