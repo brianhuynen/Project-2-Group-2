@@ -47,7 +47,7 @@ public class Board {
 			board[newP.getX()][newP.getY()] = newState;
 		}
 	}
-	
+	//needs to check if occupiedcell is occupied by the other player!!!
 	public boolean validMove(Position p, Position newP){
 		if(board[newP.getX()][newP.getY()] instanceof ImpassableCell ||
 				(newP.getX() != p.getX() && newP.getY() != p.getY())){
