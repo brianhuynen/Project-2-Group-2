@@ -76,15 +76,17 @@ public class Board {
 			else{
 				spaces = Math.abs(p.getX()-newP.getX());				
 			}
+			if(!piece.validWalk(spaces)){
+				return false;
+			}
 			
-			if(board[newP.getX()][newP.getY()] instanceof EmptyCell && piece.validWalk(spaces)){
-				
+			if(board[newP.getX()][newP.getY()] instanceof EmptyCell){
 				return true;
 			}
 
 			else if(board[newP.getX()][newP.getY()] instanceof OccupiedCell && 
-					piece.validWalk(spaces) && 
 					getPID(p.getX(),p.getY())!= getPID(newP.getX(),newP.getY())){
+				
 						Piece defensePiece = board[newP.getX()][newP.getY()].getContent();
 						if(piece.win(defensePiece) == piece){
 							return true;
