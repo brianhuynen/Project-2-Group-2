@@ -18,6 +18,7 @@ public class Piece {
 	public Player getPID(){return pID;}
 	
 	public Piece win(Piece defenseP){
+		// TODO add check for pID, shouldn't be two pieces of the same player.
 		int attack = this.getRank();
 		int defense = defenseP.getRank();
 		if(defense == 0){
