@@ -94,6 +94,13 @@ public class Board {
 			}
 		}
 	}
+	
+	public Piece getContent(Position p){
+		if (board[p.getX()][p.getY()] instanceof OccupiedCell){
+			return board[p.getX()][p.getY()].getContent();
+		} else
+			return null;
+	}
 
 	public void printBoard(){
 		for (int i = 0; i< boardData.length; i++){
