@@ -10,6 +10,7 @@ public abstract class Player {
 	public void add(Piece p, Position pos){}
 	public void remove(){}
 	public void movePiece(Piece p, Position to){}
+	public boolean done(){ return false; }
 	
 	public String getName(){
 		return name;

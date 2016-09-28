@@ -1,9 +1,10 @@
 
 public class HumanPlayer extends Player{
-		
+	
+	private int[] data = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}; // For testing purposes, remove later.
 	private int[] piecesData = new int[12];
 	private int index = 0;
-	private Piece[] pieces = new Piece[40];
+	private Piece[] pieces = new Piece[40]; // Stores the STARTING positions of each piece.
 	private String name;
 	
 	public HumanPlayer(String name){
@@ -18,17 +19,38 @@ public class HumanPlayer extends Player{
 				pieces[index].setPosition(pos);
 				index++;
 				piecesData[p.getRank()]--;
-			} else {
-				System.out.println("You cannot place any more pieces!");
+				
+				System.out.println(listData());
+				System.out.println(listPieces());
+				
 			}
+		} else {
+			System.out.println("You cannot place any more pieces of that kind!");
+			
+			System.out.println(listData());
+			System.out.println(listPieces());
 		}
 	}
+	
+	public boolean done(){
+		for (int i = 0; i<data.length; i++){
+			if (data[i] != 0){
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	//removes the last placed piece
 	public void remove(){
 		if(index > 0){
 			piecesData[pieces[index].getRank()]++;
 			pieces[index] = null;
 			index--;
+
+			System.out.println(listData());
+			System.out.println(listPieces());
+			
 		} else {
 			System.out.println("There are no placed pieces!");
 		}
@@ -43,5 +65,25 @@ public class HumanPlayer extends Player{
 	}
 	public Piece[] getPieces(){
 		return pieces;
+	}
+	// Mainly debugging
+	private String listData(){
+		String s = "";
+		
+		s += "\nData: [";
+		for (int i = 0; i<piecesData.length; i++){
+			s += piecesData[i] + " ";
+		}
+		s += "]";
+		
+		return s;
+	}
+	private String listPieces(){
+		String s = "";
+		for (int i = 0; i<index; i++){
+			s += getName() + ": Piece with rank " + pieces[i].getRank() + " at position (" 
+					+ pieces[i].getPosition().getX() + "," + pieces[i].getPosition().getY() + ")\n";
+		}
+		return s;
 	}
 }
