@@ -1,13 +1,8 @@
 public class Piece {
 	
-	private int rank, playerID;
+	private int rank;
 	private Player pID;
 	private Position position;
-	
-	public Piece(int playerID, int rank){
-		this.playerID = playerID;
-		this.rank = rank;
-	}
 	
 	public Piece(Player pID, int rank){
 		this.pID = pID;
@@ -18,7 +13,7 @@ public class Piece {
 	public Position getPosition(){return position;}
 	public void setRank(int rank){this.rank = rank;}
 	public int getRank(){return rank;}
-	public int getPlayer(){return playerID;}
+	public Player getPID(){return pID;}
 	
 	public Piece win(Piece defenseP){
 		int attack = this.getRank();

@@ -34,6 +34,10 @@ public class HumanPlayer extends Player{
 		}
 	}
 	
+	public void move(Piece p, Position to){
+		
+	}
+	
 	public String getName(){
 		return name;
 	}
