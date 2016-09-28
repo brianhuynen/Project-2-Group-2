@@ -3,6 +3,7 @@ public class Piece {
 	private int rank;
 	private Player pID;
 	private Position position;
+	
 	private boolean visible; //TODO Make screen recognise piece and either hide it or not;
 	
 	public Piece(Player pID, int rank){
@@ -17,6 +18,7 @@ public class Piece {
 	public Player getPID(){return pID;}
 	
 	public Piece win(Piece defenseP){
+		// TODO add check for pID, shouldn't be two pieces of the same player.
 		int attack = this.getRank();
 		int defense = defenseP.getRank();
 		if(defense == 0){

@@ -10,11 +10,9 @@ public abstract class Player {
 	public void add(Piece p, Position pos){}
 	public void remove(){}
 	public void movePiece(Piece p, Position to){}
-	
-	public String getName(){
-		return name;
-	}
-	public Piece[] getPieces(){
-		return pieces;
-	}
+	public boolean done(){ return false; }
+
+	public String getName(){ return name; }
+	public Piece[] getPieces(){ return pieces; }
+	public String listPieces(){ return ""; }
 }

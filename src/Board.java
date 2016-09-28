@@ -27,6 +27,12 @@ public class Board {
 		}
 	}
 	
+	public void placePlayerPieces(Piece[] pieces){
+		for (int i = 0; i<pieces.length; i++){
+			placePiece(pieces[i].getPosition(), pieces[i]);
+		}
+	}
+	
 	public void placePiece(Position p, Piece piece){
 		if(board[p.getX()][p.getY()] instanceof EmptyCell){
 			OccupiedCell newState = new OccupiedCell(piece);
@@ -109,11 +115,19 @@ public class Board {
 					System.out.print("I ");
 				}
 				else if (board[i][j] instanceof EmptyCell){	
-					System.out.print("E ");
+//					System.out.print("E ");
+					System.out.print("  ");
 				}
 				else if(board[i][j] instanceof OccupiedCell){
 					Piece p = ((OccupiedCell) board[i][j]).getContent();
-					System.out.print(p.getRank()+" ");
+					if (0 < p.getRank() && p.getRank() < 10)
+						System.out.print(p.getRank() + " ");
+					else if (p.getRank() == 0)
+						System.out.print("F ");
+					else if (p.getRank() == 10)
+						System.out.print("M ");
+					else if (p.getRank() == 11)
+						System.out.print("B ");
 				}
 			}
 			System.out.println();
