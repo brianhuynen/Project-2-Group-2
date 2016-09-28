@@ -19,6 +19,12 @@ public class Test {
 		Game game = new Game(board, players);
 		
 		game.init();
+		
+		for (int i = 0; i < players.length; i++){
+			board.placePlayerPieces(players[i].getPieces());
+		}
+		
+		board.printBoard();
 	
 	}
 	

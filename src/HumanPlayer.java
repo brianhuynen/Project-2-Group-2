@@ -4,12 +4,13 @@ public class HumanPlayer extends Player{
 	private int[] data = {1,0,0,0,0,0,0,0,0,0,0,0}; // For testing purposes, remove later.
 	private int[] piecesData = new int[12];
 	private int index = 0;
-	private Piece[] pieces = new Piece[40]; // Stores the STARTING positions of each piece.
+	private Piece[] pieces; // Stores the STARTING positions of each piece.
 	private String name;
 	
 	public HumanPlayer(String name){
 		this.name = name;
 		piecesData = data;
+		pieces = new Piece[dataLength()];
 	}
 	//adds a piece to the database
 	public void add(Piece p, Position pos){
@@ -64,6 +65,14 @@ public class HumanPlayer extends Player{
 	}
 	public Piece[] getPieces(){
 		return pieces;
+	}
+	
+	private int dataLength(){
+		int n = 0;
+		for (int i = 0; i<data.length; i++){
+			n += piecesData[i];
+		}
+		return n;
 	}
 	// Mainly debugging
 	private String listData(){
