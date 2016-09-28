@@ -1,7 +1,7 @@
 
 public class HumanPlayer extends Player{
 	
-	private int[] data = {1,0,0,0,0,0,0,0,0,0,0,0}; // For testing purposes, remove later.
+	private int[] data = {1,1,1,1,1,1,1,1,1,1,1,1}; // For testing purposes, remove later.
 	private int[] piecesData = new int[12];
 	private int index = 0;
 	private Piece[] pieces; // Stores the STARTING positions of each piece.
@@ -28,7 +28,6 @@ public class HumanPlayer extends Player{
 			System.out.println("You cannot place any more pieces of that kind!");
 			
 			System.out.println(listData());
-			System.out.println(listPieces());
 		}
 	}
 	
