@@ -12,7 +12,9 @@ public class Game implements Runnable{
 		maxPlayers = 2;
 		
 		init();
-		System.out.println("done");
+		
+		System.out.println("\nThe placed pieces are: \n");
+		listPieces();
 	}
 	
 	//TODO Setup pieces according to graphics
@@ -33,6 +35,12 @@ public class Game implements Runnable{
 				setup = true;
 			else
 				currentPlayer++;
+		}
+	}
+	
+	public void listPieces(){
+		for (int i = 0; i<players.length; i++){
+			System.out.println(players[i].listPieces());
 		}
 	}
 	

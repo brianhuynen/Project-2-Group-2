@@ -1,7 +1,7 @@
 
 public class HumanPlayer extends Player{
 	
-	private int[] data = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}; // For testing purposes, remove later.
+	private int[] data = {1,0,0,0,0,0,0,0,0,0,0,0}; // For testing purposes, remove later.
 	private int[] piecesData = new int[12];
 	private int index = 0;
 	private Piece[] pieces = new Piece[40]; // Stores the STARTING positions of each piece.
@@ -21,7 +21,6 @@ public class HumanPlayer extends Player{
 				piecesData[p.getRank()]--;
 				
 				System.out.println(listData());
-				System.out.println(listPieces());
 				
 			}
 		} else {
@@ -71,17 +70,17 @@ public class HumanPlayer extends Player{
 		String s = "";
 		
 		s += "\nData: [";
-		for (int i = 0; i<piecesData.length; i++){
+		for (int i = 0; i<piecesData.length-1; i++){
 			s += piecesData[i] + " ";
 		}
-		s += "]";
+		s += piecesData[piecesData.length-1] + "]";
 		
 		return s;
 	}
-	private String listPieces(){
-		String s = "";
+	public String listPieces(){
+		String s = getName() + ": \n";
 		for (int i = 0; i<index; i++){
-			s += getName() + ": Piece with rank " + pieces[i].getRank() + " at position (" 
+			s += "Piece with rank " + pieces[i].getRank() + " at position (" 
 					+ pieces[i].getPosition().getX() + "," + pieces[i].getPosition().getY() + ")\n";
 		}
 		return s;
