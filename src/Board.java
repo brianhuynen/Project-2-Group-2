@@ -45,6 +45,12 @@ public class Board {
 		board[p.getX()][p.getY()] = newState;
 	}
 	
+	public Player getPID(int x, int y){
+		if(board[x][y] instanceof OccupiedCell){
+			return board[x][y].getContent().getPID();
+		}
+		return null;
+	}
 	public void movePiece(Position p, Position newP){	
 		if(validMove(p, newP)){
 			Piece piece =  board[p.getX()][p.getY()].getContent();
@@ -53,10 +59,10 @@ public class Board {
 			board[newP.getX()][newP.getY()] = newState;
 		}
 	}
-	
+	//needs to check if occupiedcell is occupied by the other player!!!
 	public boolean validMove(Position p, Position newP){
 		if(board[newP.getX()][newP.getY()] instanceof ImpassableCell ||
-				(newP.getX() != p.getX() && newP.getY() != p.getY())){
+			(newP.getX() != p.getX() && newP.getY() != p.getY())){
 			return false;
 		}
 		
@@ -70,20 +76,25 @@ public class Board {
 			else{
 				spaces = Math.abs(p.getX()-newP.getX());				
 			}
+			if(!piece.validWalk(spaces)){
+				return false;
+			}
 			
-			if(board[newP.getX()][newP.getY()] instanceof EmptyCell && piece.validWalk(spaces)){
-				
+			if(board[newP.getX()][newP.getY()] instanceof EmptyCell){
 				return true;
 			}
-			else if(board[newP.getX()][newP.getY()] instanceof OccupiedCell && piece.validWalk(spaces)){
-				Piece defensePiece = board[newP.getX()][newP.getY()].getContent();
-				if(piece.win(defensePiece) == piece){
-					return true;
-				}
-				else{
-					removePiece(p);
-					return false;
-				}
+
+			else if(board[newP.getX()][newP.getY()] instanceof OccupiedCell && 
+					getPID(p.getX(),p.getY())!= getPID(newP.getX(),newP.getY())){
+				
+						Piece defensePiece = board[newP.getX()][newP.getY()].getContent();
+						if(piece.win(defensePiece) == piece){
+							return true;
+						}
+						else{
+							removePiece(p);
+							return false;
+						}
 			}
 			
 			return false;
