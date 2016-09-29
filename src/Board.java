@@ -115,8 +115,8 @@ public class Board {
 					System.out.print("I ");
 				}
 				else if (board[i][j] instanceof EmptyCell){	
-//					System.out.print("E ");
-					System.out.print("  ");
+					System.out.print("E ");
+//					System.out.print("  ");
 				}
 				else if(board[i][j] instanceof OccupiedCell){
 					Piece p = ((OccupiedCell) board[i][j]).getContent();
