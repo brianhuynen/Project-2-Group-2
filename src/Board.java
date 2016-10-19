@@ -93,25 +93,28 @@ public class Board {
 	}
 	//The movement validator.
 	public int validMove(Position p, Position newP){
-		if(checkIfSamePosition(p,newP))
+		if(checkIfSamePosition(p,newP)){
 			return INVALID;
-		else if(checkIfImpassable(newP))
+		}
+		if(checkIfImpassable(newP)){
 			return INVALID;
-		else if(pieceIsMovable(p)){
-			if (isEmpty(newP)){
-				if(validMovement(p,newP))
+		}
+		if(pieceIsMovable(p)){
+			System.out.println("IN");
+			if (isEmpty(newP) && validMovement(p,newP)){
 					return VALID;
-			}
-			else if(checkIfBattleEnsues(p,newP)){
+				}
+			
+			if(checkIfBattleEnsues(p,newP)){
 				Piece offensePiece = board[p.getX()][p.getY()].getContent();
 				Piece defensePiece = board[newP.getX()][newP.getY()].getContent();
 				
 				if(handleBattle(offensePiece, defensePiece) == WIN)
 					return VALID;
-				else if(handleBattle(offensePiece, defensePiece) == DRAW){
+				if(handleBattle(offensePiece, defensePiece) == DRAW){
 					return DRAW;
 				}
-				else if(handleBattle(offensePiece, defensePiece) == FLAG){
+				if(handleBattle(offensePiece, defensePiece) == FLAG){
 					return FLAG;
 				}
 				else { 
@@ -159,14 +162,14 @@ public class Board {
 		}
 		else if(piece.getRank() == 2){
 			if(p.getX()==newP.getX()){
-				for(int i =0; i<p.getY()+distance(newP,p); i++){
+				for(int i=p.getY(); i<p.getY()+distance(newP,p); i++){
 					if(board[p.getX()][i] instanceof OccupiedCell){
 						return false;
 					}
 				}
 			}
 			else{
-				for(int i =0; i<p.getX()+distance(newP,p); i++){
+				for(int i =p.getX(); i<p.getX()+distance(newP,p); i++){
 					if(board[i][p.getY()] instanceof OccupiedCell){
 						return false;
 					}
