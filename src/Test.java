@@ -16,16 +16,7 @@ public class Test {
 		}
 		
 		Board board = new Board();
-		Game game = new Game(board, players);
-		
-		game.init();
-		
-		for (int i = 0; i < players.length; i++){
-			board.placePlayerPieces(players[i].getPieces());
-		}
-		
-		board.printBoard();
-	
+		Game game = new Game(board, players, DEBUG);	
 	}
 	
 	public static Player[] initPlayers(){

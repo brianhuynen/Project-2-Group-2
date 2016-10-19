@@ -1,7 +1,6 @@
 
 public class HumanPlayer extends Player{
 	
-	private int[] data = {1,1,1,1,1,1,1,1,1,1,1,1}; // For testing purposes, remove later.
 	private int[] piecesData = new int[12];
 	private int index = 0;
 	private Piece[] pieces; // Stores the STARTING positions of each piece.
@@ -21,13 +20,13 @@ public class HumanPlayer extends Player{
 				index++;
 				piecesData[p.getRank()]--;
 				
-				System.out.println(listData());
+//				System.out.println(listData());
 				
 			}
 		} else {
 			System.out.println("You cannot place any more pieces of that kind!");
 			
-			System.out.println(listData());
+//			System.out.println(listData());
 		}
 	}
 	
@@ -47,8 +46,8 @@ public class HumanPlayer extends Player{
 			pieces[index] = null;
 			index--;
 
-			System.out.println(listData());
-			System.out.println(listPieces());
+//			System.out.println(listData());
+//			System.out.println(listPieces());
 			
 		} else {
 			System.out.println("There are no placed pieces!");

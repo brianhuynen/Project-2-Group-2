@@ -51,6 +51,7 @@ public class Board {
 		}
 		return null;
 	}
+	
 	public void movePiece(Position p, Position newP){	
 		if(validMove(p, newP)){
 			Piece piece =  board[p.getX()][p.getY()].getContent();
@@ -123,11 +124,10 @@ public class Board {
 		for (int i = 0; i< boardData.length; i++){
 			for (int j = 0; j< boardData[0].length; j++){
 				if (board[i][j] instanceof ImpassableCell){
-					System.out.print("I ");
+					System.out.print("X ");
 				}
-				else if (board[i][j] instanceof EmptyCell){	
-//					System.out.print("E ");
-					System.out.print("  ");
+				else if (board[i][j] instanceof EmptyCell){
+					System.out.print("0 ");
 				}
 				else if(board[i][j] instanceof OccupiedCell){
 					Piece p = ((OccupiedCell) board[i][j]).getContent();
@@ -135,6 +135,8 @@ public class Board {
 						System.out.print(p.getRank() + " ");
 					else if (p.getRank() == 0)
 						System.out.print("F ");
+					else if (p.getRank() == 1)
+						System.out.print("S ");
 					else if (p.getRank() == 10)
 						System.out.print("M ");
 					else if (p.getRank() == 11)
