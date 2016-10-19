@@ -82,6 +82,10 @@ public class Piece  {
 			//endgame();
 			return null;
 		}
+		if(attack == defense){
+			Piece draw = new Piece(null,-10);
+			return draw;
+		}
 		else{
 			if((attack != 1 && defense != 10) || (attack!=3 && defense!= 11)){
 							if(attack > defense){
