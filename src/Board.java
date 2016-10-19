@@ -164,14 +164,14 @@ public class Board {
 		
 		if(piece.getRank() == 2 && distance>1){
 			if(p.getX()==newP.getX()){
-				for(int i=p.getY(); i<p.getY()+distance; i++){
+				for(int i=p.getY()+1; i<p.getY()+distance; i++){
 					if(board[p.getX()][i] instanceof OccupiedCell){
 						return false;
 					}
 				}
 			}
 			else{
-				for(int i =p.getX(); i<p.getX()+distance; i++){
+				for(int i =p.getX() +1; i<p.getX()+distance; i++){
 					if(board[i][p.getY()] instanceof OccupiedCell){
 						return false;
 					}
