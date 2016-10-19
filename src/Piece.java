@@ -16,40 +16,4 @@ public class Piece {
 	public void setRank(int rank){this.rank = rank;}
 	public int getRank(){return rank;}
 	public Player getPID(){return pID;}
-	
-	public Piece win(Piece defenseP){
-		// TODO add check for pID, shouldn't be two pieces of the same player.
-		int attack = this.getRank();
-		int defense = defenseP.getRank();
-		if(defense == 0){
-			//endgame();
-			return null;
-		}
-		else{
-			if((attack != 1 && defense != 10) || (attack!=3 && defense!= 11)){
-							if(attack > defense){
-								
-								return this;
-							}
-							else {
-								return defenseP;
-							}
-			}
-			else				
-				return this;	
-		}
-	}
-	
-	public boolean validWalk(int spaces){
-		if(getRank()==0 || getRank()==11){
-			return false;
-		}
-		else{
-			if(getRank()!=2 && spaces > 1){
-					return false;
-				}
-			
-				return true;
-		}
-	}
 }

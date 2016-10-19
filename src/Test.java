@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Test {
 	
 		final static boolean DEBUG = true;
-		final static Player[] PLAYERS = {new HumanPlayer("player1"), new HumanPlayer("player2")};
+		final static Player[] PLAYERS = {new HumanPlayer("1"), new HumanPlayer("2")};
 		
 	public static void main(String[] args){
 		
