@@ -143,20 +143,41 @@ public class Board {
 		return board[newP.getX()][newP.getY()] instanceof OccupiedCell && 
 				getPID(p.getX(),p.getY())!= getPID(newP.getX(),newP.getY());
 	}
-	private boolean pieceIsMovable(Position p){ return 0 < getContent(p).getRank() || getContent(p).getRank() < 11 ;}
+	private boolean pieceIsMovable(Position p){ return 0 < getContent(p).getRank() && getContent(p).getRank() < 11 ;}
 	private boolean isEmpty(Position p){ return board[p.getX()][p.getY()] instanceof EmptyCell; }
+	
 	private boolean validMovement(Position p, Position newP){
 		Piece piece = board[p.getX()][p.getY()].getContent();
+		if(p.getX()!=newP.getX() && p.getY()!=newP.getY()){
+			return false;
+		}
 		if (piece.getRank() != 2){
 			if(distance(p, newP) == 1)
 				return true;
 			else
 				return false;
-		} else if(piece.getRank() == 2){
-			return true;
 		}
-		return false;
+		else if(piece.getRank() == 2){
+			if(p.getX()==newP.getX()){
+				for(int i =0; i<p.getY()+distance(newP,p); i++){
+					if(board[p.getX()][i] instanceof OccupiedCell){
+						return false;
+					}
+				}
+			}
+			else{
+				for(int i =0; i<p.getX()+distance(newP,p); i++){
+					if(board[i][p.getY()] instanceof OccupiedCell){
+						return false;
+					}
+				}
+
+			}
+		}
+		return true;
+			
 	}
+
 	private int distance(Position p, Position newP){
 		if(p.getX() == newP.getX()){
 			return Math.abs(p.getY()-newP.getY());
