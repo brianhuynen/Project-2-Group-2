@@ -5,7 +5,7 @@ public class Game implements Runnable{
 	private	int currentPlayer = 0, maxPlayers;
 	private Player[] players = new Player[2];
 	private Board board;
-	private boolean debug;
+	private boolean debug, running = true;
 	
 	final int[][] PLAYER1 = {{ 1, 3, 5,11, 0, 5,11, 9, 8, 7},
 			 				 { 3, 4, 4,11,11,11,11, 8, 7, 7},
@@ -25,8 +25,10 @@ public class Game implements Runnable{
 		
 		init();
 		
-		System.out.println("\nThe placed pieces are: \n");
+		System.out.println("The placed pieces are: \n");
 		listPieces();
+		
+		run();
 	}
 	
 	//TODO Setup pieces according to graphics
@@ -40,7 +42,7 @@ public class Game implements Runnable{
 			while(!setup){
 				while (!players[currentPlayer].done()){
 					Scanner s = new Scanner(System.in);
-					System.out.println(players[currentPlayer].getName() + ", set your piece (Rank xCoord yCoord):");
+					System.out.println("\n" + players[currentPlayer].getName() + ", set your piece (Rank xCoord yCoord):");
 					int r = s.nextInt();
 					int x = s.nextInt();
 					int y = s.nextInt();
@@ -56,10 +58,6 @@ public class Game implements Runnable{
 				setStandard(i);
 			}
 		}
-		for (int i = 0; i<maxPlayers; i++){
-			board.placePlayerPieces(players[i].getPieces());
-		}
-		run();
 	}
 	
 	private void setStandard(int n){
@@ -84,8 +82,42 @@ public class Game implements Runnable{
 		}
 	}
 	
+	public void reset(){
+		currentPlayer = 0;
+	}
+	
+	public void turn(){
+		if (currentPlayer == 0){
+			currentPlayer = 1;
+		} else {
+			currentPlayer = 0;
+		}
+	}
+	
 	public void run(){ /*Game logic*/ 
-		
+		board.placePlayerPieces(players);
 		board.printBoard();
+		
+		reset();
+		
+		while(running){
+			
+			Scanner s = new Scanner(System.in);
+			System.out.println("\n" + players[currentPlayer].getName() + ", move your piece (xFrom yFrom xTo yTo):");
+			int xFrom = s.nextInt();
+			int yFrom = s.nextInt();
+			int xTo = s.nextInt();
+			int yTo = s.nextInt();
+			
+			board.movePiece(new Position(xFrom, yFrom), new Position(xTo, yTo));
+			turn();
+			
+			board.printBoard();
+			
+			if(!running){ 
+				running = !running; 
+				System.out.println("GameEnd");
+			}
+		}
 	}
 }

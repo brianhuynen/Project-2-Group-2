@@ -24,7 +24,7 @@ public class HumanPlayer extends Player{
 				
 			}
 		} else {
-			System.out.println("You cannot place any more pieces of that kind!");
+			System.out.println("You cannot add any more pieces of that kind!");
 			
 //			System.out.println(listData());
 		}
@@ -50,7 +50,7 @@ public class HumanPlayer extends Player{
 //			System.out.println(listPieces());
 			
 		} else {
-			System.out.println("There are no placed pieces!");
+			System.out.println("No pieces have been added!");
 		}
 	}
 	

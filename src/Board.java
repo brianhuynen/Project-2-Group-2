@@ -27,9 +27,11 @@ public class Board {
 		}
 	}
 	
-	public void placePlayerPieces(Piece[] pieces){
-		for (int i = 0; i<pieces.length; i++){
-			placePiece(pieces[i].getPosition(), pieces[i]);
+	public void placePlayerPieces(Player[] players){
+		for (int n = 0; n<players.length; n++){
+			for (int i = 0; i<players[n].getPieces().length; i++){
+				placePiece(players[n].getPieces()[i].getPosition(), players[n].getPieces()[i]);
+			}
 		}
 	}
 	
