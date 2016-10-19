@@ -86,7 +86,7 @@ public class Board {
 		}
 	}
 	
-	//needs to check if occupiedcell is occupied by the other player!!!
+	
 	public boolean validMove(Position p, Position newP){
 		if(grid[newP.getX()][newP.getY()] instanceof ImpassableCell ||
 			(newP.getX() != p.getX() && newP.getY() != p.getY())){
@@ -115,17 +115,26 @@ public class Board {
 					getPID(p.getX(),p.getY())!= getPID(newP.getX(),newP.getY())){
 				
 						Piece defensePiece = grid[newP.getX()][newP.getY()].getContent();
-						if(piece.win(defensePiece) == piece){
-							return true;
+						if(piece.win(defensePiece)!=piece && piece.win(defensePiece)!=defensePiece){
+							removePiece(piece.getPosition());
+							removePiece(defensePiece.getPosition());
+							return false;
 						}
 						else{
-							removePiece(p);
-							return false;
+					
+							if(piece.win(defensePiece) == piece){
+								return true;
+							}
+							else{
+								removePiece(p);
+								return false;
+							}
 						}
 			}
 			
 			return false;
 		}
+		
 	}
 	
 	public void resetBoard(){
