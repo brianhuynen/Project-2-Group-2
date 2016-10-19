@@ -2,7 +2,8 @@
 // Make sure to separate the game logic from the Piece and Board class and put it in the Game class.
 
 public class Board {
-	
+	private int s;
+	private int e;
 	private Cell[][] board = new Cell[10][10];
 	// Final integers for movement handling
 	final int FLAG = 2, LOSS = -1, DRAW = 0, WIN = 1,  //for the battle handling
@@ -105,6 +106,7 @@ public class Board {
 				}
 			
 			if(checkIfBattleEnsues(p,newP)){
+		
 				Piece offensePiece = board[p.getX()][p.getY()].getContent();
 				Piece defensePiece = board[newP.getX()][newP.getY()].getContent();
 				
@@ -164,15 +166,32 @@ public class Board {
 		
 		if(piece.getRank() == 2 && distance>1){
 			if(p.getX()==newP.getX()){
-				for(int i=p.getY()+1; i<p.getY()+distance; i++){
+				if(p.getY()>newP.getY()){
+					s = newP.getY();
+					 e = p.getY();
+				}
+				else{
+					 s = p.getY();
+					 e = newP.getY();
+				}
+				for(int i=s+1; i<e; i++){
 					if(board[p.getX()][i] instanceof OccupiedCell){
 						return false;
 					}
 				}
 			}
 			else{
-				for(int i =p.getX() +1; i<p.getX()+distance; i++){
+				if(p.getX()>newP.getX()){
+					s = newP.getX();
+					 e = p.getX();
+				}
+				else{
+					 s = p.getX();
+					 e = newP.getX();
+				}
+				for(int i=s+1; i<e; i++){
 					if(board[i][p.getY()] instanceof OccupiedCell){
+						System.out.println("I AM");
 						return false;
 					}
 				}
