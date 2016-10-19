@@ -293,10 +293,19 @@ public class Board {
 					}
 				}
 			}
+		}
+	public boolean boardEmpty(){
+		for(int i =0; i<grid.length; i++){
+			for(int j =0; j<grid.length; j++){
+				if(grid[i][j] instanceof OccupiedCell){
+					return false;
+				}
 			}
-		
+		}
+		return true;
 	}
+}
 				
-				
+	
 	//}
 
