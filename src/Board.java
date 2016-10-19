@@ -100,7 +100,6 @@ public class Board {
 			return INVALID;
 		}
 		if(pieceIsMovable(p)){
-			System.out.println("IN");
 			if (isEmpty(newP) && validMovement(p,newP)){
 					return VALID;
 				}
@@ -151,25 +150,28 @@ public class Board {
 	
 	private boolean validMovement(Position p, Position newP){
 		Piece piece = board[p.getX()][p.getY()].getContent();
+		int distance = distance(p,newP);
 		if(p.getX()!=newP.getX() && p.getY()!=newP.getY()){
 			return false;
 		}
-		if (piece.getRank() != 2){
-			if(distance(p, newP) == 1)
-				return true;
-			else
-				return false;
+		if (distance==1){
+			return true;
 		}
-		else if(piece.getRank() == 2){
+		
+		if(distance>1 && piece.getRank()!=2){
+			return false;
+		}
+		
+		if(piece.getRank() == 2 && distance>1){
 			if(p.getX()==newP.getX()){
-				for(int i=p.getY(); i<p.getY()+distance(newP,p); i++){
+				for(int i=p.getY(); i<p.getY()+distance; i++){
 					if(board[p.getX()][i] instanceof OccupiedCell){
 						return false;
 					}
 				}
 			}
 			else{
-				for(int i =p.getX(); i<p.getX()+distance(newP,p); i++){
+				for(int i =p.getX(); i<p.getX()+distance; i++){
 					if(board[i][p.getY()] instanceof OccupiedCell){
 						return false;
 					}
@@ -177,8 +179,7 @@ public class Board {
 
 			}
 		}
-		return true;
-			
+		return true;	
 	}
 
 	private int distance(Position p, Position newP){
