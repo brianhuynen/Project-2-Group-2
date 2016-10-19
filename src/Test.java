@@ -15,6 +15,7 @@ public class Test {
 			players = initPlayers();
 		}
 		
+		
 		Board board = new Board();
 		Game game = new Game(board, players, DEBUG);	
 	}

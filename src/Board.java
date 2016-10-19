@@ -131,11 +131,16 @@ public class Board {
 		int defense = defensePiece.getRank();
 		if (defense == 0){
 			return FLAG;
-		} else if((offense != 1 && defense != 10 || offense != 3 && defense != 11)){
-			if (offense > defense)
+		}  
+		if(!((offense == 1 && defense == 10) || (offense == 3 && defense == 11))){
+			System.out.println("NOPE");
+			if (offense > defense){
+				
 				return WIN;
-			else if (offense == defense)
+			}
+			if (offense == defense){
 				return DRAW;
+			}
 			else 
 				return LOSS;
 		}
@@ -250,4 +255,6 @@ public class Board {
 			System.out.println();
 		}
 	}
+
+
 }
