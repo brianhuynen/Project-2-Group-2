@@ -72,11 +72,18 @@ public class Board {
 			board[newP.getX()][newP.getY()] = newState;		
 			
 			System.out.println("Moved (" + p.getX() + "," + p.getY() + ") to (" 
-					+ newP.getX() + "," + newP.getY() + ")");
-			if (validMove(p, newP) == WIN){
-				System.out.print(" and battled with result win.");
-			}
-			System.out.println("\n");
+					+ newP.getX() + "," + newP.getY() + ")\n");
+			
+			return CAN_MOVE;
+		}
+		else if (validMove(p, newP) == WIN){
+			Piece piece =  board[p.getX()][p.getY()].getContent();
+			removePiece(p);
+			OccupiedCell newState = new OccupiedCell(piece);
+			board[newP.getX()][newP.getY()] = newState;		
+			
+			System.out.println("Moved (" + p.getX() + "," + p.getY() + ") to (" 
+					+ newP.getX() + "," + newP.getY() + ") and battles with result draw.\n");
 			
 			return CAN_MOVE;
 		}
