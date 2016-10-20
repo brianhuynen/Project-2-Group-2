@@ -137,7 +137,6 @@ public class Board {
 			return FLAG;
 		}  
 		if(!((offense == 1 && defense == 10) || (offense == 3 && defense == 11))){
-			System.out.println("NOPE");
 			if (offense > defense){
 				
 				return WIN;
@@ -184,7 +183,7 @@ public class Board {
 					 end = newP.getY();
 				}
 				for(int i=start+1; i<end; i++){
-					if(board[p.getX()][i] instanceof OccupiedCell){
+					if(board[p.getX()][i] instanceof OccupiedCell || board[p.getX()][i] instanceof ImpassableCell){
 						return false;
 					}
 				}
@@ -199,8 +198,7 @@ public class Board {
 					 end = newP.getX();
 				}
 				for(int i=start+1; i<end; i++){
-					if(board[i][p.getY()] instanceof OccupiedCell){
-						System.out.println("I AM");
+					if(board[i][p.getY()] instanceof OccupiedCell || board[i][p.getY()] instanceof ImpassableCell){
 						return false;
 					}
 				}
