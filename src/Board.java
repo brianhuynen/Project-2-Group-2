@@ -108,7 +108,7 @@ public class Board {
 					return VALID;
 				}
 			
-			if(checkIfBattleEnsues(p,newP)){
+			if(checkIfBattleEnsues(p,newP) && validMovement(p, newP)){
 		
 				Piece offensePiece = board[p.getX()][p.getY()].getContent();
 				Piece defensePiece = board[newP.getX()][newP.getY()].getContent();
@@ -173,6 +173,7 @@ public class Board {
 		}
 		
 		if(piece.getRank() == 2 && distance>1){
+		
 			if(p.getX()==newP.getX()){
 				if(p.getY()>newP.getY()){
 					start = newP.getY();
@@ -183,7 +184,8 @@ public class Board {
 					 end = newP.getY();
 				}
 				for(int i=start+1; i<end; i++){
-					if(board[p.getX()][i] instanceof OccupiedCell || board[p.getX()][i] instanceof ImpassableCell){
+					
+					if((board[p.getX()][i] instanceof OccupiedCell ) || (board[p.getX()][i] instanceof ImpassableCell)){
 						return false;
 					}
 				}
@@ -198,7 +200,8 @@ public class Board {
 					 end = newP.getX();
 				}
 				for(int i=start+1; i<end; i++){
-					if(board[i][p.getY()] instanceof OccupiedCell || board[i][p.getY()] instanceof ImpassableCell){
+					if((board[i][p.getY()] instanceof OccupiedCell) || (board[i][p.getY()] instanceof ImpassableCell)){
+					
 						return false;
 					}
 				}
@@ -209,10 +212,15 @@ public class Board {
 	}
 
 	private int distance(Position p, Position newP){
+		
+		int distance;
 		if(p.getX() == newP.getX()){
-			return Math.abs(p.getY()-newP.getY());
+			distance = Math.abs(p.getY()-newP.getY());
 		}
-		return Math.abs(p.getX()-newP.getX());
+		else{
+		distance = Math.abs(p.getX()-newP.getX());
+		}
+		return distance;
 	}
 	
 	public void addPlayerData(Player[] players){
