@@ -2,7 +2,7 @@ import java.util.Scanner;
 //Should contain all game logic
 public class Game implements Runnable{
 	
-	private	int currentPlayer = 0, maxPlayers;
+	private	int currentPlayer = 0, maxPlayers, ms;
 	private Player[] players = new Player[2];
 	private Board board;
 	private boolean debug, running = true;
@@ -17,17 +17,20 @@ public class Game implements Runnable{
 				 			 { 5, 5, 6,11,11, 2,11, 7, 8,10},
 				 			 { 6, 6, 6,11, 0, 7,11, 7, 8, 9}};
 	//Initialises the board, the players and the game.
-	public Game(Board board, Player[] players, boolean debug){
+	public Game(Board board, Player[] players, boolean debug, int ms){
 		this.board = board;
 		this.players = players;
 		this.debug = debug;
+		this.ms = ms;
 		maxPlayers = 2;
 		
 		init();
 		//Prints out the stored pieces by the players before running the game (can be commented out).
 		System.out.println("The placed pieces are: \n");
 		listPieces();
-		sleep(1000);
+		sleep(ms);
+		System.out.println("Loading the game...\n");
+		sleep(ms*2);
 		//runs the game
 		run();
 	}
@@ -58,6 +61,8 @@ public class Game implements Runnable{
 			}
 		} else { //If the debug value is set to false, standard (hardcoded) placements are made.
 			for (int i = 0; i<maxPlayers; i++){
+				System.out.println("Hello, " + players[i].getName());
+				sleep(ms);
 				setStandard(i);
 			}
 		}
@@ -81,6 +86,7 @@ public class Game implements Runnable{
 	//Prints out the pieces placed and the exact location.
 	public void listPieces(){
 		for (int i = 0; i<players.length; i++){
+			sleep(ms);
 			System.out.println(players[i].listPieces());
 		}
 	}
@@ -129,26 +135,26 @@ public class Game implements Runnable{
 				
 				System.out.println("Moving (" + p.getX() + "," + p.getY() + ") to (" 
 											+ newP.getX() + "," + newP.getY() + ")..");
-				sleep(500);
+				sleep(ms);
 				
 				if(board.handleMovement(p, newP) == 1){
-					sleep(500);
+					sleep(ms);
 					turn();
 				} else if (board.handleMovement(p, newP) == -1){
 					System.out.println("InvalidMovement\n");
-					sleep(500);
+					sleep(ms);
 				} else if (board.handleMovement(p, newP) == 0){
 					running = !running;
 				}
 			} else {
 				System.out.println("IllegalMovement\n");
-				sleep(500);
+				sleep(ms);
 			}
 				
 			board.printBoard();
 			
 		}
-		sleep(500);
+		sleep(ms);
 		System.out.println("Player " + players[currentPlayer].getName() + " wins!");
 	}
 	

@@ -282,22 +282,29 @@ public class Board {
 				}
 				else if(board[i][j] instanceof OccupiedCell && board[i][j].getContent().getPID() == players[currentPlayer] ){
 					Piece p = ((OccupiedCell) board[i][j]).getContent();
-					if (0 < p.getRank() && p.getRank() < 10)
-						System.out.print(p.getRank() + "," + p.getPID().getName() + " ");
+					int pID = belongsToPlayer(p);
+					if (1 < p.getRank() && p.getRank() < 10)
+						System.out.print(p.getRank() + "," + pID + " ");
 					else if (p.getRank() == 0)
-						System.out.print("F," + p.getPID().getName() + " ");
+						System.out.print("F," + pID + " ");
 					else if (p.getRank() == 1)
-						System.out.print("S," + p.getPID().getName() + " ");
+						System.out.print("S," + pID + " ");
 					else if (p.getRank() == 10)
-						System.out.print("M," + p.getPID().getName() + " ");
+						System.out.print("M," + pID + " ");
 					else if (p.getRank() == 11)
-						System.out.print("B," + p.getPID().getName() + " ");
+						System.out.print("B," + pID + " ");
 				} else {
-					System.out.print("?," + board[i][j].getContent().getPID().getName() + " ");
+					System.out.print("?," + belongsToPlayer(board[i][j].getContent()) + " ");
 				}
 			}
 			System.out.println();
 		}
+	}
+	private int belongsToPlayer(Piece p){
+		if (p.getPID() == players[0]){
+			return 1;
+		} else
+			return 2;
 	}
 
 
