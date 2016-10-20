@@ -2,8 +2,7 @@
 // Make sure to separate the game logic from the Piece and Board class and put it in the Game class.
 
 public class Board {
-	private int s;
-	private int e;
+	private int start, end;
 	
 	private Player[] players;
 	private int currentPlayer;
@@ -177,14 +176,14 @@ public class Board {
 		if(piece.getRank() == 2 && distance>1){
 			if(p.getX()==newP.getX()){
 				if(p.getY()>newP.getY()){
-					s = newP.getY();
-					 e = p.getY();
+					start = newP.getY();
+					 end = p.getY();
 				}
 				else{
-					 s = p.getY();
-					 e = newP.getY();
+					 start = p.getY();
+					 end = newP.getY();
 				}
-				for(int i=s+1; i<e; i++){
+				for(int i=start+1; i<end; i++){
 					if(board[p.getX()][i] instanceof OccupiedCell){
 						return false;
 					}
@@ -192,14 +191,14 @@ public class Board {
 			}
 			else{
 				if(p.getX()>newP.getX()){
-					s = newP.getX();
-					 e = p.getX();
+					start = newP.getX();
+					 end = p.getX();
 				}
 				else{
-					 s = p.getX();
-					 e = newP.getX();
+					 start = p.getX();
+					 end = newP.getX();
 				}
-				for(int i=s+1; i<e; i++){
+				for(int i=start+1; i<end; i++){
 					if(board[i][p.getY()] instanceof OccupiedCell){
 						System.out.println("I AM");
 						return false;
