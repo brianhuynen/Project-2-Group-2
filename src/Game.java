@@ -25,10 +25,11 @@ public class Game implements Runnable{
 		maxPlayers = 2;
 		
 		init();
-		//Prints out the stored pieces by the players before running the game (can be commented out).
-		System.out.println("The placed pieces are: \n");
-		listPieces();
-		sleep(ms);
+		
+//		Prints out the stored pieces by the players before running the game (can be commented out).
+//		System.out.println("The placed pieces are: \n");
+//		listPieces();
+		
 		System.out.println("Loading the game...\n");
 		sleep(ms*2);
 		//runs the game
