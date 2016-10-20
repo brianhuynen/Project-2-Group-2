@@ -27,6 +27,7 @@ public class Game implements Runnable{
 		//Prints out the stored pieces by the players before running the game (can be commented out).
 		System.out.println("The placed pieces are: \n");
 		listPieces();
+		sleep(1000);
 		//runs the game
 		run();
 	}
