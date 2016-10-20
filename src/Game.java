@@ -130,7 +130,7 @@ public class Game implements Runnable{
 											+ newP.getX() + "," + newP.getY() + ")..");
 				
 				if(board.handleMovement(p, newP) == 1){
-//					turn();
+					turn();
 				} else if (board.handleMovement(p, newP) == -1){
 					System.out.println("InvalidMovement\n");
 				} else if (board.handleMovement(p, newP) == 0){

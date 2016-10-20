@@ -77,6 +77,10 @@ public class Board {
 			return CAN_MOVE;
 		}
 		else if (validMove(p, newP) == WIN){
+			
+			System.out.println("Battle between rank " + board[p.getX()][p.getY()].getContent().getRank() 
+					+ " vs " + board[newP.getX()][newP.getY()].getContent().getRank() + "...");
+			
 			Piece piece =  board[p.getX()][p.getY()].getContent();
 			removePiece(p);
 			OccupiedCell newState = new OccupiedCell(piece);
@@ -88,6 +92,10 @@ public class Board {
 			return CAN_MOVE;
 		}
 		else if (validMove(p,newP) == DRAW){
+			
+			System.out.println("Battle between rank " + board[p.getX()][p.getY()].getContent().getRank() 
+					+ " vs " + board[newP.getX()][newP.getY()].getContent().getRank() + "...");
+			
 			removePiece(p);
 			removePiece(newP);		
 			
@@ -97,6 +105,10 @@ public class Board {
 			return CAN_MOVE;
 		}
 		else if (validMove(p,newP) == LOST_PIECE){
+			
+			System.out.println("Battle between rank " + board[p.getX()][p.getY()].getContent().getRank() 
+					+ " vs " + board[newP.getX()][newP.getY()].getContent().getRank() + "...");
+			
 			removePiece(p);		
 			
 			System.out.println("Moved (" + p.getX() + "," + p.getY() + ") to (" 
@@ -120,7 +132,7 @@ public class Board {
 				}
 			
 			if(checkIfBattleEnsues(p,newP) && validMovement(p, newP)){
-		
+				
 				Piece offensePiece = board[p.getX()][p.getY()].getContent();
 				Piece defensePiece = board[newP.getX()][newP.getY()].getContent();
 				
@@ -148,7 +160,7 @@ public class Board {
 			return FLAG;
 		}  
 		if(!((offense == 1 && defense == 10) || (offense == 3 && defense == 11))){
-			if (offense > defense){				
+			if (offense > defense){	
 				return WIN;
 			}
 			if (offense == defense){
