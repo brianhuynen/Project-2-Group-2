@@ -17,4 +17,6 @@ public abstract class Player {
 	public String getName(){ return name; }
 	public Piece[] getPieces(){ return pieces; }
 	public String listPieces(){ return ""; }
+	public String listData() { return ""; }
+	
 }

@@ -6,6 +6,7 @@ public class Game implements Runnable{
 	private Player[] players = new Player[2];
 	private Board board;
 	private boolean debug, running = true;
+	
 	// Hardcoded piece placement of player 1
 	final int[][] PLAYER1 = {{ 1, 3, 5,11, 0, 5,11, 9, 8, 7},
 			 				 { 3, 4, 4,11,11,11,11, 8, 7, 7},
@@ -16,6 +17,16 @@ public class Game implements Runnable{
 				 			 { 5, 5, 4, 4, 4, 4, 3, 3, 3, 2},
 				 			 { 5, 5, 6,11,11, 2,11, 7, 8,10},
 				 			 { 6, 6, 6,11, 0, 7,11, 7, 8, 9}};
+	
+//	final int[][] PLAYER1 = {{-1,-1,-1,-1, 0, 2,-1,-1,-1,-1},
+//							 {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+//							 {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+//							 {10, 1,-1,-1, 4, 9,-1,-1, 3,11}};
+//	final int[][] PLAYER2 = {{ 1,10,-1,-1, 4, 3,-1,-1,11, 9},
+//			 				 {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+//			 				 {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+//			 				 {-1,-1,-1,-1, 2, 0,-1,-1,-1,-1}};
+	
 	//Initialises the board, the players and the game.
 	public Game(Board board, Player[] players, boolean debug, int ms){
 		this.board = board;
@@ -47,6 +58,7 @@ public class Game implements Runnable{
 			
 			while(!setup){
 				while (!players[currentPlayer].done()){
+					System.out.println(players[currentPlayer].listData());
 					Scanner s = new Scanner(System.in);
 					System.out.println("\n" + players[currentPlayer].getName() + ", set your piece (Rank xCoord yCoord):");
 					int r = s.nextInt();
@@ -62,7 +74,6 @@ public class Game implements Runnable{
 			}
 		} else { //If the debug value is set to false, standard (hardcoded) placements are made.
 			for (int i = 0; i<maxPlayers; i++){
-				System.out.println("Hello, " + players[i].getName());
 				sleep(ms);
 				setStandard(i);
 			}
@@ -73,13 +84,15 @@ public class Game implements Runnable{
 		if (n == 0){
 			for(int i = 0; i<PLAYER1.length; i++){
 				for (int j = 0; j<PLAYER1[0].length; j++){
-					players[n].add(new Piece(players[n], PLAYER1[i][j]), new Position(i, j));
+					if(PLAYER1[i][j] != -1)
+						players[n].add(new Piece(players[n], PLAYER1[i][j]), new Position(i, j));
 				}
 			}
 		} else if (n == 1){
 			for(int i = 0; i<PLAYER2.length; i++){
 				for (int j = 0; j<PLAYER2[0].length; j++){
-					players[n].add(new Piece(players[n], PLAYER2[i][j]), new Position(i+6, j));
+					if(PLAYER2[i][j] != -1)
+						players[n].add(new Piece(players[n], PLAYER2[i][j]), new Position(i+6, j));
 				}
 			}
 		}

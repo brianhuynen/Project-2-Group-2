@@ -18,15 +18,10 @@ public class HumanPlayer extends Player{
 				pieces[index] = p;
 				pieces[index].setPosition(pos);
 				index++;
-				piecesData[p.getRank()]--;
-				
-//				System.out.println(listData());
-				
+				piecesData[p.getRank()]--;				
 			}
 		} else {
 			System.out.println("You cannot add any more pieces of that kind!");
-			
-//			System.out.println(listData());
 		}
 	}
 	
@@ -73,14 +68,21 @@ public class HumanPlayer extends Player{
 		return n;
 	}
 	// Mainly debugging
-	private String listData(){
+	public String listData(){
 		String s = "";
 		
 		s += "\nData: [";
-		for (int i = 0; i<piecesData.length-1; i++){
-			s += piecesData[i] + " ";
+		for (int i = 0; i<(piecesData.length - 1); i++){
+			if(i == 0)
+				s += "Rank F (" + piecesData[i] + "), ";
+			else if(i == 1)
+				s += "Rank S (" + piecesData[i] + "), ";
+			else if(i == 10)
+				s += "Rank M (" + piecesData[i] + "), ";
+			else
+				s += "Rank " + (i) + "(" + piecesData[i] + "), ";
 		}
-		s += piecesData[piecesData.length-1] + "]";
+		s += "Rank B (" + piecesData[piecesData.length-1] + ")]";
 		
 		return s;
 	}
