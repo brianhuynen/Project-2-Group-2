@@ -83,7 +83,7 @@ public class Board {
 			board[newP.getX()][newP.getY()] = newState;		
 			
 			System.out.println("Moved (" + p.getX() + "," + p.getY() + ") to (" 
-					+ newP.getX() + "," + newP.getY() + ") and battles with result draw.\n");
+					+ newP.getX() + "," + newP.getY() + ") and battled with result win.\n");
 			
 			return CAN_MOVE;
 		}
@@ -148,8 +148,7 @@ public class Board {
 			return FLAG;
 		}  
 		if(!((offense == 1 && defense == 10) || (offense == 3 && defense == 11))){
-			if (offense > defense){
-				
+			if (offense > defense){				
 				return WIN;
 			}
 			if (offense == defense){
