@@ -4,6 +4,10 @@
 public class Board {
 	private int s;
 	private int e;
+	
+	private Player[] players;
+	private int currentPlayer;
+	
 	private Cell[][] board = new Cell[10][10];
 	// Final integers for movement handling
 	final int FLAG = 2, LOSS = -1, DRAW = 0, WIN = 1,  //for the battle handling
@@ -110,8 +114,9 @@ public class Board {
 				Piece offensePiece = board[p.getX()][p.getY()].getContent();
 				Piece defensePiece = board[newP.getX()][newP.getY()].getContent();
 				
-				if(handleBattle(offensePiece, defensePiece) == WIN)
+				if(handleBattle(offensePiece, defensePiece) == WIN){
 					return VALID;
+				}
 				if(handleBattle(offensePiece, defensePiece) == DRAW){
 					return DRAW;
 				}
@@ -213,6 +218,13 @@ public class Board {
 		return Math.abs(p.getX()-newP.getX());
 	}
 	
+	public void addPlayerData(Player[] players){
+		this.players = players;
+	}
+	public void setCurrentPlayer(int i){
+		currentPlayer = i;
+	}
+	
 	public Piece getContent(Position p){
 		if (board[p.getX()][p.getY()] instanceof OccupiedCell){
 			return board[p.getX()][p.getY()].getContent();
@@ -238,7 +250,7 @@ public class Board {
 				else if (board[i][j] instanceof EmptyCell){
 					System.out.print("[ ] ");
 				}
-				else if(board[i][j] instanceof OccupiedCell){
+				else if(board[i][j] instanceof OccupiedCell && board[i][j].getContent().getPID() == players[currentPlayer] ){
 					Piece p = ((OccupiedCell) board[i][j]).getContent();
 					if (0 < p.getRank() && p.getRank() < 10)
 						System.out.print(p.getRank() + "," + p.getPID().getName() + " ");
@@ -250,6 +262,8 @@ public class Board {
 						System.out.print("M," + p.getPID().getName() + " ");
 					else if (p.getRank() == 11)
 						System.out.print("B," + p.getPID().getName() + " ");
+				} else {
+					System.out.print("?," + board[i][j].getContent().getPID().getName() + " ");
 				}
 			}
 			System.out.println();

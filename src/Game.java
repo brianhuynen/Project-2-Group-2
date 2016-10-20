@@ -86,18 +86,22 @@ public class Game implements Runnable{
 	
 	public void reset(){
 		currentPlayer = 0;
+		board.setCurrentPlayer(currentPlayer);
 	}
 	
 	public void turn(){
 		if (currentPlayer == 0){
 			currentPlayer = 1;
+			board.setCurrentPlayer(currentPlayer);
 		} else {
 			currentPlayer = 0;
+			board.setCurrentPlayer(currentPlayer);
 		}
 	}
 	
 	public void run(){
 		//Starts off the loop by placing the pieces on the board (which has been input before).
+		board.addPlayerData(players);
 		board.placePlayerPieces(players);
 		board.printBoard();
 		//Sets current player to 0 (i.e. the first player)
