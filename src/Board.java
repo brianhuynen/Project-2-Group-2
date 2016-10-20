@@ -63,6 +63,10 @@ public class Board {
 	// The movement handler
 	public int handleMovement(Position p, Position newP){
 		if (validMove(p, newP) == FLAG){
+			
+			System.out.println("Moved (" + p.getX() + "," + p.getY() + ") to (" 
+					+ newP.getX() + "," + newP.getY() + ") and found the flag!\n");
+			
 			return END;
 		}
 		if (validMove(p, newP) == VALID){

@@ -128,22 +128,34 @@ public class Game implements Runnable{
 				
 				System.out.println("Moving (" + p.getX() + "," + p.getY() + ") to (" 
 											+ newP.getX() + "," + newP.getY() + ")..");
+				sleep(500);
 				
 				if(board.handleMovement(p, newP) == 1){
+					sleep(500);
 					turn();
 				} else if (board.handleMovement(p, newP) == -1){
 					System.out.println("InvalidMovement\n");
+					sleep(500);
 				} else if (board.handleMovement(p, newP) == 0){
 					running = !running;
 				}
 			} else {
 				System.out.println("IllegalMovement\n");
+				sleep(500);
 			}
 				
 			board.printBoard();
 			
 		}
-		
+		sleep(500);
 		System.out.println("Player " + players[currentPlayer].getName() + " wins!");
+	}
+	
+	public void sleep(int ms){
+		try {
+		    Thread.sleep(ms);
+		} catch(InterruptedException ex) {
+		    Thread.currentThread().interrupt();
+		}
 	}
 }
