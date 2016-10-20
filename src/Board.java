@@ -9,7 +9,7 @@ public class Board {
 	
 	private Cell[][] board = new Cell[10][10];
 	// Final integers for movement handling
-	final int FLAG = 2, LOSS = -1, DRAW = 0, WIN = 1,  //for the battle handling
+	final int FLAG = 2, LOSS = -1, DRAW = 0, WIN = 3,  //for the battle handling
 			CAN_MOVE = 1, CANNOT_MOVE = -1, END = 0,   //for the move handling
 			LOST_PIECE = -2, VALID = 1, INVALID = -1;  //for the move validation
 	
@@ -72,7 +72,11 @@ public class Board {
 			board[newP.getX()][newP.getY()] = newState;		
 			
 			System.out.println("Moved (" + p.getX() + "," + p.getY() + ") to (" 
-					+ newP.getX() + "," + newP.getY() + ")\n");
+					+ newP.getX() + "," + newP.getY() + ")");
+			if (validMove(p, newP) == WIN){
+				System.out.print(" and battled with result win.");
+			}
+			System.out.println("\n");
 			
 			return CAN_MOVE;
 		}
@@ -114,7 +118,7 @@ public class Board {
 				Piece defensePiece = board[newP.getX()][newP.getY()].getContent();
 				
 				if(handleBattle(offensePiece, defensePiece) == WIN){
-					return VALID;
+					return WIN;
 				}
 				if(handleBattle(offensePiece, defensePiece) == DRAW){
 					return DRAW;
@@ -200,8 +204,7 @@ public class Board {
 					 end = newP.getX();
 				}
 				for(int i=start+1; i<end; i++){
-					if((board[i][p.getY()] instanceof OccupiedCell) || (board[i][p.getY()] instanceof ImpassableCell)){
-					
+					if((board[i][p.getY()] instanceof OccupiedCell) || (board[i][p.getY()] instanceof ImpassableCell)){					
 						return false;
 					}
 				}
