@@ -41,7 +41,7 @@ public class GUI {
 			frame.setVisible(true);
 			 
 		}
-	//Creates frame where you play the game with the correct panels
+	//Creates frame where you play the game
 	
 	public static void createGamePanel(JFrame frame1){
 		frame1.setVisible(false);
@@ -125,7 +125,7 @@ public class GUI {
 				int x = Integer.parseInt(xControl.getText());
 				int y = Integer.parseInt(yControl.getText());
 				int r = Integer.parseInt(rank.getText());
-				Pieces piece = new Pieces(r,null,game.currentPlayer);
+				Pieces piece = new Pieces(r," ",game.currentPlayer);
 				game.addPiece(x, y, piece);
 				frame.repaint();
 				
@@ -183,6 +183,12 @@ public class GUI {
 				int toX = Integer.parseInt(x2.getText());
 				int toY = Integer.parseInt(y2.getText());
 				game.movePiece(fromX,fromY,toX,toY);
+				if(game.currentPlayer == 1){
+					game.currentPlayer = 2;
+				}
+				else{
+					game.currentPlayer = 1;
+				}
 				frame.repaint();
 			}
 		});

@@ -1,9 +1,9 @@
 
 public class Cell {
 
-	Pieces content;
+	private Pieces content;
 	//1 = occupied, 0 = free, -1 = unusable
-	int cellState;
+	private int cellState;
 	
 	public Cell(Pieces content, int cellState){
 		this.content=content;	

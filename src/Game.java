@@ -30,27 +30,15 @@ int currentPlayer;
 	}
 	
 	public void movePiece(int x1, int y1, int x2, int y2){
-		if( board[x2][y2].getCellState()==0 && validMove(x1,y1,x2,y2)){
+		if( validMove(x1,y1,x2,y2) && board[x2][y2].getCellState()==0){
 			board[x2][y2].setContent(board[x1][y1].getContent());
 			board[x2][y2].setCellState(1);
 			removePiece(x1,y1);
-			if(currentPlayer==1){
-				currentPlayer=2;
-			}
-			else{
-				currentPlayer = 1;
-			}
 			
 		}
-		if(board[x2][y2].getCellState()==1 && currentPlayer != board[x2][y2].getContent().getPlayer_ID()
+		else if(board[x2][y2].getCellState()==1 && currentPlayer != board[x2][y2].getContent().getPlayer_ID()
 			&& validMove(x1,y1,x2,y2)){
 			handleBattle(x1,y1,x2,y2);
-			if(currentPlayer==1){
-				currentPlayer=2;
-			}
-			else{
-				currentPlayer = 1;
-			}
 		}
 		else{
 			//return error
@@ -61,7 +49,8 @@ int currentPlayer;
 	public boolean validMove(int x1, int y1, int x2, int y2){
 		int spaces;
 		int a = 1;
-		Pieces piece = board[x1][y1].getContent();
+		Pieces piece;
+		piece  = board[x1][y1].getContent();
 		int rank = piece.getRank();
 		//check if cell is impassable or move is diagnoally or if piece is unmovable
 		if(!piece.isMovable()|| board[x2][y2].getCellState()==-1 || ((x1!=x2)&&(y1!=y2))){
