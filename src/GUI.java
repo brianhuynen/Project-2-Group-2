@@ -1,6 +1,6 @@
 import javax.swing.*;
 
-import javafx.event.ActionEvent;
+import java.awt.event.ActionEvent;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -87,7 +87,7 @@ public class GUI {
 		control.setLayout(new BoxLayout(control,BoxLayout.Y_AXIS));
 		JButton add = new JButton("Add");
 		JLabel rankPiece = new JLabel("Rank");
-		JTextField rank = new JTextField(2);
+		JTextField rank = new JTextField();
 		JLabel xPos = new JLabel("X");
 		JTextField xControl = new JTextField();
 		JLabel yPos = new JLabel("Y");
@@ -108,6 +108,7 @@ public class GUI {
 			     new Dimension(Integer.MAX_VALUE, xControl.getPreferredSize().height) );
 		yControl.setMaximumSize( 
 			     new Dimension(Integer.MAX_VALUE, yControl.getPreferredSize().height) );
+		rank.setMaximumSize(new Dimension(Integer.MAX_VALUE,rank.getPreferredSize().height));
 		add.addActionListener(new ActionListener(){
 
 			@Override
@@ -137,6 +138,8 @@ public class GUI {
 		control.add(xControl);
 		control.add(yPos);
 		control.add(yControl);
+		control.add(rankPiece);
+		control.add(rank);
 		control.add(add);
 		control.add(remove);
 		control.add(done,BorderLayout.SOUTH);
