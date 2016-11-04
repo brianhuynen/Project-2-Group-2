@@ -21,6 +21,7 @@ public class GUI {
 		 gui.createStartFrame(800,800);		 
 		}
 	 
+	 //Creates the frame where the player can place its pieces
 	public void createStartFrame (int width, int height){
 			JFrame frame = new JFrame();
 			this.frame = frame;
@@ -31,16 +32,12 @@ public class GUI {
 			GridComponent grid = new GridComponent();
 			frame.add(grid);
 			JPanel piece = piecePanel();
-			addPanel_1(frame,inputPanel, piece);
+			frame.add(inputPanel, BorderLayout.EAST);
+			frame.add(piece,BorderLayout.SOUTH);
 			frame.setVisible(true);
 			 
 		}
-	
-	public void addPanel_1(JFrame frame, JPanel control, JPanel piece){
-		frame.add(control, BorderLayout.EAST);
-		frame.add(piece,BorderLayout.SOUTH);
-		
-	}
+	//Creates frame where you play the game with the correct panels
 	
 	public static void createGamePanel(JFrame frame1){
 		frame1.setVisible(false);
@@ -58,6 +55,7 @@ public class GUI {
 		frame.setVisible(true);
 		
 	}
+	//Panel that shows the rank of pieces and how many are left to bo placed
 	
 	public static JPanel piecePanel(){
 		String rank ="";
@@ -75,12 +73,14 @@ public class GUI {
 				}
 			}
 			JLabel label = new JLabel(rank);
-			// new Jlabel how many left of the piecetype
+			// new Jlabel how many left of the piece type
 			piecePanel.add(label);
 			
 		}
 		return piecePanel;
 	}
+	//Creates inputpanel for placing pieces on board
+	
 	
 	public static JPanel inputPanel_1(){
 		JPanel control = new JPanel();
@@ -142,6 +142,7 @@ public class GUI {
 		control.add(done,BorderLayout.SOUTH);
 		return control;
 	}
+	//Creates input panel for the game play
 	
 		
 	
@@ -180,13 +181,7 @@ public class GUI {
 		return inputPanel;
 	}
 
-	public static JPanel createGrid(){
-		JPanel grid = new JPanel();
-		GridComponent component = new GridComponent();
-		grid.add(component);
-		return grid;
-		
-	}
+
 
 	
 	//12 = board height and width
@@ -194,15 +189,16 @@ public class GUI {
 
 		
 
-	
+	//should go through the board and draw the numbers corresponding to the rank
+	// pieces should be color coded to player.
 	public void paintComponent(Graphics g){
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.BLACK);
 		for(int i=0; i<12; i++){
 			for(int j=0; j<12; j++){
-		Rectangle box = new Rectangle((25*i)+100,(25*j)+100,300,300);
-		g2.draw(box);
-		}
+		Rectangle box = new Rectangle((25*i)+100,(25*j)+100,300,300);		
+			g2.draw(box);
+			}
 		}
 	
 		/*
