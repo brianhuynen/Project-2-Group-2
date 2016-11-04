@@ -235,11 +235,6 @@ public class GUI {
 		}
 	}
 
-	
-	public void repaint(Graphics g){
-		paintComponent(g);
-	}
-
 	}
 
 
