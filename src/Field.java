@@ -1,20 +1,16 @@
-import java.lang.Math;
-
-
 public class Field {
-	
-	
-	Field board;
 	Cell [][] field;
 	
-	public Field(int x1, int y1, int x2, int y2){
-		Cell field[][] = new Cell[10][10];
+	//Creates the empty field, with impassable cells;
+	public Field(){
+		Cell field[][] = new Cell[12][12];
 		this.field = field;
-		for(int i =0; i<10; i++){
-			for(int j=0; j<10; j++){
-				if((i==x1 && j==y1) || (i==x1+1 && j==y1)||(i==x1+1 && j==y1+1)
-					|| (i==x1 && j==y1+1)||(i==x2 && j==y2) || (i==x2+1 && j==y2)
-					||(i==x2+1 && j==y2+1)|| (i==x2 && j==y2+1)){
+		for(int i =0; i<12; i++){
+			for(int j=0; j<12; j++){
+				if((i==0)||(j==0)||(i==11)||(j==11)||
+					(i==3 && j==5) || (i==4 && j==5)||(i==4 && j==6)
+					|| (i==3 && j==6)||(i==7 && j==5) || (i==8&& j==5)
+					||(i==8 && j==6)|| (i==7 && j==6)){
 					Cell cell = new Cell(null, -1);
 					field[i][j]= cell;
 				}
@@ -26,65 +22,11 @@ public class Field {
 		}
 	}
 	
+	public Cell[][] getBoard(){
+		return field;
+	}
 
-	public void addPiece(int [] coord, Pieces piece){
-		if(field[coord[0]][coord[1]].getCellState()==0){
-			field[coord[0]][coord[1]].setContent(piece);
-			field[coord[0]][coord[1]].setCellState(1);
-		}
-	}
-	
-	public void removePiece(int[] coord){
-		field[coord[0]][coord[1]].setCellState(0);
-		field[coord[0]][coord[1]].setContent(null);
-	}
-	
-	public void movePiece(int [] coord, int[] newCoord){	
-		if(validMove(coord,newCoord)){
-			Pieces piece = field[coord[0]][coord[1]].getContent();
-			removePiece(coord);
-			field[newCoord[0]][newCoord[1]].setCellState(1);
-			field[newCoord[0]][newCoord[1]].setContent(piece);
-		}
-	}
-	
-	public boolean validMove(int [] coord, int[] newCoord){
-		if(field[newCoord[0]][newCoord[1]].getCellState()== -1 ||
-				(newCoord[0]!= coord[0] && newCoord[1]!= coord[1])){
-			return false;
-		}
-		
-		
-		else{
-			Pieces piece = field[coord[0]][coord[1]].getContent();
-			int spaces;
-			if(coord[0] == newCoord[0]){
-				spaces = Math.abs(coord[1]-newCoord[1]);
-			}
-			else{
-				spaces = Math.abs(coord[0]-newCoord[0]);				
-			}
-			
-			if(field[newCoord[0]][newCoord[1]].getCellState()==0 && piece.validWalk(spaces)){
-				
-				return true;
-			}
-			else if(field[newCoord[0]][newCoord[1]].getCellState()==1 && piece.validWalk(spaces)){
-				Pieces defensePiece = field[newCoord[0]][newCoord[1]].getContent();
-				if(piece.win(defensePiece) == piece){
-					
-					return true;
-				}
-				else{
-					removePiece(coord);
-					return false;
-				}
-			}
-			
-			return false;
-		}
-	}
- 
+
 	//Method prints the board. Prints the rank of the pieces. If a cell is empty or
 	// unusable it prints the cell state. (0 or 1), just to test.
 	public void printField(){

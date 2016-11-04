@@ -1,13 +1,17 @@
 import javax.swing.*;
 
-import java.awt.event.ActionEvent;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class GUI {
+
+	public static Game game;
 	
-	public GUI(){}
+	public GUI(){
+		Game game = new Game();
+		this.game = game;
+	}
 	
 	final static int FRAME_WIDTH = 800;
 	final static int FRAME_HEIGHT = 800;
@@ -97,9 +101,14 @@ public class GUI {
 
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent arg0) {
-				createGamePanel(frame);
-				// either start game and change frame
-				//or other player should place pieces
+				if(game.currentPlayer ==1){
+					game.currentPlayer = 2;
+					frame.repaint();
+				}
+				else{
+					game.currentPlayer = 1;
+					createGamePanel(frame);
+				}
 				
 			}
 			
@@ -115,7 +124,11 @@ public class GUI {
 			public void actionPerformed(java.awt.event.ActionEvent arg0) {
 				int x = Integer.parseInt(xControl.getText());
 				int y = Integer.parseInt(yControl.getText());
-				// call add piece method.
+				int r = Integer.parseInt(rank.getText());
+				Pieces piece = new Pieces(r,null,game.currentPlayer);
+				game.addPiece(x, y, piece);
+				frame.repaint();
+				
 				
 			}
 			
@@ -128,7 +141,8 @@ public class GUI {
 				
 				int x = Integer.parseInt(xControl.getText());
 				int y = Integer.parseInt(yControl.getText());
-				// call remove method
+				game.removePiece(x, y);
+				frame.repaint();
 				
 			}
 			
@@ -168,8 +182,8 @@ public class GUI {
 				int fromY = Integer.parseInt(y1.getText());
 				int toX = Integer.parseInt(x2.getText());
 				int toY = Integer.parseInt(y2.getText());
-				//call moviePiece method
-				//refresh board
+				game.movePiece(fromX,fromY,toX,toY);
+				frame.repaint();
 			}
 		});
 		inputPanel.add(from_X);
@@ -199,38 +213,26 @@ public class GUI {
 		g2.setColor(Color.BLACK);
 		for(int i=0; i<12; i++){
 			for(int j=0; j<12; j++){
-		Rectangle box = new Rectangle((25*i)+100,(25*j)+100,300,300);		
+		Rectangle box = new Rectangle(50+(50*i),50+(50*j),50,50);		
 			g2.draw(box);
+			if(game.board[i][j].getCellState()== -1){
+				g2.fill(box);
+			}
+			if(game.board[i][j].getCellState()== 1 && game.currentPlayer == game.board[i][j].getContent().getPlayer_ID() ){
+				int x = (50*i)+ 60;
+				int y = (50*j)+ 100;
+				g2.setColor(Color.BLUE);
+				g.setFont(new Font("default", Font.BOLD, 60));
+				g2.drawString(Integer.toString(game.board[i][j].getContent().getRank()),x,y);
+				g2.setColor(Color.black);
+			}
+			if(game.board[i][j].getCellState()== 1 && game.currentPlayer != game.board[i][j].getContent().getPlayer_ID() ){
+				g2.setColor(Color.RED);
+				g2.fill(box);
+				g2.setColor(Color.black);
+			}
 			}
 		}
-	
-		/*
-		for(int i=0; i<12; i++){
-			for(int j=0; j<12; j++){
-				
-				 if(board[i][j] = impassable){
-				 g2.setColor(BLACK);
-				g2.fillRect(i,j,width,height);
-				 }
-				 if(board[i][j] = empty){
-				 g2.setColor(WHITE);
-				 g2.fillRECT();
-				 }
-				 if(board[i][j] = occuppied & player_ID = currentPlayer){
-				 g2.setcolour(RED);
-				 g2.drawRect(i,j,width,height);
-				 //x is a int sucht that the rank will be drawed in the middle
-				 g2.drawString(getRank,i+x,j+x);
-				 }
-				 else{
-				 g2.setColor(BLUE);
-				 g2.fillrect(i,j,width,height);
-				 }
-				 }
-				 
-				 
-				 
-				 */
 	}
 
 	
