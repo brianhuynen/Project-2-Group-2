@@ -9,48 +9,57 @@ public class GUI {
 	
 	public GUI(){}
 	
-	final int FRAME_WIDTH = 800;
-	final int FRAME_HEIGHT = 800;
+	final static int FRAME_WIDTH = 800;
+	final static int FRAME_HEIGHT = 800;
 	final int BOARD_WIDTH = 500;
 	final int BOARD_HEIGHT = 500;
+	public static JFrame frame;
 	
 	 public static void main(String[] args) {
 		 
 		 GUI gui = new GUI(); 
-		 gui.createFrame(800,800);
-		 
-	
-		 
+		 gui.createStartFrame(800,800);		 
 		}
 	 
-	public void createFrame (int width, int height){
-	
-			JFrame gameFrame = new JFrame();
-			gameFrame.setSize(width, height);
-			gameFrame.setTitle("Stratego");
-			gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			JPanel inputPanel = createInputPanel();
+	public void createStartFrame (int width, int height){
+			JFrame frame = new JFrame();
+			this.frame = frame;
+			frame.setSize(width, height);
+			frame.setTitle("Stratego");
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			JPanel inputPanel = inputPanel_1();
 			GridComponent grid = new GridComponent();
-			//addPanels(gameFrame, inputPanel,grid);
-			JPanel control = createControl();
-			JPanel piece = createPiecePanel();
-			addPlacePanel(gameFrame, control,piece);
-			gameFrame.setVisible(true);
+			frame.add(grid);
+			JPanel piece = piecePanel();
+			addPanel_1(frame,inputPanel, piece);
+			frame.setVisible(true);
 			 
 		}
 	
-	public void addPlacePanel(JFrame frame, JPanel control, JPanel piece){
+	public void addPanel_1(JFrame frame, JPanel control, JPanel piece){
 		frame.add(control, BorderLayout.EAST);
 		frame.add(piece,BorderLayout.SOUTH);
 		
 	}
 	
-	public void addPanels(JFrame frame,JPanel inputPanel, GridComponent grid){
-		frame.add(inputPanel, BorderLayout.SOUTH);
+	public static void createGamePanel(JFrame frame1){
+		frame1.setVisible(false);
+		frame1.dispose();
+		JFrame frame = new JFrame();
+		frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+		frame.setTitle("Stratego");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		GridComponent grid = new GridComponent();
+		frame.add(grid, BorderLayout.WEST);
+		JPanel input = inputPanel_2();
+		frame.add(input, BorderLayout.SOUTH);
 		frame.add(grid);
+		
+		frame.setVisible(true);
+		
 	}
 	
-	public static JPanel createPiecePanel(){
+	public static JPanel piecePanel(){
 		String rank ="";
 		JPanel piecePanel = new JPanel();
 		for(int i=0; i<12; i++){
@@ -73,7 +82,7 @@ public class GUI {
 		return piecePanel;
 	}
 	
-	public static JPanel createControl(){
+	public static JPanel inputPanel_1(){
 		JPanel control = new JPanel();
 		control.setLayout(new BoxLayout(control,BoxLayout.Y_AXIS));
 		JButton add = new JButton("Add");
@@ -88,6 +97,7 @@ public class GUI {
 
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent arg0) {
+				createGamePanel(frame);
 				// either start game and change frame
 				//or other player should place pieces
 				
@@ -135,7 +145,7 @@ public class GUI {
 	
 		
 	
-	public static JPanel createInputPanel(){
+	public static JPanel inputPanel_2(){
 		JPanel inputPanel = new JPanel();
 		JTextField x1 = new JTextField(2);
 		JLabel from_X = new JLabel("From X");
@@ -188,8 +198,12 @@ public class GUI {
 	public void paintComponent(Graphics g){
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.BLACK);
-		Rectangle box = new Rectangle(5,10,20,30);
+		for(int i=0; i<12; i++){
+			for(int j=0; j<12; j++){
+		Rectangle box = new Rectangle((25*i)+100,(25*j)+100,300,300);
 		g2.draw(box);
+		}
+		}
 	
 		/*
 		for(int i=0; i<12; i++){
