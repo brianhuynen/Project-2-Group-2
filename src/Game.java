@@ -49,8 +49,7 @@ int currentPlayer;
 	public boolean validMove(int x1, int y1, int x2, int y2){
 		int spaces;
 		int a = 1;
-		Pieces piece;
-		piece  = board[x1][y1].getContent();
+		Pieces piece  = board[x1][y1].getContent();
 		int rank = piece.getRank();
 		//check if cell is impassable or move is diagnoally or if piece is unmovable
 		if(!piece.isMovable()|| board[x2][y2].getCellState()==-1 || ((x1!=x2)&&(y1!=y2))){
