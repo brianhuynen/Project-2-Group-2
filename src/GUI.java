@@ -242,6 +242,7 @@ public class GUI {
 				g2.setColor(Color.RED);
 				Rectangle box1 = new Rectangle(51+(50*i),51+(50*j),49,49);
 				g2.fill(box1);
+				
 				g2.setColor(Color.black);
 			}
 			}
