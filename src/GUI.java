@@ -186,14 +186,16 @@ public class GUI {
 				int toX = Integer.parseInt(x2.getText());
 				int toY = Integer.parseInt(y2.getText());
 				game.movePiece(fromX,fromY,toX,toY);
-				if(game.currentPlayer == 1){
-					game.currentPlayer = 2;
+				if(game.success){
+					if(game.currentPlayer == 1){
+						game.currentPlayer = 2;
+					}
+					else{
+						game.currentPlayer = 1;
+					}
+					
+					frame.repaint();
 				}
-				else{
-					game.currentPlayer = 1;
-				}
-				
-				frame.repaint();
 			}
 		});
 		

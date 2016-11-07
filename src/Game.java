@@ -4,6 +4,7 @@ public class Game {
 Cell[][] board;
 Field field;
 int currentPlayer;
+boolean success = false;
 
 	public Game(){
 		int currentPlayer =1;
@@ -15,7 +16,7 @@ int currentPlayer;
 	}
 	
 	public void addPiece(int x, int y, Pieces piece){
-		if(board[x][y].getCellState()!=0){
+		if(!inBound(x,y) || board[x][y].getCellState()!=0){
 			//return error
 			//should also check if area is available to player
 		}
@@ -36,17 +37,20 @@ int currentPlayer;
 	}
 	
 	public void movePiece(int x1, int y1, int x2, int y2){
-		if( validMove(x1,y1,x2,y2) && board[x2][y2].getCellState()==0){
+		if( inBound(x2,y2) && validMove(x1,y1,x2,y2) && board[x2][y2].getCellState()==0){
 			board[x2][y2].setContent(board[x1][y1].getContent());
 			board[x2][y2].setCellState(1);
 			removePiece(x1,y1);
+			success = true;
 			
 		}
-		else if(board[x2][y2].getCellState()==1 && currentPlayer != board[x2][y2].getContent().getPlayer_ID()
+		else if(inBound(x2,y2) && board[x2][y2].getCellState()==1 && currentPlayer != board[x2][y2].getContent().getPlayer_ID()
 			&& validMove(x1,y1,x2,y2)){
 			handleBattle(x1,y1,x2,y2);
+			success = true;
 		}
 		else{
+			success = false;
 			//return error
 		}
 		
@@ -141,7 +145,12 @@ int currentPlayer;
 			removePiece(x1,y1);
 		}
 	}
-	
+	public boolean inBound(int x, int y){
+		if(x>11 || x <1 || y >11 || y<1){
+			return false;
+		}
+		return true;
+	}
 	
 
 }
