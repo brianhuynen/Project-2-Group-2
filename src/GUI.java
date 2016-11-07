@@ -2,11 +2,14 @@ import javax.swing.*;
 
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GUI {
 
 	public static Game game;
+	public static int click = 0;
+	
 	
 	public GUI(){
 		Game game = new Game();
@@ -19,11 +22,7 @@ public class GUI {
 	final int BOARD_HEIGHT = 500;
 	public static JFrame frame;
 	
-	 public static void main(String[] args) {
-		 
-		 GUI gui = new GUI(); 
-		 gui.createStartFrame(800,800);		 
-		}
+	
 	 
 	 //Creates the frame where the player can place its pieces
 	public void createStartFrame (int width, int height){
