@@ -14,7 +14,7 @@ public class GUI {
 	}
 	
 	final static int FRAME_WIDTH = 800;
-	final static int FRAME_HEIGHT = 800;
+	final static int FRAME_HEIGHT = 700;
 	final int BOARD_WIDTH = 500;
 	final int BOARD_HEIGHT = 500;
 	public static JFrame frame;
@@ -57,7 +57,8 @@ public class GUI {
 	          
 		
 	}
-	//Panel that shows the rank of pieces and how many are left to bo placed
+	//Panel that shows the rank of pieces and how many are left to be placed
+	// Need adjustments!
 	
 	public static JPanel piecePanel(){
 		String rank ="";
@@ -120,7 +121,7 @@ public class GUI {
 		rank.setMaximumSize(new Dimension(Integer.MAX_VALUE,rank.getPreferredSize().height));
 		add.addActionListener(new ActionListener(){
 			
-			//Check if piece is available
+			//Need to check if piece is available
 
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent arg0) {
@@ -223,7 +224,8 @@ public class GUI {
 		g2.setColor(Color.BLACK);
 		for(int i=0; i<12; i++){
 			for(int j=0; j<12; j++){
-		Rectangle box = new Rectangle(50+(50*i),50+(50*j),50,50);		
+		Rectangle box = new Rectangle(50+(50*i),50+(50*j),50,50);
+			g2.setStroke(new BasicStroke(3));
 			g2.draw(box);
 			if(game.board[i][j].getCellState()== -1){
 				g2.fill(box);
@@ -238,7 +240,8 @@ public class GUI {
 			}
 			if(game.board[i][j].getCellState()== 1 && game.currentPlayer != game.board[i][j].getContent().getPlayer_ID() ){
 				g2.setColor(Color.RED);
-				g2.fill(box);
+				Rectangle box1 = new Rectangle(51+(50*i),51+(50*j),49,49);
+				g2.fill(box1);
 				g2.setColor(Color.black);
 			}
 			}

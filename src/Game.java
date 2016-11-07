@@ -17,6 +17,7 @@ int currentPlayer;
 	public void addPiece(int x, int y, Pieces piece){
 		if(board[x][y].getCellState()!=0){
 			//return error
+			//should also check if area is available
 		}
 		else{
 			board[x][y].setCellState(1);
