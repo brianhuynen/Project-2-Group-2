@@ -47,6 +47,9 @@ int currentPlayer;
 	}
 	
 	public boolean validMove(int x1, int y1, int x2, int y2){
+		if(board[x1][y1].getContent().getPlayer_ID() != currentPlayer){
+			return false;
+		}
 		int spaces;
 		int a = 1;
 		Pieces piece  = board[x1][y1].getContent();
