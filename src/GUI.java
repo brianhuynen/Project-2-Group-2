@@ -252,9 +252,20 @@ public class GUI {
 			if(game.board[i][j].getCellState()== 1 && game.currentPlayer_ID == game.board[i][j].getContent().getPlayer_ID() ){
 				int x = (50*i)+ 60;
 				int y = (50*j)+ 100;
+				int rank = game.board[i][j].getContent().getRank();
+				String s;
+				if(rank != 0 && rank!= 11){
+					s = Integer.toString(rank);
+				}
+				if(rank == 0){
+					s = "F";
+				}
+				else{
+					s = "B";
+				}
 				g2.setColor(Color.BLUE);
 				g.setFont(new Font("default", Font.BOLD, 60));
-				g2.drawString(Integer.toString(game.board[i][j].getContent().getRank()),x,y);
+				g2.drawString(s,x,y);
 				g2.setColor(Color.black);
 			}
 			if(game.board[i][j].getCellState()== 1 && game.currentPlayer_ID != game.board[i][j].getContent().getPlayer_ID() ){
