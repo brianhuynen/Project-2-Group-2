@@ -75,7 +75,7 @@ public class GUI {
 				rank = "B";
 				}
 			}
-			JLabel label = new JLabel(rank);
+			JLabel label = new JLabel("Piece: " + rank +" "+ game.currentPlayer.pieces[i]);
 			// new Jlabel how many left of the piece type
 			piecePanel.add(label);
 			
@@ -253,14 +253,14 @@ public class GUI {
 				int x = (50*i)+ 60;
 				int y = (50*j)+ 100;
 				int rank = game.board[i][j].getContent().getRank();
-				String s;
+				String s ="";
 				if(rank != 0 && rank!= 11){
 					s = Integer.toString(rank);
 				}
 				if(rank == 0){
 					s = "F";
 				}
-				else{
+				else if(rank == 11){
 					s = "B";
 				}
 				g2.setColor(Color.BLUE);
