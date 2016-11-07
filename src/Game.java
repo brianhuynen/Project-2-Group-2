@@ -23,15 +23,25 @@ Player player_2;
 	}
 	
 	public void addPiece(int x, int y, Pieces piece){
-		if(!inBound(x,y) || board[x][y].getCellState()!=0){
+		if(!inBound(x,y)){
+			success = false;
+		}
+		else {
+			if(board[x][y].getCellState()!=0){
 			success = false;
 			//return error
 			//should also check if area is available to player
-		}
-		else{
-			success = true;
-			board[x][y].setCellState(1);
-			board[x][y].setContent(piece);
+			}
+			else{
+				if(availableCell(y, currentPlayer)){
+					success = true;
+					board[x][y].setCellState(1);
+					board[x][y].setContent(piece);
+				}
+				else{
+					success = false;
+				}
+			}
 		}
 	}
 	
@@ -164,12 +174,22 @@ Player player_2;
 	}
 	
 	public Player getCurrentPlayer(){
-		if(currentPlayer_ID==1){
+		if(currentPlayer_ID == 1){
 			return player_1;
 		}
 		else{
 			return player_2;
 		}
+	}
+	
+	public boolean availableCell(int y, Player player){
+		if(player.getPlayer_ID() == 1 && y > 4){
+			return false;
+		}
+		else if(player.getPlayer_ID() == 2 && y < 7){
+			return false;
+		}
+		return true;
 	}
 	
 
