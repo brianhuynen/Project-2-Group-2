@@ -102,16 +102,21 @@ public class GUI {
 
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent arg0) {
-				if(game.currentPlayer ==1){
-					game.currentPlayer = 2;
-					frame.repaint();
+				if(game.getCurrentPlayer().piecesIsEmpty()){
+					if(game.currentPlayer_ID == 1){
+						game.currentPlayer_ID = 2;
+						frame.repaint();
+					}
+					else{
+						game.currentPlayer_ID = 1;
+						createGamePanel(frame);
+					}
+					
 				}
 				else{
-					game.currentPlayer = 1;
-					createGamePanel(frame);
+					//dialog box "place all your pieces"
 				}
-				
-			}
+		}
 			
 		});
 		xControl.setMaximumSize( 
@@ -128,9 +133,14 @@ public class GUI {
 				int x = Integer.parseInt(xControl.getText());
 				int y = Integer.parseInt(yControl.getText());
 				int r = Integer.parseInt(rank.getText());
-				Pieces piece = new Pieces(r," ",game.currentPlayer);
-				game.addPiece(x, y, piece);
-				frame.repaint();
+				if(game.getCurrentPlayer().pieceIsAvailable(r)){
+					Pieces piece = new Pieces(r," ",game.currentPlayer_ID);
+					game.addPiece(x, y, piece);
+					if(game.success){
+						game.getCurrentPlayer().pieces[r]--;
+						frame.repaint();
+					}
+				}
 				
 				
 			}
@@ -144,8 +154,15 @@ public class GUI {
 				
 				int x = Integer.parseInt(xControl.getText());
 				int y = Integer.parseInt(yControl.getText());
+				int r = game.board[x][y].getContent().getRank();
 				game.removePiece(x, y);
-				frame.repaint();
+				if(game.success){
+					game.getCurrentPlayer().pieces[r]++;
+					frame.repaint();
+				}
+				else{
+					//give error "unable to remove piece"
+				}
 				
 			}
 			
@@ -187,11 +204,11 @@ public class GUI {
 				int toY = Integer.parseInt(y2.getText());
 				game.movePiece(fromX,fromY,toX,toY);
 				if(game.success){
-					if(game.currentPlayer == 1){
-						game.currentPlayer = 2;
+					if(game.currentPlayer_ID == 1){
+						game.currentPlayer_ID = 2;
 					}
 					else{
-						game.currentPlayer = 1;
+						game.currentPlayer_ID = 1;
 					}
 					
 					frame.repaint();
@@ -232,7 +249,7 @@ public class GUI {
 			if(game.board[i][j].getCellState()== -1){
 				g2.fill(box);
 			}
-			if(game.board[i][j].getCellState()== 1 && game.currentPlayer == game.board[i][j].getContent().getPlayer_ID() ){
+			if(game.board[i][j].getCellState()== 1 && game.currentPlayer_ID == game.board[i][j].getContent().getPlayer_ID() ){
 				int x = (50*i)+ 60;
 				int y = (50*j)+ 100;
 				g2.setColor(Color.BLUE);
@@ -240,7 +257,7 @@ public class GUI {
 				g2.drawString(Integer.toString(game.board[i][j].getContent().getRank()),x,y);
 				g2.setColor(Color.black);
 			}
-			if(game.board[i][j].getCellState()== 1 && game.currentPlayer != game.board[i][j].getContent().getPlayer_ID() ){
+			if(game.board[i][j].getCellState()== 1 && game.currentPlayer_ID != game.board[i][j].getContent().getPlayer_ID() ){
 				g2.setColor(Color.RED);
 				Rectangle box1 = new Rectangle(51+(50*i),51+(50*j),49,49);
 				g2.fill(box1);

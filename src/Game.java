@@ -3,35 +3,46 @@ public class Game {
 	
 Cell[][] board;
 Field field;
-int currentPlayer;
+Player currentPlayer;
 boolean success = false;
+int currentPlayer_ID; 
+Player player_1;
+Player player_2;
 
 	public Game(){
-		int currentPlayer =1;
+		Player player_1 = new Player(1);
+		this.player_1 = player_1;
+		Player player_2 = new Player(2);
+		this.player_2 = player_2;
+		Player currentPlayer = player_1;
+		this.currentPlayer = currentPlayer;
 		Field field = new Field();
 		Cell [][] board = field.getBoard();
 		this.field=field;
 		this.board=board;
-		this.currentPlayer = currentPlayer;
 	}
 	
 	public void addPiece(int x, int y, Pieces piece){
 		if(!inBound(x,y) || board[x][y].getCellState()!=0){
+			success = false;
 			//return error
 			//should also check if area is available to player
 		}
 		else{
+			success = true;
 			board[x][y].setCellState(1);
 			board[x][y].setContent(piece);
 		}
 	}
 	
 	public void removePiece(int x, int y){
-		if(board[x][y].getContent().getPlayer_ID() == currentPlayer){
+		if(board[x][y].getContent().getPlayer_ID() == currentPlayer.getPlayer_ID()){
 		board[x][y].setCellState(0);
 		board[x][y].setContent(null);
+		success = true;
 		}
 		else{
+			success = false;
 			//return error
 		}
 	}
@@ -44,7 +55,7 @@ boolean success = false;
 			success = true;
 			
 		}
-		else if(inBound(x2,y2) && board[x2][y2].getCellState()==1 && currentPlayer != board[x2][y2].getContent().getPlayer_ID()
+		else if(inBound(x2,y2) && board[x2][y2].getCellState()==1 && currentPlayer.getPlayer_ID() != board[x2][y2].getContent().getPlayer_ID()
 			&& validMove(x1,y1,x2,y2)){
 			handleBattle(x1,y1,x2,y2);
 			success = true;
@@ -57,7 +68,7 @@ boolean success = false;
 	}
 	
 	public boolean validMove(int x1, int y1, int x2, int y2){
-		if(board[x1][y1].getContent().getPlayer_ID() != currentPlayer){
+		if(board[x1][y1].getContent().getPlayer_ID() != currentPlayer.getPlayer_ID()){
 			//return error
 			return false;
 		}
@@ -150,6 +161,15 @@ boolean success = false;
 			return false;
 		}
 		return true;
+	}
+	
+	public Player getCurrentPlayer(){
+		if(currentPlayer_ID==1){
+			return player_1;
+		}
+		else{
+			return player_2;
+		}
 	}
 	
 
