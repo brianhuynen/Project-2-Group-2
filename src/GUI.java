@@ -44,19 +44,17 @@ public class GUI {
 	//Creates frame where you play the game
 	
 	public static void createGamePanel(JFrame frame1){
-		frame1.setVisible(false);
 		frame1.dispose();
-		JFrame frame = new JFrame();
+		frame = new JFrame();
 		frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		frame.setTitle("Stratego");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridComponent grid = new GridComponent();
-		frame.add(grid, BorderLayout.WEST);
+		frame.add(grid);
 		JPanel input = inputPanel_2();
 		frame.add(input, BorderLayout.SOUTH);
-		frame.add(grid);
-		
 		frame.setVisible(true);
+	          
 		
 	}
 	//Panel that shows the rank of pieces and how many are left to bo placed
@@ -177,7 +175,7 @@ public class GUI {
 		move.addActionListener( new ActionListener(){
 		
 			@Override
-			public void actionPerformed(java.awt.event.ActionEvent arg0) {
+			public void actionPerformed(java.awt.event.ActionEvent e) {
 				int fromX = Integer.parseInt(x1.getText());
 				int fromY = Integer.parseInt(y1.getText());
 				int toX = Integer.parseInt(x2.getText());
@@ -189,9 +187,11 @@ public class GUI {
 				else{
 					game.currentPlayer = 1;
 				}
+				
 				frame.repaint();
 			}
 		});
+		
 		inputPanel.add(from_X);
 		inputPanel.add(x1);
 		inputPanel.add(from_Y);
