@@ -25,8 +25,13 @@ int currentPlayer;
 	}
 	
 	public void removePiece(int x, int y){
+		if(board[x][y].getContent().getPlayer_ID() == currentPlayer){
 		board[x][y].setCellState(0);
 		board[x][y].setContent(null);
+		}
+		else{
+			//return error
+		}
 	}
 	
 	public void movePiece(int x1, int y1, int x2, int y2){
@@ -48,6 +53,7 @@ int currentPlayer;
 	
 	public boolean validMove(int x1, int y1, int x2, int y2){
 		if(board[x1][y1].getContent().getPlayer_ID() != currentPlayer){
+			//return error
 			return false;
 		}
 		int spaces;

@@ -96,6 +96,8 @@ public class GUI {
 		JTextField yControl = new JTextField();
 		JButton done = new JButton("Done");
 		done.addActionListener(new ActionListener(){
+			
+			//Check if all pieces have been placed
 
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent arg0) {
@@ -117,6 +119,8 @@ public class GUI {
 			     new Dimension(Integer.MAX_VALUE, yControl.getPreferredSize().height) );
 		rank.setMaximumSize(new Dimension(Integer.MAX_VALUE,rank.getPreferredSize().height));
 		add.addActionListener(new ActionListener(){
+			
+			//Check if piece is available
 
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent arg0) {
