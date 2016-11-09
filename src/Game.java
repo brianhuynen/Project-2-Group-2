@@ -20,6 +20,7 @@ Player player_2;
 		Cell [][] board = field.getBoard();
 		this.field=field;
 		this.board=board;
+		this.currentPlayer_ID = player_1.getPlayer_ID();
 	}
 	
 	public void addPiece(int x, int y, Pieces piece){
