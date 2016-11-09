@@ -90,6 +90,7 @@ public class GUI {
 	public static JPanel inputPanel_1(){
 		JPanel control = new JPanel();
 		control.setLayout(new BoxLayout(control,BoxLayout.Y_AXIS));
+		JButton autofill = new JButton("Autofill");
 		JButton add = new JButton("Add");
 		JLabel rankPiece = new JLabel("Rank");
 		JTextField rank = new JTextField();
@@ -98,6 +99,52 @@ public class GUI {
 		JLabel yPos = new JLabel("Y");
 		JTextField yControl = new JTextField();
 		JButton done = new JButton("Done");
+		autofill.addActionListener(new ActionListener(){
+			public void actionPerformed(java.awt.event.ActionEvent arg0){
+				//Hardcoded piece placement of player 1
+				final int[][] PLAYER1 = {{ 1, 3, 5,11, 0, 5,11, 9, 8, 7},
+						 				 { 3, 4, 4,11,11,11,11, 8, 7, 7},
+						 				 { 3, 4, 4, 5, 5, 2, 6, 6, 6, 6},
+						 				 { 2, 2, 2, 2, 3,10, 2, 2, 2, 3}};
+				//Hardcoded piece placement of player 2
+				final int[][] PLAYER2 = {{ 3, 2, 2, 2,11, 1, 2, 2, 2, 3},
+							 			 { 5, 5, 4, 4, 4, 4, 3, 3, 3, 2},
+							 			 { 5, 5, 6,11,11, 2,11, 7, 8,10},
+							 			 { 6, 6, 6,11, 0, 7,11, 7, 8, 9}};
+				if(game.currentPlayer_ID == 1){
+					for (int y=0; y<PLAYER1[0].length; y++){
+						for(int x=0; x<PLAYER1.length; x++){
+							int r = PLAYER1[x][y];
+							if(game.getCurrentPlayer().pieceIsAvailable(r)){
+								Pieces piece = new Pieces(r," ",game.currentPlayer_ID);
+								game.addPiece(y+1, x+1, piece);
+								if(game.success){
+									game.getCurrentPlayer().pieces[r]--;
+									frame.repaint();
+								}
+							}
+						}
+					}
+				} else {
+					System.out.println("Hi");
+					for (int x=0; x<PLAYER2.length; x++){
+						for(int y=0; y<PLAYER2[0].length; y++){
+							int r = PLAYER2[x][y];
+							if(game.getCurrentPlayer().pieceIsAvailable(r)){
+								Pieces piece = new Pieces(r," ",game.currentPlayer_ID);
+								System.out.println((y+1) + " " + (x+7));
+								game.addPiece(y+1, x+7, piece);
+								if(game.success){
+									game.getCurrentPlayer().pieces[r]--;
+									frame.repaint();
+								}
+							}
+						}
+					}
+				}
+				
+			}
+		});
 		done.addActionListener(new ActionListener(){
 			
 			//Check if all pieces have been placed
@@ -182,6 +229,7 @@ public class GUI {
 		control.add(rankPiece);
 		control.add(rank);
 		control.add(add);
+		control.add(autofill);
 		control.add(remove);
 		control.add(done,BorderLayout.SOUTH);
 		return control;
