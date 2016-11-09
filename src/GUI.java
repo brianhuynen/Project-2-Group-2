@@ -114,6 +114,8 @@ public class GUI {
 				}
 				else{
 					//dialog box "place all your pieces"
+					//JOptionPane.showMessageDialog(frame, "Place all your pieces");
+
 				}
 		}
 			
@@ -161,6 +163,7 @@ public class GUI {
 				}
 				else{
 					//give error "unable to remove piece"
+					JOptionPane.showMessageDialog(frame,"Unable to remove piece" );
 				}
 				
 			}
