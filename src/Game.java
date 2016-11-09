@@ -8,6 +8,9 @@ boolean success = false;
 int currentPlayer_ID; 
 Player player_1;
 Player player_2;
+boolean battled = false;
+Pieces won;
+Pieces lost;
 
 	public Game(){
 		Player player_1 = new Player(1, Color.BLUE);
@@ -66,15 +69,18 @@ Player player_2;
 			board[x2][y2].setContent(board[x1][y1].getContent());
 			board[x2][y2].setCellState(1);
 			removePiece(x1,y1);
+			battled = false;
 			success = true;
 			
 		}
 		else if(inBound(x2,y2) && board[x2][y2].getCellState()==1 && currentPlayer.getPlayer_ID() != board[x2][y2].getContent().getPlayer_ID()
 			&& validMove(x1,y1,x2,y2)){
 			handleBattle(x1,y1,x2,y2);
+			battled = true;
 			success = true;
 		}
 		else{
+			battled = false;
 			success = false;
 			//return error
 		}
@@ -153,19 +159,30 @@ Player player_2;
 		}
 		if((attack.getRank() != 1 && defense.getRank() != 10) || 
 			(attack.getRank()!=3 && defense.getRank()!= 11)){
+			//attack wins
 				if(attack.getRank()>defense.getRank()){
+					won = attack;
+					lost = defense;
 					board[x2][y2].setContent(attack);
 					removePiece(x1,y1);
 				}
+				//draw
 				else if(attack.getRank()==defense.getRank()){
+					won = attack = lost;
 					removePiece(x1,y1);
 					removePiece(x2,y2);
 				}
+				//defense wins
 				else{
+					won = defense;
+					lost = attack;
 					removePiece(x1,y1);
 				}
 		}
+		//attack wins
 		else{
+			won = attack;
+			lost = defense;
 			board[x2][y2].setContent(attack);
 			removePiece(x1,y1);
 		}

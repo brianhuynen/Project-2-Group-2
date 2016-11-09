@@ -9,8 +9,6 @@ import java.lang.*;
 public class GUI {
 
 	public static Game game;
-	public static int click = 0;
-	
 	
 	public GUI(){
 		Game game = new Game();
@@ -178,7 +176,6 @@ public class GUI {
 		rank.setMaximumSize(new Dimension(Integer.MAX_VALUE,rank.getPreferredSize().height));
 		add.addActionListener(new ActionListener(){
 			
-			//Need to check if piece is available
 
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent arg0) {
@@ -193,7 +190,11 @@ public class GUI {
 						frame.repaint();
 					}
 					else{
-						JOptionPane.showMessageDialog(frame, "invalid placement");
+						if(!game.getCurrentPlayer().pieceIsAvailable(r)){
+							JOptionPane.showMessageDialog(frame, "Piece is not available");
+						}
+						else
+							JOptionPane.showMessageDialog(frame, "Invalid placement");
 					}
 				}
 				xControl.setText("");
@@ -225,7 +226,7 @@ public class GUI {
 					JOptionPane.showMessageDialog(frame,"There's no piece");
 					}
 					else{
-						JOptionPane.showMessageDialog(frame,"Unable to remove this piece" );
+						JOptionPane.showMessageDialog(frame,"Unable to remove opponents piece" );
 					}
 				}
 
@@ -276,13 +277,23 @@ public class GUI {
 				int toY = Integer.parseInt(y2.getText());
 				game.movePiece(fromX,fromY,toX,toY);
 				if(game.success){
+					if(game.battled){
+						JOptionPane.showMessageDialog(frame, "battled");
+					}
 					game.changeTurn();
 					
 					frame.repaint();
 				}
 				
 				else{
-					JOptionPane.showMessageDialog(frame, "Invalid move");
+					if(game.board[fromX][fromY].getCellState()!=1){
+						JOptionPane.showMessageDialog(frame, "Empty cell");
+					}
+					else if(game.board[fromX][fromY].getContent().getPlayer_ID()!= game.currentPlayer_ID){
+						JOptionPane.showMessageDialog(frame, "Unable to move opponents piece");
+					}
+					else
+						JOptionPane.showMessageDialog(frame, "Invalid move");
 				}
 				x1.setText("");
 				y1.setText("");
