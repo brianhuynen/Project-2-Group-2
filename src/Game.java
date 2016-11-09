@@ -53,8 +53,6 @@ Player player_2;
 		success = true;
 		}
 		else{
-			
-			
 			success = false;
 			//return error
 		}
