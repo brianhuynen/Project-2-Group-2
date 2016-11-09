@@ -4,18 +4,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.*;
 
 public class GUI {
 
 	public static Game game;
 	public static int click = 0;
-	
-	
+
+
 	public GUI(){
 		Game game = new Game();
 		this.game = game;
 	}
-	
+
 	final static int FRAME_WIDTH = 800;
 	final static int FRAME_HEIGHT = 700;
 	final int BOARD_WIDTH = 500;
@@ -166,7 +167,7 @@ public class GUI {
 				}
 				else{
 					//dialog box "place all your pieces"
-					//JOptionPane.showMessageDialog(frame, "Place all your pieces");
+					JOptionPane.showMessageDialog(frame, "Place all your pieces");
 
 				}
 		}
@@ -193,6 +194,9 @@ public class GUI {
 						game.getCurrentPlayer().pieces[r]--;
 						frame.repaint();
 					}
+					else{
+						JOptionPane.showMessageDialog(frame, "Piece placed outside board");
+					}
 				}
 
 			}
@@ -207,19 +211,17 @@ public class GUI {
 				int x = Integer.parseInt(xControl.getText());
 				int y = Integer.parseInt(yControl.getText());
 				int r = game.board[x][y].getContent().getRank();
-				game.removePiece(x, y);
+					game.removePiece(x, y);
+
 				if(game.success){
 					game.getCurrentPlayer().pieces[r]++;
 					frame.repaint();
-					
 				}
 				else{
-					//give error "unable to remove piece"
-					JOptionPane.showMessageDialog(frame,"Unable to remove piece" );
+					JOptionPane.showMessageDialog(frame,"Unable to remove this piece" );
 				}
-				
-			}
-			
+
+				}
 		});
 		
 		control.add(xPos);
@@ -263,6 +265,9 @@ public class GUI {
 					game.changeTurn();
 					
 					frame.repaint();
+				}
+				else{
+					JOptionPane.showMessageDialog(frame, "Invalid move");
 				}
 			}
 		});

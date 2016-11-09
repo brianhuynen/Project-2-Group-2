@@ -47,16 +47,20 @@ Player player_2;
 	}
 	
 	public void removePiece(int x, int y){
-		if(board[x][y].getContent().getPlayer_ID() == currentPlayer.getPlayer_ID()){
+		if(board[x][y].getContent() == null){
+			success = false;
+		}
+		else if(board[x][y].getContent().getPlayer_ID() == currentPlayer.getPlayer_ID()){
 		board[x][y].setCellState(0);
 		board[x][y].setContent(null);
 		success = true;
 		}
 		else{
 			success = false;
-			//return error
 		}
 	}
+
+
 	
 	public void movePiece(int x1, int y1, int x2, int y2){
 		if( inBound(x2,y2) && validMove(x1,y1,x2,y2) && board[x2][y2].getCellState()==0){
