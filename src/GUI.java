@@ -211,11 +211,12 @@ public class GUI {
 
 				int x = Integer.parseInt(xControl.getText());
 				int y = Integer.parseInt(yControl.getText());
-				int r = game.board[x][y].getContent().getRank();
 				game.removePiece(x, y);
 				if(game.success){
+					int r = game.board[x][y].getContent().getRank();
 					game.getCurrentPlayer().pieces[r]++;
 					frame.repaint();
+				
 				}
 				else{
 					JOptionPane.showMessageDialog(frame,"Unable to remove this piece" );

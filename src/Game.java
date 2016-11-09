@@ -47,7 +47,7 @@ Player player_2;
 	}
 	
 	public void removePiece(int x, int y){
-		if(board[x][y].getContent() == null){
+		if(board[x][y].getCellState() != 1){
 			success = false;
 		}
 		else if(board[x][y].getContent().getPlayer_ID() == currentPlayer.getPlayer_ID()){
