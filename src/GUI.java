@@ -277,7 +277,7 @@ public class GUI {
 				if(rank ==10){
 					//X-10 to set M in middle of cell
 					g2.drawString(s, x-10, y);
-				}
+				} 
 				else {
 					g2.drawString(s, x, y);
 				}
