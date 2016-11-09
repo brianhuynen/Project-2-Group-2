@@ -263,6 +263,9 @@ public class GUI {
 				else if(rank == 11){
 					s = "B";
 				}
+				else if(rank ==10){
+					s = "M";
+				}
 				g2.setColor(Color.BLUE);
 				g.setFont(new Font("default", Font.BOLD, 60));
 				g2.drawString(s,x,y);
