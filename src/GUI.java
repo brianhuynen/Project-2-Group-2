@@ -126,13 +126,11 @@ public class GUI {
 						}
 					}
 				} else {
-					System.out.println("Hi");
 					for (int x=0; x<PLAYER2.length; x++){
 						for(int y=0; y<PLAYER2[0].length; y++){
 							int r = PLAYER2[x][y];
 							if(game.getCurrentPlayer().pieceIsAvailable(r)){
 								Pieces piece = new Pieces(r," ",game.currentPlayer_ID);
-								System.out.println((y+1) + " " + (x+7));
 								game.addPiece(y+1, x+7, piece);
 								if(game.success){
 									game.getCurrentPlayer().pieces[r]--;
@@ -194,6 +192,9 @@ public class GUI {
 						frame.repaint();
 					}
 				}
+				xControl.setText("");
+				yControl.setText("");
+				rank.setText("");
 
 			}
 			
@@ -215,10 +216,14 @@ public class GUI {
 				}
 				else{
 					//give error "unable to remove piece"
-					JOptionPane.showMessageDialog(frame,"Unable to remove piece" );
+					JOptionPane.showMessageDialog(frame,"Unable to remove piece");
 				}
+				xControl.setText("");
+				yControl.setText("");
+				rank.setText("");
 				
 			}
+			
 			
 		});
 		
@@ -264,6 +269,10 @@ public class GUI {
 					
 					frame.repaint();
 				}
+				x1.setText("");
+				y1.setText("");
+				x2.setText("");
+				y2.setText("");
 			}
 		});
 		
