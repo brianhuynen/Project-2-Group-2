@@ -106,14 +106,14 @@ Player player_2;
 		//check if the piece won't jump over pieces or impassable cells
 			if(rank==2 && spaces > 1 && y1==y2){
 				if(a==1){
-					for(int i=x1; i<x2; i++){
+					for(int i=x1+1; i<x2; i++){
 						if(board[i][y1].getCellState()!=0){
 							return false;
 						}
 					}
 				}
 				if(a==-1){
-					for(int i=x1; i>x2; i--){
+					for(int i=x2-1; i>x1; i--){
 						if(board[i][y1].getCellState()!=0){
 							return false;
 						}
@@ -122,14 +122,14 @@ Player player_2;
 			}
 			if(rank==2 && spaces > 1 && x1==x2){
 				if(a==1){
-					for(int i=y1; i<y2; i++){
+					for(int i=y1+1; i<y2; i++){
 						if(board[x1][i].getCellState()!=0){
 							return false;
 						}
 					}
 				}
 				if(a==-1){
-					for(int i=y1; i>y2; i--){
+					for(int i=y2-1; i>y1; i--){
 						if(board[x1][i].getCellState()!=0){
 							return false;
 						}
