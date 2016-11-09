@@ -60,7 +60,6 @@ Player player_2;
 		}
 	}
 
-
 	
 	public void movePiece(int x1, int y1, int x2, int y2){
 		if( inBound(x2,y2) && validMove(x1,y1,x2,y2) && board[x2][y2].getCellState()==0){
