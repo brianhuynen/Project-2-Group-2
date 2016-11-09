@@ -36,7 +36,7 @@ public class GUI {
 			frame.add(grid);
 			JPanel piece = piecePanel();
 			frame.add(inputPanel, BorderLayout.EAST);
-			frame.add(piece,BorderLayout.SOUTH);
+			frame.add(piece, BorderLayout.SOUTH);
 			frame.setVisible(true);
 			 
 		}
@@ -77,7 +77,7 @@ public class GUI {
 					rank = "B";
 				}
 			}
-			JLabel label = new JLabel("Piece: " + rank +" "+ game.currentPlayer.pieces[i]);
+			JLabel label = new JLabel("Piece " + rank +" : "+ game.currentPlayer.pieces[i]);
 			// new Jlabel how many left of the piece type
 			piecePanel.add(label);
 			
@@ -153,7 +153,7 @@ public class GUI {
 					if(game.currentPlayer_ID == 1){
 						game.currentPlayer_ID = 2;
 						game.currentPlayer = game.player_2;
-						frame.repaint();
+						frame.repaint();						
 					}
 					else{
 						game.currentPlayer_ID = 1;
@@ -190,6 +190,7 @@ public class GUI {
 					if(game.success){
 						game.getCurrentPlayer().pieces[r]--;
 						frame.repaint();
+						
 					}
 				}
 				xControl.setText("");
@@ -212,6 +213,7 @@ public class GUI {
 				if(game.success){
 					game.getCurrentPlayer().pieces[r]++;
 					frame.repaint();
+					
 					
 				}
 				else{
@@ -274,7 +276,6 @@ public class GUI {
 				y2.setText("");
 			}
 		});
-		
 		inputPanel.add(from_X);
 		inputPanel.add(x1);
 		inputPanel.add(from_Y);
