@@ -158,6 +158,7 @@ public class GUI {
 				if(game.success){
 					game.getCurrentPlayer().pieces[r]++;
 					frame.repaint();
+					
 				}
 				else{
 					//give error "unable to remove piece"

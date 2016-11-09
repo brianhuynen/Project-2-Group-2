@@ -25,6 +25,7 @@ public class Player {
 	
 	public int getPlayer_ID(){
 		return player_ID;
+		
 	}
 	
 	public boolean piecesIsEmpty(){
