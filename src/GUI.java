@@ -266,7 +266,6 @@ public class GUI {
 				game.movePiece(fromX,fromY,toX,toY);
 				if(game.success){
 					game.changeTurn();
-					
 					frame.repaint();
 				}
 				x1.setText("");
