@@ -209,14 +209,7 @@ public class GUI {
 				int toY = Integer.parseInt(y2.getText());
 				game.movePiece(fromX,fromY,toX,toY);
 				if(game.success){
-					if(game.currentPlayer_ID == 1){
-						game.currentPlayer_ID = 2;
-						game.currentPlayer = game.player_2;
-					}
-					else{
-						game.currentPlayer_ID = 1;
-						game.currentPlayer = game.player_1;
-					}
+					game.changeTurn();
 					
 					frame.repaint();
 				}

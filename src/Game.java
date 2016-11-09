@@ -183,6 +183,17 @@ Player player_2;
 		}
 	}
 	
+	public void changeTurn(){
+		if(getCurrentPlayer() == player_1){
+			currentPlayer_ID = 2;
+			currentPlayer = player_2;
+		}
+		else{
+			currentPlayer_ID = 1;
+			currentPlayer = player_1;
+		}
+	}
+	
 	public boolean availableCell(int y, Player player){
 		if(player.getPlayer_ID() == 1 && y > 4){
 			return false;
