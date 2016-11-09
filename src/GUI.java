@@ -63,15 +63,18 @@ public class GUI {
 		String rank ="";
 		JPanel piecePanel = new JPanel();
 		for(int i=0; i<12; i++){
-			if(i!= 0 && i!=11){
+			if(i!= 0 && i!=10 && i!=11){
 				rank = Integer.toString(i);
 			}
 			else{
 				if(i==0){
-				 rank = "F";
+				 	rank = "F";
+				}
+				else if (i==10) {
+					rank = "M";
 				}
 				else{
-				rank = "B";
+					rank = "B";
 				}
 			}
 			JLabel label = new JLabel("Piece: " + rank +" "+ game.currentPlayer.pieces[i]);
@@ -151,10 +154,12 @@ public class GUI {
 				if(game.getCurrentPlayer().piecesIsEmpty()){
 					if(game.currentPlayer_ID == 1){
 						game.currentPlayer_ID = 2;
+						game.currentPlayer = game.player_2;
 						frame.repaint();
 					}
 					else{
 						game.currentPlayer_ID = 1;
+						game.currentPlayer = game.player_1;
 						createGamePanel(frame);
 					}
 					
@@ -189,8 +194,7 @@ public class GUI {
 						frame.repaint();
 					}
 				}
-				
-				
+
 			}
 			
 		});
@@ -199,7 +203,7 @@ public class GUI {
 
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				
+
 				int x = Integer.parseInt(xControl.getText());
 				int y = Integer.parseInt(yControl.getText());
 				int r = game.board[x][y].getContent().getRank();
@@ -249,18 +253,14 @@ public class GUI {
 		
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
+				//System.out.println("Clicked!");
 				int fromX = Integer.parseInt(x1.getText());
 				int fromY = Integer.parseInt(y1.getText());
 				int toX = Integer.parseInt(x2.getText());
 				int toY = Integer.parseInt(y2.getText());
 				game.movePiece(fromX,fromY,toX,toY);
 				if(game.success){
-					if(game.currentPlayer_ID == 1){
-						game.currentPlayer_ID = 2;
-					}
-					else{
-						game.currentPlayer_ID = 1;
-					}
+					game.changeTurn();
 					
 					frame.repaint();
 				}
@@ -305,26 +305,44 @@ public class GUI {
 				int y = (50*j)+ 100;
 				int rank = game.board[i][j].getContent().getRank();
 				String s ="";
-				if(rank != 0 && rank!= 11){
+				if(rank != 0 && rank!= 11 && rank!=10){
 					s = Integer.toString(rank);
 				}
 				if(rank == 0){
 					s = "F";
 				}
+
+				if(rank == 10){
+					s = "M";
+				}
 				else if(rank == 11){
 					s = "B";
 				}
-				g2.setColor(Color.BLUE);
-				g.setFont(new Font("default", Font.BOLD, 60));
-				g2.drawString(s,x,y);
-				g2.setColor(Color.black);
+
+					g2.setColor(game.currentPlayer.pColor);
+
+				g.setFont(new Font("default", Font.BOLD, 50));
+				if(rank ==10){
+					//X-10 to set M in middle of cell
+					g2.drawString(s, x-10, y);
+				}
+				else {
+					g2.drawString(s, x, y);
+				}
+					g2.setColor(Color.black);
 			}
 			if(game.board[i][j].getCellState()== 1 && game.currentPlayer_ID != game.board[i][j].getContent().getPlayer_ID() ){
-				g2.setColor(Color.RED);
+				if(game.currentPlayer_ID == 1){
+					g2.setColor(Color.RED);
+				}
+				else{
+					g2.setColor(Color.BLUE);
+				}
 				Rectangle box1 = new Rectangle(51+(50*i),51+(50*j),49,49);
 				g2.fill(box1);
 				g2.setColor(Color.black);
 			}
+			
 			}
 		}
 	}
