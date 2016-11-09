@@ -274,6 +274,7 @@ public class GUI {
 				g2.fill(box1);
 				g2.setColor(Color.black);
 			}
+			
 			}
 		}
 	}
