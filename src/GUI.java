@@ -10,13 +10,13 @@ public class GUI {
 
 	public static Game game;
 	public static int click = 0;
-
-
+	
+	
 	public GUI(){
 		Game game = new Game();
 		this.game = game;
 	}
-
+	
 	final static int FRAME_WIDTH = 800;
 	final static int FRAME_HEIGHT = 700;
 	final int BOARD_WIDTH = 500;
@@ -37,7 +37,7 @@ public class GUI {
 			frame.add(grid);
 			JPanel piece = piecePanel();
 			frame.add(inputPanel, BorderLayout.EAST);
-			frame.add(piece,BorderLayout.SOUTH);
+			frame.add(piece, BorderLayout.SOUTH);
 			frame.setVisible(true);
 			 
 		}
@@ -78,7 +78,7 @@ public class GUI {
 					rank = "B";
 				}
 			}
-			JLabel label = new JLabel("Piece: " + rank +" "+ game.currentPlayer.pieces[i]);
+			JLabel label = new JLabel("Piece " + rank +" : "+ game.currentPlayer.pieces[i]);
 			// new Jlabel how many left of the piece type
 			piecePanel.add(label);
 			
@@ -127,13 +127,11 @@ public class GUI {
 						}
 					}
 				} else {
-					System.out.println("Hi");
 					for (int x=0; x<PLAYER2.length; x++){
 						for(int y=0; y<PLAYER2[0].length; y++){
 							int r = PLAYER2[x][y];
 							if(game.getCurrentPlayer().pieceIsAvailable(r)){
 								Pieces piece = new Pieces(r," ",game.currentPlayer_ID);
-								System.out.println((y+1) + " " + (x+7));
 								game.addPiece(y+1, x+7, piece);
 								if(game.success){
 									game.getCurrentPlayer().pieces[r]--;
@@ -198,6 +196,9 @@ public class GUI {
 						JOptionPane.showMessageDialog(frame, "Piece placed outside board");
 					}
 				}
+				xControl.setText("");
+				yControl.setText("");
+				rank.setText("");
 
 			}
 			
@@ -211,17 +212,25 @@ public class GUI {
 				int x = Integer.parseInt(xControl.getText());
 				int y = Integer.parseInt(yControl.getText());
 				int r = game.board[x][y].getContent().getRank();
-					game.removePiece(x, y);
-
+				game.removePiece(x, y);
 				if(game.success){
 					game.getCurrentPlayer().pieces[r]++;
 					frame.repaint();
 				}
 				else{
 					JOptionPane.showMessageDialog(frame,"Unable to remove this piece" );
+					//give error "unable to remove piece"
+					JOptionPane.showMessageDialog(frame,"Unable to remove piece");
 				}
 
 				}
+				xControl.setText("");
+				yControl.setText("");
+				rank.setText("");
+
+			}
+
+
 		});
 		
 		control.add(xPos);
@@ -266,6 +275,10 @@ public class GUI {
 					
 					frame.repaint();
 				}
+				x1.setText("");
+				y1.setText("");
+				x2.setText("");
+				y2.setText("");
 				else{
 					JOptionPane.showMessageDialog(frame, "Invalid move");
 				}
