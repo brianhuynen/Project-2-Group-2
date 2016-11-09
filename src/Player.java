@@ -28,11 +28,13 @@ public class Player {
 	}
 	
 	public boolean piecesIsEmpty(){
+		/*
 		for(int i=0; i<12; i++){
 			if(pieces[i]!=0){
 				return false;
 			}
 		}
+		*/
 		return true;
 	}
 }
