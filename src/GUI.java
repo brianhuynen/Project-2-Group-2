@@ -35,7 +35,7 @@ public class GUI {
 			frame.add(grid);
 			JPanel piece = piecePanel();
 			frame.add(inputPanel, BorderLayout.EAST);
-			frame.add(piece, BorderLayout.SOUTH);
+			//frame.add(piece, BorderLayout.SOUTH);
 			frame.setVisible(true);
 			 
 		}
