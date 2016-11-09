@@ -223,7 +223,6 @@ public class GUI {
 					JOptionPane.showMessageDialog(frame,"Unable to remove piece");
 				}
 
-				}
 				xControl.setText("");
 				yControl.setText("");
 				rank.setText("");
@@ -275,13 +274,14 @@ public class GUI {
 					
 					frame.repaint();
 				}
+				
+				else{
+					JOptionPane.showMessageDialog(frame, "Invalid move");
+				}
 				x1.setText("");
 				y1.setText("");
 				x2.setText("");
 				y2.setText("");
-				else{
-					JOptionPane.showMessageDialog(frame, "Invalid move");
-				}
 			}
 		});
 		
