@@ -104,10 +104,12 @@ public class GUI {
 				if(game.getCurrentPlayer().piecesIsEmpty()){
 					if(game.currentPlayer_ID == 1){
 						game.currentPlayer_ID = 2;
+						game.currentPlayer = game.player_2;
 						frame.repaint();
 					}
 					else{
 						game.currentPlayer_ID = 1;
+						game.currentPlayer = game.player_1;
 						createGamePanel(frame);
 					}
 					
@@ -209,9 +211,11 @@ public class GUI {
 				if(game.success){
 					if(game.currentPlayer_ID == 1){
 						game.currentPlayer_ID = 2;
+						game.currentPlayer = game.player_2;
 					}
 					else{
 						game.currentPlayer_ID = 1;
+						game.currentPlayer = game.player_1;
 					}
 					
 					frame.repaint();
