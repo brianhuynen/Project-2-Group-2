@@ -1,4 +1,4 @@
-
+import java.awt.Color;
 public class Game {
 	
 Cell[][] board;
@@ -10,9 +10,9 @@ Player player_1;
 Player player_2;
 
 	public Game(){
-		Player player_1 = new Player(1);
+		Player player_1 = new Player(1, Color.BLUE);
 		this.player_1 = player_1;
-		Player player_2 = new Player(2);
+		Player player_2 = new Player(2, Color.RED);
 		this.player_2 = player_2;
 		Player currentPlayer = player_1;
 		this.currentPlayer = currentPlayer;

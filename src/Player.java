@@ -1,13 +1,16 @@
-
+import java.awt.Color;
 public class Player {
 	
 	public int player_ID;
 	public int pieces[];
+	public Color pColor;
 	
-	public Player(int i){
+	public Player(int i, Color color){
 		this.player_ID = i;
 		int pieces [] = {1,1,8,5,4,4,4,3,2,1,1,6};
 		this.pieces  = pieces;
+		this.pColor = color;
+
 	}
 	
 	public boolean pieceIsAvailable(int r){
