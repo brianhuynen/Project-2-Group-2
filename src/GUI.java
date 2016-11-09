@@ -193,7 +193,7 @@ public class GUI {
 						frame.repaint();
 					}
 					else{
-						JOptionPane.showMessageDialog(frame, "Piece placed outside board");
+						JOptionPane.showMessageDialog(frame, "invalid placement");
 					}
 				}
 				xControl.setText("");
