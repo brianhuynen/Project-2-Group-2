@@ -219,9 +219,14 @@ public class GUI {
 				
 				}
 				else{
-					JOptionPane.showMessageDialog(frame,"Unable to remove this piece" );
+					
 					//give error "unable to remove piece"
-					JOptionPane.showMessageDialog(frame,"Unable to remove piece");
+					if(game.board[x][y].getContent()== null){
+					JOptionPane.showMessageDialog(frame,"There's no piece");
+					}
+					else{
+						JOptionPane.showMessageDialog(frame,"Unable to remove this piece" );
+					}
 				}
 
 				xControl.setText("");
