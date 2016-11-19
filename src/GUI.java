@@ -20,6 +20,7 @@ public class GUI {
 	final int BOARD_WIDTH = 500;
 	final int BOARD_HEIGHT = 500;
 	public static JFrame frame;
+
 	
 	
 	 
@@ -42,6 +43,7 @@ public class GUI {
 	//Creates frame where you play the game
 	
 	public static void createGamePanel(JFrame frame1){
+		game.gameActive = true;
 		frame1.dispose();
 		frame = new JFrame();
 		frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -384,6 +386,7 @@ public class GUI {
 	}
 
 	}
+	
 
 
 }

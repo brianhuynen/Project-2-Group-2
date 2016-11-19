@@ -11,6 +11,7 @@ Player player_2;
 boolean battled = false;
 Pieces won;
 Pieces lost;
+public boolean gameActive = false;
 
 	public Game(){
 		Player player_1 = new Player(1, Color.BLUE);
@@ -53,7 +54,8 @@ Pieces lost;
 		if(board[x][y].getCellState() != 1){
 			success = false;
 		}
-		else if(board[x][y].getContent().getPlayer_ID() == currentPlayer.getPlayer_ID()){
+		else if(board[x][y].getContent().getPlayer_ID() == currentPlayer.getPlayer_ID() ||
+				gameActive){
 		board[x][y].setCellState(0);
 		board[x][y].setContent(null);
 		success = true;
@@ -167,10 +169,11 @@ Pieces lost;
 					removePiece(x1,y1);
 				}
 				//draw
-				else if(attack.getRank()==defense.getRank()){
+				if(attack.getRank()==defense.getRank()){
 					won = attack = lost;
 					removePiece(x1,y1);
 					removePiece(x2,y2);
+					
 				}
 				//defense wins
 				else{
