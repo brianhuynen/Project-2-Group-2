@@ -222,7 +222,7 @@ public class GUI {
 				 if(game.success){
 					 game.getCurrentPlayer().pieces[r]++;
 						frame.repaint();
-				 }
+				  }
 				}
 				
 			
