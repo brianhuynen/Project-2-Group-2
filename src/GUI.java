@@ -215,13 +215,17 @@ public class GUI {
 
 				int x = Integer.parseInt(xControl.getText());
 				int y = Integer.parseInt(yControl.getText());
-				game.removePiece(x, y);
-				if(game.success){
-					int r = game.board[x][y].getContent().getRank();
-					game.getCurrentPlayer().pieces[r]++;
-					frame.repaint();
 				
+				if(game.board[x][y].getContent()!= null){
+				 int r = game.board[x][y].getContent().getRank();
+				 game.removePiece(x, y);
+				 if(game.success){
+					 game.getCurrentPlayer().pieces[r]++;
+						frame.repaint();
+				 }
 				}
+				
+			
 				else{
 					
 					//give error "unable to remove piece"
