@@ -273,6 +273,7 @@ public class GUI {
 		JTextField x2 = new JTextField(2);
 		JLabel to_X = new JLabel("To X");
 		JButton move = new JButton("Move");
+		JButton ranMove = new JButton("Random");
 		move.addActionListener( new ActionListener(){
 		
 			@Override
@@ -308,6 +309,18 @@ public class GUI {
 				y2.setText("");
 			}
 		});
+		ranMove.addActionListener( new ActionListener(){
+			public void actionPerformed(java.awt.event.ActionEvent e){
+				for(int i = 0; i<1; i++) {
+					game.ranMovePiece();
+					if(game.success) {
+						game.changeTurn();
+						frame.repaint();
+						//JOptionPane.showMessageDialog(frame, "Turn");
+					}
+				}
+			}
+		});
 		
 		inputPanel.add(from_X);
 		inputPanel.add(x1);
@@ -318,6 +331,7 @@ public class GUI {
 		inputPanel.add(to_Y);
 		inputPanel.add(y2);
 		inputPanel.add(move);
+		inputPanel.add(ranMove);
 		return inputPanel;
 	}
 
@@ -389,6 +403,14 @@ public class GUI {
 		}
 	}
 
+	}
+
+	public static void sleep(int ms){
+		try {
+			Thread.sleep(ms);
+		} catch(InterruptedException e){
+			Thread.currentThread().interrupt();
+		}
 	}
 	
 
