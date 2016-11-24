@@ -5,8 +5,8 @@ public class Player {
 	public int player_ID;
 	public int pieces[];
 	public Color pColor;
-	ArrayList<Pieces> piecesCoord;
-	ArrayList<Pieces> knownPieces;
+	ArrayList<Pieces> piecesCoord = new ArrayList<Pieces>();
+	ArrayList<Pieces> knownPieces = new ArrayList<Pieces>();
 	int offBoard;
 	
 	

@@ -30,7 +30,7 @@ public class Node
 		children = new ArrayList<Node>();
 		this.parent = parent;
 		player = b.getCurrentPlayer();
-		Cell[][] tempBoard = b.duplicate(player);
+//		Cell[][] tempBoard = b.duplicate(player);
 		//move = m;
 		//TODO add making appropriate move from brian/esther code
 		score = new double[2];
