@@ -224,6 +224,17 @@ Pieces lost;
 		return true;
 	}
 	
+	/**
+	 * TODO
+	 * duplicate the board while hiding the other player's pieces
+	 * @param player the player we want to duplicate for
+	 * @return the duplicated board
+	 */
+	public Cell[][] duplicate(Player player)
+	{
+		return null;
+	}
+	
 
 }
 
