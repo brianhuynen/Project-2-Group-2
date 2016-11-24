@@ -4,18 +4,18 @@ import java.util.Random;
 
 public class Game {
 	
-Cell[][] board;
-Field field;
-Player currentPlayer;
-boolean success = false;
-int currentPlayer_ID; 
-Player player_1;
-Player player_2;
-boolean battled = false;
-Pieces won;
-Pieces lost;
+	Cell[][] board;
+	Field field;
+	Player currentPlayer;
+	boolean success = false;
+	int currentPlayer_ID;
+	Player player_1;
+	Player player_2;
+	boolean battled = false;
+	Pieces won;
+	Pieces lost;
 	Player[] player = new Player[2];
-boolean gameOver;
+	boolean gameOver;
 
 public boolean gameActive = false;
 
