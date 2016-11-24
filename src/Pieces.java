@@ -50,8 +50,5 @@ public class Pieces {
 	public boolean known(){
 		return known;
 	}
-	
-	public void makeKnown(){
-		known = true;
-	}
+
 }

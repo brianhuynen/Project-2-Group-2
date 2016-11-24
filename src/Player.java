@@ -5,7 +5,10 @@ public class Player {
 	public int player_ID;
 	public int pieces[];
 	public Color pColor;
-	ArrayList<int []> piecesCoord;
+	ArrayList<Pieces> piecesCoord;
+	ArrayList<Pieces> knownPieces;
+	int offBoard;
+	
 	
 	public Player(int i, Color color){
 		this.player_ID = i;
