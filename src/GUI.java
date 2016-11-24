@@ -290,6 +290,7 @@ public class GUI {
 					}
 					else if(game.battled && game.gameOver){
 						JOptionPane.showMessageDialog(frame, "Game Over");
+						//create new start frame and refresh
 					}
 					game.changeTurn();
 					
