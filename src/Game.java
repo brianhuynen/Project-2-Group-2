@@ -385,7 +385,6 @@ public boolean gameActive = false;
 		}
 		return true;
 	}
-<<<<<<< HEAD
 		
 	public void endgame(){
 		gameOver = true;
