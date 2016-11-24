@@ -1,11 +1,22 @@
-import javax.swing.*;
-
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.ActionListener;
-import java.lang.*;
-
+import java.awt.event.ActionEvent;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import java.awt.Toolkit;
 public class GUI {
 
 	public static Game game;
@@ -96,9 +107,9 @@ public class GUI {
 		JLabel rankPiece = new JLabel("Rank");
 		JTextField rank = new JTextField();
 		JLabel xPos = new JLabel("X");
-		JTextField xControl = new JTextField();
+		 JTextField xControl = new JTextField();
 		JLabel yPos = new JLabel("Y");
-		JTextField yControl = new JTextField();
+		 JTextField yControl = new JTextField();
 		JButton done = new JButton("Done");
 		autofill.addActionListener(new ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent arg0){
@@ -148,7 +159,6 @@ public class GUI {
 			
 			//Check if all pieces have been placed
 
-			@Override
 			public void actionPerformed(java.awt.event.ActionEvent arg0) {
 				if(game.getCurrentPlayer().piecesIsEmpty()){
 					if(game.currentPlayer_ID == 1){
@@ -179,7 +189,6 @@ public class GUI {
 		add.addActionListener(new ActionListener(){
 			
 
-			@Override
 			public void actionPerformed(java.awt.event.ActionEvent arg0) {
 				int x = Integer.parseInt(xControl.getText());
 				int y = Integer.parseInt(yControl.getText());
@@ -210,7 +219,6 @@ public class GUI {
 		JButton remove = new JButton("Remove");
 		remove.addActionListener(new ActionListener(){
 
-			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 
 				int x = Integer.parseInt(xControl.getText());
@@ -264,11 +272,11 @@ public class GUI {
 	
 	public static JPanel inputPanel_2(){
 		JPanel inputPanel = new JPanel();
-		JTextField x1 = new JTextField(2);
+		 JTextField x1 = new JTextField(2);
 		JLabel from_X = new JLabel("From X");
-		JTextField y1 = new JTextField(2);
+		 JTextField y1 = new JTextField(2);
 		JLabel from_Y = new JLabel("From Y");
-		JTextField y2 = new JTextField(2);
+		 JTextField y2 = new JTextField(2);
 		JLabel to_Y = new JLabel("To Y");
 		JTextField x2 = new JTextField(2);
 		JLabel to_X = new JLabel("To X");
@@ -276,7 +284,6 @@ public class GUI {
 		JButton ranMove = new JButton("Random");
 		move.addActionListener( new ActionListener(){
 		
-			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				//System.out.println("Clicked!");
 				int fromX = Integer.parseInt(x1.getText());
@@ -285,8 +292,12 @@ public class GUI {
 				int toY = Integer.parseInt(y2.getText());
 				game.movePiece(fromX,fromY,toX,toY);
 				if(game.success){
-					if(game.battled){
+					if(game.battled  && !game.gameOver){
 						JOptionPane.showMessageDialog(frame, "battled");
+					}
+					else if(game.battled && game.gameOver){
+						JOptionPane.showMessageDialog(frame, "Game Over");
+						//create new start frame and refresh
 					}
 					game.changeTurn();
 					

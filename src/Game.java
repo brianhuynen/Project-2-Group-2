@@ -15,6 +15,7 @@ boolean battled = false;
 Pieces won;
 Pieces lost;
 	Player[] player = new Player[2];
+boolean gameOver;
 
 public boolean gameActive = false;
 
@@ -116,7 +117,7 @@ public boolean gameActive = false;
 		
 	}
 
-	
+
 	public boolean validMove(int x1, int y1, int x2, int y2){
 		if(board[x1][y1].getContent().getPlayer_ID() != currentPlayer.getPlayer_ID()){
 			//return error
@@ -176,9 +177,9 @@ public boolean gameActive = false;
 				}
 			}
 			return true;
-			
+
 		}
-		
+
 	}
 
 	public void ranMovePiece(){
@@ -254,14 +255,14 @@ public boolean gameActive = false;
 		System.out.print(list.size() + " ");
 		return list;
 	}
-	
+
 	public void handleBattle(int x1, int y1, int x2, int y2){
 		Pieces attack = board[x1][y1].getContent();
 		Pieces defense = board[x2][y2].getContent();
 		attack.makeKnown();
 		defense.makeKnown();
 		if(defense.getRank()==0){
-			//endgame();
+			endgame();
 		}
 		if((attack.getRank() != 1 && defense.getRank() != 10) || 
 			(attack.getRank()!=3 && defense.getRank()!= 11)){
@@ -332,7 +333,9 @@ public boolean gameActive = false;
 		}
 		return true;
 	}
-	
+    public void endgame(){
+        gameOver = true;
+    }
 
 }
 
