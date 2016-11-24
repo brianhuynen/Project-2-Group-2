@@ -1,9 +1,11 @@
 import java.awt.Color;
+import java.util.ArrayList;
 public class Player {
 	
 	public int player_ID;
 	public int pieces[];
 	public Color pColor;
+	ArrayList<int []> piecesCoord;
 	
 	public Player(int i, Color color){
 		this.player_ID = i;

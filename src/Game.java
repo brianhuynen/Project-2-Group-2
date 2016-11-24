@@ -43,7 +43,10 @@ public boolean gameActive = false;
 			}
 			else{
 				if(availableCell(y, currentPlayer)){
+					int coord [] = {x,y};
+					currentPlayer.piecesCoord.add(coord);
 					success = true;
+					piece.setPosition(x, y);
 					board[x][y].setCellState(1);
 					board[x][y].setContent(piece);
 				}
@@ -63,6 +66,13 @@ public boolean gameActive = false;
 		board[x][y].setCellState(0);
 		board[x][y].setContent(null);
 		success = true;
+		int [] coord = {x,y};
+		for(int i=0; i<currentPlayer.piecesCoord.size(); i++){
+			if(currentPlayer.piecesCoord.get(i) == coord){
+				currentPlayer.piecesCoord.remove(i);
+				break;
+			}
+		}
 		}
 		else{
 			success = false;
@@ -73,6 +83,7 @@ public boolean gameActive = false;
 	public void movePiece(int x1, int y1, int x2, int y2){
 		if( inBound(x2,y2) && validMove(x1,y1,x2,y2) && board[x2][y2].getCellState()==0){
 			board[x2][y2].setContent(board[x1][y1].getContent());
+			board[x1][y1].getContent().setPosition(x2, y2);
 			board[x2][y2].setCellState(1);
 			removePiece(x1,y1);
 			battled = false;
@@ -232,6 +243,8 @@ public boolean gameActive = false;
 	public void handleBattle(int x1, int y1, int x2, int y2){
 		Pieces attack = board[x1][y1].getContent();
 		Pieces defense = board[x2][y2].getContent();
+		attack.makeKnown();
+		defense.makeKnown();
 		if(defense.getRank()==0){
 			//endgame();
 		}
@@ -242,6 +255,7 @@ public boolean gameActive = false;
 					won = attack;
 					lost = defense;
 					board[x2][y2].setContent(attack);
+					board[x1][y1].getContent().setPosition(x2, y2);
 					removePiece(x1,y1);
 				}
 				//draw
@@ -263,6 +277,7 @@ public boolean gameActive = false;
 			won = attack;
 			lost = defense;
 			board[x2][y2].setContent(attack);
+			board[x1][y1].getContent().setPosition(x2, y2);
 			removePiece(x1,y1);
 		}
 	}
