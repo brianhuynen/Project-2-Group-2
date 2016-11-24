@@ -285,8 +285,11 @@ public class GUI {
 				int toY = Integer.parseInt(y2.getText());
 				game.movePiece(fromX,fromY,toX,toY);
 				if(game.success){
-					if(game.battled){
+					if(game.battled  && !game.gameOver){
 						JOptionPane.showMessageDialog(frame, "battled");
+					}
+					else if(game.battled && game.gameOver){
+						JOptionPane.showMessageDialog(frame, "Game Over");
 					}
 					game.changeTurn();
 					

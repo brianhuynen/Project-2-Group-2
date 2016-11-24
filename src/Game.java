@@ -14,6 +14,7 @@ Player player_2;
 boolean battled = false;
 Pieces won;
 Pieces lost;
+boolean gameOver;
 
 public boolean gameActive = false;
 
@@ -246,7 +247,7 @@ public boolean gameActive = false;
 		attack.makeKnown();
 		defense.makeKnown();
 		if(defense.getRank()==0){
-			//endgame();
+			endgame();
 		}
 		if((attack.getRank() != 1 && defense.getRank() != 10) || 
 			(attack.getRank()!=3 && defense.getRank()!= 11)){
@@ -316,6 +317,10 @@ public boolean gameActive = false;
 			return false;
 		}
 		return true;
+	}
+	
+	public void endgame(){
+		gameOver = true;
 	}
 	
 
