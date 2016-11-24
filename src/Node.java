@@ -1,9 +1,5 @@
 import java.util.ArrayList;
-import java.util.Set;
 
-import main.Board;
-import main.Move;
-import main.Node;
 
 
 public class Node 
@@ -42,6 +38,17 @@ public class Node
 		//opti = new double[b.getQuantityOfPlayers()];
 		//for (int i = 0; i < b.getQuantityOfPlayers(); i++)
 		//	opti[i] = 1;
+	}
+	
+	/**
+	 * TODO
+	 * duplicate the board while hiding the other player's pieces
+	 * @param player the player we want to duplicate for
+	 * @return the duplicated board
+	 */
+	public Cell[][] duplicate(Player player)
+	{
+		return null;
 	}
 
 }

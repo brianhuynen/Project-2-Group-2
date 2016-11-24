@@ -1,4 +1,7 @@
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Random;
+
 public class Game {
 	
 Cell[][] board;
@@ -11,6 +14,9 @@ Player player_2;
 boolean battled = false;
 Pieces won;
 Pieces lost;
+boolean gameOver;
+
+public boolean gameActive = false;
 
 	public Game(){
 		Player player_1 = new Player(1, Color.BLUE);
@@ -38,7 +44,10 @@ Pieces lost;
 			}
 			else{
 				if(availableCell(y, currentPlayer)){
+					int coord [] = {x,y};
+					currentPlayer.piecesCoord.add(coord);
 					success = true;
+					piece.setPosition(x, y);
 					board[x][y].setCellState(1);
 					board[x][y].setContent(piece);
 				}
@@ -53,10 +62,18 @@ Pieces lost;
 		if(board[x][y].getCellState() != 1){
 			success = false;
 		}
-		else if(board[x][y].getContent().getPlayer_ID() == currentPlayer.getPlayer_ID()){
+		else if(board[x][y].getContent().getPlayer_ID() == currentPlayer.getPlayer_ID() ||
+				gameActive){
 		board[x][y].setCellState(0);
 		board[x][y].setContent(null);
 		success = true;
+		int [] coord = {x,y};
+		for(int i=0; i<currentPlayer.piecesCoord.size(); i++){
+			if(currentPlayer.piecesCoord.get(i) == coord){
+				currentPlayer.piecesCoord.remove(i);
+				break;
+			}
+		}
 		}
 		else{
 			success = false;
@@ -67,6 +84,7 @@ Pieces lost;
 	public void movePiece(int x1, int y1, int x2, int y2){
 		if( inBound(x2,y2) && validMove(x1,y1,x2,y2) && board[x2][y2].getCellState()==0){
 			board[x2][y2].setContent(board[x1][y1].getContent());
+			board[x1][y1].getContent().setPosition(x2, y2);
 			board[x2][y2].setCellState(1);
 			removePiece(x1,y1);
 			battled = false;
@@ -85,6 +103,78 @@ Pieces lost;
 			//return error
 		}
 		
+	}
+	public void ranMovePiece(){
+		//finds coordinates of movable pieces
+		ArrayList<int[]> movables = findMovableCoords(currentPlayer);
+
+		Random rand = new Random();
+		int i = rand.nextInt(movables.size());
+
+		int[] coord = movables.get(i);
+
+		ArrayList<Integer> directions = new ArrayList<Integer>();
+		if (board[coord[0]+1][coord[1]].getCellState() == 0 || (board[coord[0]+1][coord[1]].getCellState() == 1 && board[coord[0]+1][coord[1]].getContent().getPlayer_ID() != board[coord[0]][coord[1]].getContent().getPlayer_ID())){
+			directions.add(1);
+		}
+		if (board[coord[0]-1][coord[1]].getCellState() == 0 || (board[coord[0]-1][coord[1]].getCellState() == 1 && board[coord[0]-1][coord[1]].getContent().getPlayer_ID() != board[coord[0]][coord[1]].getContent().getPlayer_ID())){
+			directions.add(2);
+		}
+		if (board[coord[0]][coord[1]+1].getCellState() == 0 || (board[coord[0]][coord[1]+1].getCellState() == 1 && board[coord[0]][coord[1]+1].getContent().getPlayer_ID() != board[coord[0]][coord[1]].getContent().getPlayer_ID())){
+			directions.add(3);
+		}
+		if (board[coord[0]][coord[1]-1].getCellState() == 0 || (board[coord[0]][coord[1]-1].getCellState() == 1 && board[coord[0]][coord[1]-1].getContent().getPlayer_ID() != board[coord[0]][coord[1]].getContent().getPlayer_ID())){
+			directions.add(4);
+		}
+		int j;
+		if(directions.size() ==1){
+			j = 0;
+		}
+		else {
+			j = rand.nextInt(directions.size());
+		}
+		//1 = right, 2 = left, 3 = down, 4 = up
+		if (directions.get(j) == 1){
+			movePiece(coord[0], coord[1], coord[0]+1, coord[1]);
+		}
+		if (directions.get(j) == 2){
+			movePiece(coord[0], coord[1], coord[0]-1, coord[1]);
+		}
+		if (directions.get(j) == 3){
+			movePiece(coord[0], coord[1], coord[0], coord[1]+1);
+		}
+		if (directions.get(j) == 4){
+			movePiece(coord[0], coord[1], coord[0], coord[1]-1);
+		}
+	}
+	private ArrayList<int[]> findMovableCoords(Player p){
+		ArrayList<int[]> list = new ArrayList<int[]>();
+		for (int x=1; x<board.length-1; x++){
+			for (int y=1; y<board[0].length-1; y++){
+				//looks for piece
+				Cell current = board[x][y];
+				if(board[x][y].getCellState() == 1){
+					Cell right = board[x+1][y];
+					Cell left = board[x-1][y];
+					Cell up = board[x][y-1];
+					Cell down = board[x][y+1];
+					//checks adjacent cells (if chosen piece is movable)
+					//either a empty cell or opponent piece
+					if((right.getCellState() == 0 || left.getCellState() == 0 || down.getCellState() == 0 || up.getCellState() == 0) ||
+							((right.getCellState() == 1 && right.getContent().getPlayer_ID() != current.getContent().getPlayer_ID()) ||
+									(left.getCellState() == 1 && left.getContent().getPlayer_ID() != current.getContent().getPlayer_ID())||
+									(down.getCellState() == 1 && down.getContent().getPlayer_ID() != current.getContent().getPlayer_ID())||
+									(up.getCellState() == 1 && up.getContent().getPlayer_ID() != current.getContent().getPlayer_ID()))){
+						if(current.getContent().getPlayer_ID() == p.getPlayer_ID()) {
+							int[] coord = {x, y};
+							list.add(coord);
+						}
+					}
+				}
+			}
+		}
+		System.out.print(list.size() + " ");
+		return list;
 	}
 	
 	public boolean validMove(int x1, int y1, int x2, int y2){
@@ -154,8 +244,10 @@ Pieces lost;
 	public void handleBattle(int x1, int y1, int x2, int y2){
 		Pieces attack = board[x1][y1].getContent();
 		Pieces defense = board[x2][y2].getContent();
+		attack.makeKnown();
+		defense.makeKnown();
 		if(defense.getRank()==0){
-			//endgame();
+			endgame();
 		}
 		if((attack.getRank() != 1 && defense.getRank() != 10) || 
 			(attack.getRank()!=3 && defense.getRank()!= 11)){
@@ -164,13 +256,15 @@ Pieces lost;
 					won = attack;
 					lost = defense;
 					board[x2][y2].setContent(attack);
+					board[x1][y1].getContent().setPosition(x2, y2);
 					removePiece(x1,y1);
 				}
 				//draw
-				else if(attack.getRank()==defense.getRank()){
+				if(attack.getRank()==defense.getRank()){
 					won = attack = lost;
 					removePiece(x1,y1);
 					removePiece(x2,y2);
+					
 				}
 				//defense wins
 				else{
@@ -184,6 +278,7 @@ Pieces lost;
 			won = attack;
 			lost = defense;
 			board[x2][y2].setContent(attack);
+			board[x1][y1].getContent().setPosition(x2, y2);
 			removePiece(x1,y1);
 		}
 	}
@@ -224,15 +319,11 @@ Pieces lost;
 		return true;
 	}
 	
-	/**
-	 * TODO
-	 * duplicate the board while hiding the other player's pieces
-	 * @param player the player we want to duplicate for
-	 * @return the duplicated board
-	 */
-	public Cell[][] duplicate(Player player)
-	{
-		return null;
+
+	
+	
+	public void endgame(){
+		gameOver = true;
 	}
 	
 

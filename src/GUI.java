@@ -31,6 +31,7 @@ public class GUI {
 	final int BOARD_WIDTH = 500;
 	final int BOARD_HEIGHT = 500;
 	public static JFrame frame;
+
 	
 	
 	 
@@ -53,6 +54,7 @@ public class GUI {
 	//Creates frame where you play the game
 	
 	public static void createGamePanel(JFrame frame1){
+		game.gameActive = true;
 		frame1.dispose();
 		frame = new JFrame();
 		frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -221,13 +223,17 @@ public class GUI {
 
 				int x = Integer.parseInt(xControl.getText());
 				int y = Integer.parseInt(yControl.getText());
-				game.removePiece(x, y);
-				if(game.success){
-					int r = game.board[x][y].getContent().getRank();
-					game.getCurrentPlayer().pieces[r]++;
-					frame.repaint();
 				
+				if(game.board[x][y].getContent()!= null){
+				 int r = game.board[x][y].getContent().getRank();
+				 game.removePiece(x, y);
+				 if(game.success){
+					 game.getCurrentPlayer().pieces[r]++;
+						frame.repaint();
+				  }
 				}
+				
+			
 				else{
 					
 					//give error "unable to remove piece"
@@ -275,6 +281,7 @@ public class GUI {
 		JTextField x2 = new JTextField(2);
 		JLabel to_X = new JLabel("To X");
 		JButton move = new JButton("Move");
+		JButton ranMove = new JButton("Random");
 		move.addActionListener( new ActionListener(){
 		
 			public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -285,8 +292,12 @@ public class GUI {
 				int toY = Integer.parseInt(y2.getText());
 				game.movePiece(fromX,fromY,toX,toY);
 				if(game.success){
-					if(game.battled){
+					if(game.battled  && !game.gameOver){
 						JOptionPane.showMessageDialog(frame, "battled");
+					}
+					else if(game.battled && game.gameOver){
+						JOptionPane.showMessageDialog(frame, "Game Over");
+						//create new start frame and refresh
 					}
 					game.changeTurn();
 					
@@ -309,6 +320,18 @@ public class GUI {
 				y2.setText("");
 			}
 		});
+		ranMove.addActionListener( new ActionListener(){
+			public void actionPerformed(java.awt.event.ActionEvent e){
+				for(int i = 0; i<1; i++) {
+					game.ranMovePiece();
+					if(game.success) {
+						game.changeTurn();
+						frame.repaint();
+						//JOptionPane.showMessageDialog(frame, "Turn");
+					}
+				}
+			}
+		});
 		
 		inputPanel.add(from_X);
 		inputPanel.add(x1);
@@ -319,6 +342,7 @@ public class GUI {
 		inputPanel.add(to_Y);
 		inputPanel.add(y2);
 		inputPanel.add(move);
+		inputPanel.add(ranMove);
 		return inputPanel;
 	}
 
@@ -391,6 +415,15 @@ public class GUI {
 	}
 
 	}
+
+	public static void sleep(int ms){
+		try {
+			Thread.sleep(ms);
+		} catch(InterruptedException e){
+			Thread.currentThread().interrupt();
+		}
+	}
+	
 
 
 }
