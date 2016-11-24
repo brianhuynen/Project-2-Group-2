@@ -324,9 +324,10 @@ public class GUI {
 			public void actionPerformed(java.awt.event.ActionEvent e){
 				for(int i = 0; i<1; i++) {
 					game.ranMovePiece();
+
 					if(game.success) {
-						game.changeTurn();
 						frame.repaint();
+						game.changeTurn();
 						//JOptionPane.showMessageDialog(frame, "Turn");
 					}
 				}

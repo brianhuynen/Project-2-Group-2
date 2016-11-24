@@ -4,17 +4,18 @@ import java.util.Random;
 
 public class Game {
 	
-Cell[][] board;
-Field field;
-Player currentPlayer;
-boolean success = false;
-int currentPlayer_ID; 
-Player player_1;
-Player player_2;
-boolean battled = false;
-Pieces won;
-Pieces lost;
-boolean gameOver;
+	Cell[][] board;
+	Field field;
+	Player currentPlayer;
+	boolean success = false;
+	int currentPlayer_ID;
+	Player player_1;
+	Player player_2;
+	boolean battled = false;
+	Pieces won;
+	Pieces lost;
+	Player[] player = new Player[2];
+	boolean gameOver;
 
 public boolean gameActive = false;
 
@@ -30,6 +31,17 @@ public boolean gameActive = false;
 		this.field=field;
 		this.board=board;
 		this.currentPlayer_ID = player_1.getPlayer_ID();
+		player[0] = player_1;
+		player[1] = player_2;
+		indentifyPlayers(player);
+	}
+
+	public boolean[] indentifyPlayers(Player[] player){
+		boolean[] ID = new boolean[2];
+		for(int i = 0; i < player.length; i++){
+			ID[i] = (player[i] instanceof HumanPlayer);
+		}
+		return ID;
 	}
 	
 	public void addPiece(int x, int y, Pieces piece){
@@ -103,9 +115,76 @@ public boolean gameActive = false;
 		}
 		
 	}
+
+
+	public boolean validMove(int x1, int y1, int x2, int y2){
+		if(board[x1][y1].getContent().getPlayer_ID() != currentPlayer.getPlayer_ID()){
+			//return error
+			return false;
+		}
+		int spaces;
+		int a = 1;
+		Pieces piece  = board[x1][y1].getContent();
+		int rank = piece.getRank();
+		//check if cell is impassable or move is diagnoally or if piece is unmovable
+		if(!piece.isMovable()|| board[x2][y2].getCellState()==-1 || ((x1!=x2)&&(y1!=y2))){
+			return false;
+		}
+		if(x1==x2){
+			if(y1>y2){ a = -1;}
+			spaces = Math.abs(y1-y2);
+		}
+		else{
+			if(x1>x2){a = -1;}
+			spaces = Math.abs(x1-x2);
+		}
+		if(rank!=2 && spaces>1){
+			return false;
+		}
+		else{
+		//check if the piece won't jump over pieces or impassable cells
+			if(rank==2 && spaces > 1 && y1==y2){
+				if(a==1){
+					for(int i=x1+1; i<x2; i++){
+						if(board[i][y1].getCellState()!=0){
+							return false;
+						}
+					}
+				}
+				if(a==-1){
+					for(int i=x2-1; i>x1; i--){
+						if(board[i][y1].getCellState()!=0){
+							return false;
+						}
+					}
+				}
+			}
+			if(rank==2 && spaces > 1 && x1==x2){
+				if(a==1){
+					for(int i=y1+1; i<y2; i++){
+						if(board[x1][i].getCellState()!=0){
+							return false;
+						}
+					}
+				}
+				if(a==-1){
+					for(int i=y2-1; i>y1; i--){
+						if(board[x1][i].getCellState()!=0){
+							return false;
+						}
+					}
+				}
+			}
+			return true;
+
+		}
+
+	}
+
 	public void ranMovePiece(){
 		//finds coordinates of movable pieces
 		ArrayList<int[]> movables = findMovableCoords(currentPlayer);
+		int[] movementData = new int[3];
 
 		Random rand = new Random();
 		int i = rand.nextInt(movables.size());
@@ -176,71 +255,7 @@ public boolean gameActive = false;
 		System.out.print(list.size() + " ");
 		return list;
 	}
-	
-	public boolean validMove(int x1, int y1, int x2, int y2){
-		if(board[x1][y1].getContent().getPlayer_ID() != currentPlayer.getPlayer_ID()){
-			//return error
-			return false;
-		}
-		int spaces;
-		int a = 1;
-		Pieces piece  = board[x1][y1].getContent();
-		int rank = piece.getRank();
-		//check if cell is impassable or move is diagnoally or if piece is unmovable
-		if(!piece.isMovable()|| board[x2][y2].getCellState()==-1 || ((x1!=x2)&&(y1!=y2))){
-			return false;
-		}
-		if(x1==x2){
-			if(y1>y2){ a = -1;}
-			spaces = Math.abs(y1-y2);
-		}
-		else{
-			if(x1>x2){a = -1;}
-			spaces = Math.abs(x1-x2);
-		}
-		if(rank!=2 && spaces>1){
-			return false;
-		}
-		else{
-		//check if the piece won't jump over pieces or impassable cells
-			if(rank==2 && spaces > 1 && y1==y2){
-				if(a==1){
-					for(int i=x1+1; i<x2; i++){
-						if(board[i][y1].getCellState()!=0){
-							return false;
-						}
-					}
-				}
-				if(a==-1){
-					for(int i=x2-1; i>x1; i--){
-						if(board[i][y1].getCellState()!=0){
-							return false;
-						}
-					}
-				}
-			}
-			if(rank==2 && spaces > 1 && x1==x2){
-				if(a==1){
-					for(int i=y1+1; i<y2; i++){
-						if(board[x1][i].getCellState()!=0){
-							return false;
-						}
-					}
-				}
-				if(a==-1){
-					for(int i=y2-1; i>y1; i--){
-						if(board[x1][i].getCellState()!=0){
-							return false;
-						}
-					}
-				}
-			}
-			return true;
-			
-		}
-		
-	}
-	
+
 	public void handleBattle(int x1, int y1, int x2, int y2){
 		Pieces attack = board[x1][y1].getContent();
 		Pieces defense = board[x2][y2].getContent();
@@ -370,6 +385,7 @@ public boolean gameActive = false;
 		}
 		return true;
 	}
+<<<<<<< HEAD
 		
 	public void endgame(){
 		gameOver = true;
