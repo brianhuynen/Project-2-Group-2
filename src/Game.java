@@ -146,6 +146,7 @@ public boolean gameActive = false;
 			movePiece(coord[0], coord[1], coord[0], coord[1]-1);
 		}
 	}
+	
 	private ArrayList<int[]> findMovableCoords(Player p){
 		ArrayList<int[]> list = new ArrayList<int[]>();
 		for (int x=1; x<board.length-1; x++){
@@ -251,8 +252,13 @@ public boolean gameActive = false;
 			(attack.getRank()!=3 && defense.getRank()!= 11)){
 			//attack wins
 				if(attack.getRank()>defense.getRank()){
-					makeKnown(attack);
+					if(!attack.known){
+							makeKnown(attack);
+					}
 					if(currentPlayer == player_1){
+						if(defense.known){
+							unknow(defense);
+						}
 						player_1.offBoard += defense.getRank();
 					}
 					else{
@@ -278,13 +284,24 @@ public boolean gameActive = false;
 					}
 					removePiece(x1,y1);
 					removePiece(x2,y2);
+					if(attack.known){
+						unknow(attack);
+					}
+					if(defense.known){
+						unknow(defense);
+					}
 					
 				}
 				//defense wins
 				else{
 					won = defense;
 					lost = attack;
-					makeKnown(defense);
+					if(!defense.known){
+						makeKnown(defense);
+					}
+					if(attack.known){
+						unknow(attack);
+					}
 					if(currentPlayer == player_1){
 						player_2.offBoard += attack.getRank();
 					}
@@ -299,7 +316,12 @@ public boolean gameActive = false;
 		else{
 			won = attack;
 			lost = defense;
-			makeKnown(defense);
+			if(!attack.known){
+				makeKnown(attack);
+			}
+			if(defense.known){
+				unknow(defense);
+			}
 			if(currentPlayer == player_1){
 				player_1.offBoard += defense.getRank();
 			}
@@ -311,6 +333,7 @@ public boolean gameActive = false;
 			removePiece(x1,y1);
 		}
 	}
+	
 	public boolean inBound(int x, int y){
 		if(x>11 || x <1 || y >11 || y<1){
 			return false;
@@ -347,14 +370,27 @@ public boolean gameActive = false;
 		}
 		return true;
 	}
-	
-
-	
-	
+		
 	public void endgame(){
 		gameOver = true;
 	}
 	
+	public void unknow(Pieces p){
+		if(p.getPlayer_ID() == 1){
+			for(int i=0; i< player_2.knownPieces.size(); i++){
+				if(player_2.knownPieces.get(i)== p){
+					player_2.knownPieces.remove(i);
+				}
+			}
+		}
+		if(p.getPlayer_ID() == 2){
+			for(int i=0; i< player_1.knownPieces.size(); i++){
+				if(player_1.knownPieces.get(i)== p){
+					player_1.knownPieces.remove(i);
+				}
+			}
+		}
+	}
 	public void makeKnown(Pieces p){
 		p.known = true;
 		if(p.getPlayer_ID() == 1){
