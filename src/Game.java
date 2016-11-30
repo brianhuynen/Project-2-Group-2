@@ -113,7 +113,7 @@ public boolean gameActive = false;
 			success = false;
 			//return error
 		}
-		
+		System.out.println(currentPlayer.getPlayer_ID() + " moved " + x1 + "," + y1 + " to " + x2 + ","  + y2 + ", " + success);
 	}
 
 
@@ -213,16 +213,16 @@ public boolean gameActive = false;
 		}
 		//1 = right, 2 = left, 3 = down, 4 = up
 		if (directions.get(j) == 1){
-			movePiece(coord[0], coord[1], coord[0]+1, coord[1]);
+			movePiece(coord[0], coord[1], (coord[0]+1), coord[1]);
 		}
 		if (directions.get(j) == 2){
-			movePiece(coord[0], coord[1], coord[0]-1, coord[1]);
+			movePiece(coord[0], coord[1], (coord[0]-1), coord[1]);
 		}
 		if (directions.get(j) == 3){
-			movePiece(coord[0], coord[1], coord[0], coord[1]+1);
+			movePiece(coord[0], coord[1], coord[0], (coord[1]+1));
 		}
 		if (directions.get(j) == 4){
-			movePiece(coord[0], coord[1], coord[0], coord[1]-1);
+			movePiece(coord[0], coord[1], coord[0], (coord[1]-1));
 		}
 	}
 	
@@ -240,10 +240,10 @@ public boolean gameActive = false;
 					//checks adjacent cells (if chosen piece is movable)
 					//either a empty cell or opponent piece
 					if((right.getCellState() == 0 || left.getCellState() == 0 || down.getCellState() == 0 || up.getCellState() == 0) ||
-							((right.getCellState() == 1 && right.getContent().getPlayer_ID() != current.getContent().getPlayer_ID()) ||
-									(left.getCellState() == 1 && left.getContent().getPlayer_ID() != current.getContent().getPlayer_ID())||
-									(down.getCellState() == 1 && down.getContent().getPlayer_ID() != current.getContent().getPlayer_ID())||
-									(up.getCellState() == 1 && up.getContent().getPlayer_ID() != current.getContent().getPlayer_ID()))){
+							((right.getCellState() == 1 && (right.getContent().getPlayer_ID() != current.getContent().getPlayer_ID())) ||
+									(left.getCellState() == 1 && (left.getContent().getPlayer_ID() != current.getContent().getPlayer_ID()))||
+									(down.getCellState() == 1 && (down.getContent().getPlayer_ID() != current.getContent().getPlayer_ID()))||
+									(up.getCellState() == 1 && (up.getContent().getPlayer_ID() != current.getContent().getPlayer_ID())))){
 						if(current.getContent().getPlayer_ID() == p.getPlayer_ID()) {
 							int[] coord = {x, y};
 							list.add(coord);
@@ -252,7 +252,6 @@ public boolean gameActive = false;
 				}
 			}
 		}
-		System.out.print(list.size() + " ");
 		return list;
 	}
 
@@ -264,69 +263,67 @@ public boolean gameActive = false;
 			endgame();
 		}
 		if((attack.getRank() != 1 && defense.getRank() != 10) || 
-			(attack.getRank()!=3 && defense.getRank()!= 11)){
+			(attack.getRank()!=3 && defense.getRank()!= 11)) {
 			//attack wins
-				if(attack.getRank()>defense.getRank()){
-					if(!attack.known){
-							makeKnown(attack);
-					}
-					if(currentPlayer == player_1){
-						if(defense.known){
-							unknow(defense);
-						}
-						player_1.offBoard += defense.getRank();
-					}
-					else{
-						player_2.offBoard+= defense.getRank();
-					}
-					won = attack;
-					lost = defense;
-					board[x2][y2].setContent(attack);
-					board[x1][y1].getContent().setPosition(x2, y2);
-					removePiece(x1,y1);
-					
+			if (attack.getRank() > defense.getRank()) {
+				if (!attack.known) {
+					makeKnown(attack);
 				}
-				//draw
-				if(attack.getRank()==defense.getRank()){
-					won = attack = lost;
-					if(currentPlayer == player_1){
-						player_1.offBoard += defense.getRank();
-						player_2.offBoard+=attack.getRank();
-					}
-					else{
-						player_1.offBoard+= attack.getRank();
-						player_2.offBoard+= defense.getRank();
-					}
-					removePiece(x1,y1);
-					removePiece(x2,y2);
-					if(attack.known){
-						unknow(attack);
-					}
-					if(defense.known){
+				if (currentPlayer == player_1) {
+					if (defense.known) {
 						unknow(defense);
 					}
-					
+					player_1.offBoard += defense.getRank();
+				} else {
+					player_2.offBoard += defense.getRank();
 				}
-				//defense wins
-				else{
-					won = defense;
-					lost = attack;
-					if(!defense.known){
-						makeKnown(defense);
-					}
-					if(attack.known){
-						unknow(attack);
-					}
-					if(currentPlayer == player_1){
-						player_2.offBoard += attack.getRank();
-					}
-					else{
-						player_1.offBoard+= attack.getRank();
-					}
-					
-					removePiece(x1,y1);
+				won = attack;
+				lost = defense;
+				board[x2][y2].setContent(attack);
+				board[x1][y1].getContent().setPosition(x2, y2);
+				removePiece(x1, y1);
+
+			}
+
+			//draw
+			if (attack.getRank() == defense.getRank()) {
+				if (currentPlayer == player_1) {
+					player_1.offBoard += defense.getRank();
+					player_2.offBoard += attack.getRank();
+				} else {
+					player_1.offBoard += attack.getRank();
+					player_2.offBoard += defense.getRank();
 				}
+				removePiece(x1, y1);
+				removePiece(x2, y2);
+				if (attack.known) {
+					unknow(attack);
+				}
+				if (defense.known) {
+					unknow(defense);
+				}
+
+			}
+			//defense wins
+			else {
+				won = defense;
+				lost = attack;
+				if (!defense.known) {
+					makeKnown(defense);
+				}
+				if (attack.known) {
+					unknow(attack);
+				}
+				if (currentPlayer == player_1) {
+					player_2.offBoard += attack.getRank();
+				} else {
+					player_1.offBoard += attack.getRank();
+				}
+
+				removePiece(x1, y1);
+			}
 		}
+
 		//attack wins
 		else{
 			won = attack;
@@ -340,7 +337,7 @@ public boolean gameActive = false;
 			if(currentPlayer == player_1){
 				player_1.offBoard += defense.getRank();
 			}
-			else{
+			if(currentPlayer == player_2){
 				player_2.offBoard+= defense.getRank();
 			}
 			board[x2][y2].setContent(attack);
