@@ -16,6 +16,7 @@ public class Game {
 	Pieces lost;
 	Player[] player = new Player[2];
 	boolean gameOver;
+	RandomAlg rand;
 
 public boolean gameActive = false;
 
@@ -181,7 +182,8 @@ public boolean gameActive = false;
 
 	}
 
-	public void ranMovePiece(){
+	
+	/*public void ranMovePiece(){
 		//finds coordinates of movable pieces
 		ArrayList<int[]> movables = findMovableCoords(currentPlayer);
 		int[] movementData = new int[3];
@@ -257,7 +259,7 @@ public boolean gameActive = false;
 		System.out.println(list.size() + " movable pieces for player " + currentPlayer.getPlayer_ID());
 		return list;
 	}
-
+*/
 	public void handleBattle(int x1, int y1, int x2, int y2){
 		Pieces attack = board[x1][y1].getContent();
 		Pieces defense = board[x2][y2].getContent();

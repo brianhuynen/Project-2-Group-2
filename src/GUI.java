@@ -323,7 +323,9 @@ public class GUI {
 		ranMove.addActionListener( new ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent e){
 				for(int i = 0; i<1; i++) {
-					game.ranMovePiece();
+					RandomAlg rand = new RandomAlg(game, game.currentPlayer);
+					rand.randomMove();
+					//game.ranMovePiece();
 					if(game.success) {
 						frame.repaint();
 						game.changeTurn();
