@@ -67,10 +67,7 @@ public class RandomAlg {
     public ArrayList<Move> movesAvailable(Cell[][] board){
 		ArrayList<Move> moves = new ArrayList<Move>();
 		ArrayList<Pieces> movables = findMovableCoords();
-		//if(!piece.isMovable()){
-			//return null;
-		//}
-		//else{
+		
 		for (int i=0; i<movables.size(); i++){
 			Pieces piece = movables.get(i);
 			int x = piece.getPosition()[0];
@@ -141,7 +138,7 @@ public class RandomAlg {
 				}
 				for(int j = x-1;  j>0; j--){
 					if(board[j][y].getCellState() == -1){
-						j = 20;
+						j = -20;
 					}
 					else if(board[j][y].getCellState() == 0){
 						newCoords[0]=j; newCoords[1] = y;
@@ -152,7 +149,7 @@ public class RandomAlg {
 						newCoords[0]=j; newCoords[1] = y;
 						move.setNewCoords(newCoords);
 						moves.add(move);
-						j = 20;
+						j = -20;
 					}
 				}
 				
@@ -175,7 +172,7 @@ public class RandomAlg {
 				
 				for(int j = y-1;  j>0; j--){
 					if(board[x][j].getCellState() == -1){
-						j = 20;
+						j = -20;
 					}
 					else if(board[x][j].getCellState() == 0){
 						newCoords[0]=x; newCoords[1] = j;
@@ -186,7 +183,7 @@ public class RandomAlg {
 						newCoords[0]=x; newCoords[1] = j;
 						move.setNewCoords(newCoords);
 						moves.add(move);
-						j = 20;
+						j = -20;
 					}
 				}
 				
