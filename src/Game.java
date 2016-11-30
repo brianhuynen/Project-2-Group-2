@@ -16,14 +16,13 @@ public class Game {
 	Pieces lost;
 	Player[] player = new Player[2];
 	boolean gameOver;
-
-public boolean gameActive = false;
+	public boolean gameActive = false;
 
 	public Game(){
-		Player player_1 = new Player(1, Color.BLUE);
 		this.player_1 = player_1;
-		Player player_2 = new Player(2, Color.RED);
+		Player player_1 = new Player(1, Color.BLUE);
 		this.player_2 = player_2;
+		Player player_2 = new Player(2, Color.RED);
 		Player currentPlayer = player_1;
 		this.currentPlayer = currentPlayer;
 		Field field = new Field();
@@ -34,6 +33,21 @@ public boolean gameActive = false;
 		player[0] = player_1;
 		player[1] = player_2;
 		indentifyPlayers(player);
+	}
+	public void playerTypeData(String[] playerTypeData){
+		if(playerTypeData[0] == "HumanPlayer"){
+			player_1 = new HumanPlayer(1, Color.BLUE);
+		}
+		else{
+			player_1 = new AIPlayer(1, Color.BLUE, 1);
+		}
+
+		if(playerTypeData[1] == "HumanPlayer"){
+			player_2 = new HumanPlayer(2, Color.RED);
+		}
+		else{
+			player_2 = new AIPlayer(2, Color.RED, 1);
+		}
 	}
 
 	public boolean[] indentifyPlayers(Player[] player){
