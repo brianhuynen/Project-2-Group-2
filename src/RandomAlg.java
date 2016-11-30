@@ -20,6 +20,7 @@ public class RandomAlg {
         ArrayList<Move> moves = movesAvailable(board);
 
         Random rand = new Random();
+        System.out.println("moves = " + moves.size());
         int i = rand.nextInt(moves.size());
         return moves.get(i);
     }
@@ -58,7 +59,7 @@ public class RandomAlg {
                 }
             }
         }
-        System.out.print(list.size() + " ");
+        System.out.println("listsize movables = " + list.size() + " ");
         return list;
     }
     
