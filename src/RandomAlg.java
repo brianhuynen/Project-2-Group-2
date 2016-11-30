@@ -71,14 +71,12 @@ public class RandomAlg {
     public ArrayList<Move> movesAvailable(Cell[][] board){
 		ArrayList<Move> moves = new ArrayList<Move>();
 		ArrayList<Pieces> movables = findMovableCoords();
-<<<<<<< HEAD
-		
-=======
+
 		for(int i=0; i<movables.size(); i++)
 		{
 			System.out.println("movable x = " + movables.get(i).position[0] + " y = " + movables.get(i).position[1]);
 		}
->>>>>>> branch 'carolley' of https://github.com/brianhuynen/Project-2-Group-2.git
+
 		for (int i=0; i<movables.size(); i++){
 			Pieces piece = movables.get(i);
 			int x = piece.getPosition()[0];
