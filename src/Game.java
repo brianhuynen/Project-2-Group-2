@@ -420,6 +420,36 @@ public boolean gameActive = false;
 		}
 	}
 	
+	public Cell[][] duplicate(Player player){
+		Cell[][] duplicate = new Cell[12][12];
+		
+		for(int i=0; i<board[0].length; i++){
+			for(int j=0; j<board.length; j++){
+				duplicate[i][j].setCellState(board[i][j].getCellState());
+				
+				if(board[i][j].getCellState() == 1){
+					duplicate[i][j].setContent(board[i][j].getContent());
+				}
+			}
+		}
+		return duplicate;
+	}
+	
+	public Cell[][] duplicate_unknown(Player player){
+		Cell[][] duplicate = new Cell[12][12];
+		for(int i=0; i<board.length; i++){
+			for(int j =0; j<board[0].length; j++){
+				duplicate[i][j].setCellState(board[i][j].getCellState());
+				if( ( board[i][j].getCellState() == 1 ) && 
+						( board[i][j].getContent().getPlayer_ID() == player.getPlayer_ID() ||
+						board[i][j].getContent().known ) ){
+					duplicate[i][j].setContent(board[i][j].getContent());
+				}
+			}
+		}
+		return duplicate;
+	}
+	
 
 }
 
