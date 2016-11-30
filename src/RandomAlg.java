@@ -21,6 +21,10 @@ public class RandomAlg {
 
         Random rand = new Random();
         System.out.println("moves = " + moves.size());
+        for ( int i = 0; i<moves.size(); i++)
+        {
+        	moves.get(i).printMove();
+        }
         int i = rand.nextInt(moves.size());
         return moves.get(i);
     }
@@ -67,53 +71,68 @@ public class RandomAlg {
     public ArrayList<Move> movesAvailable(Cell[][] board){
 		ArrayList<Move> moves = new ArrayList<Move>();
 		ArrayList<Pieces> movables = findMovableCoords();
+<<<<<<< HEAD
 		
+=======
+		for(int i=0; i<movables.size(); i++)
+		{
+			System.out.println("movable x = " + movables.get(i).position[0] + " y = " + movables.get(i).position[1]);
+		}
+>>>>>>> branch 'carolley' of https://github.com/brianhuynen/Project-2-Group-2.git
 		for (int i=0; i<movables.size(); i++){
 			Pieces piece = movables.get(i);
 			int x = piece.getPosition()[0];
 			int y = piece.getPosition()[1];
-			Move move = new Move(piece);
-			int[] newCoords = new int[2];
+			
+			
 			if(piece.getRank()!= 2){
 				if(board[x+1][y].getCellState() == 0){
+					int[] newCoords = new int[2];
 					newCoords[0] = x+1; newCoords[1]= y;
-					move.setNewCoords(newCoords);
+					Move move = new Move(piece, newCoords);
 					moves.add(move);
 				}
 				else if(board[x+1][y].getCellState() == 1 && board[x+1][y].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+					int[] newCoords = new int[2];
 					newCoords[0] = x+1; newCoords[1]= y;
-					move.setNewCoords(newCoords);
+					Move move = new Move(piece, newCoords);
 					moves.add(move);
 				}
 				
 				if(board[x-1][y].getCellState() == 0){
+					int[] newCoords = new int[2];
 					newCoords[0] = x-1; newCoords[1]= y;
-					move.setNewCoords(newCoords);
+					Move move = new Move(piece, newCoords);
 					moves.add(move);
 				}
 				else if(board[x-1][y].getCellState() == 1 && board[x-1][y].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+					int[] newCoords = new int[2];
 					newCoords[0] = x-1; newCoords[1] = y;
-					move.setNewCoords(newCoords);
+					Move move = new Move(piece, newCoords);
 					moves.add(move);
 				}
 				if(board[x][y+1].getCellState() == 0){
+					int[] newCoords = new int[2];
 					newCoords[0] = x; newCoords[1]= y+1;
-					move.setNewCoords(newCoords);
+					Move move = new Move(piece, newCoords);
 					moves.add(move);
 				}
 				else if(board[x][y+1].getCellState() == 1 && board[x][y+1].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+					int[] newCoords = new int[2];
 					newCoords[0] = x; newCoords[1] = y+1;
-					move.setNewCoords(newCoords);
+					Move move = new Move(piece, newCoords);
 					moves.add(move);
 				}
 				if(board[x][y-1].getCellState() == 0){
+					int[] newCoords = new int[2];
 					newCoords[0] = x; newCoords[1]= y-1;
-					move.setNewCoords(newCoords);
+					Move move = new Move(piece, newCoords);
 					moves.add(move);
 				}
 				else if(board[x][y-1].getCellState() == 1 && board[x][y-1].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+					int[] newCoords = new int[2];
 					newCoords[0] = x; newCoords[1] = y-1;
-					move.setNewCoords(newCoords);
+					Move move = new Move(piece, newCoords);
 					moves.add(move);
 				}	
 			return moves;
@@ -125,13 +144,15 @@ public class RandomAlg {
 						j = 20;
 					}
 					else if(board[j][y].getCellState() == 0){
+						int[] newCoords = new int[2];
 						newCoords[0]=j; newCoords[1] = y;
-						move.setNewCoords(newCoords);
+						Move move = new Move(piece, newCoords);
 						moves.add(move);
 					}
 					else if(board[j][y].getCellState() == 1 && board[j][y].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+						int[] newCoords = new int[2];
 						newCoords[0]=j; newCoords[1] = y;
-						move.setNewCoords(newCoords);
+						Move move = new Move(piece, newCoords);
 						moves.add(move);
 						j = 20;
 					}
@@ -141,13 +162,15 @@ public class RandomAlg {
 						j = -20;
 					}
 					else if(board[j][y].getCellState() == 0){
+						int[] newCoords = new int[2];
 						newCoords[0]=j; newCoords[1] = y;
-						move.setNewCoords(newCoords);
+						Move move = new Move(piece, newCoords);
 						moves.add(move);
 					}
 					else if(board[j][y].getCellState() == 1 && board[j][y].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+						int[] newCoords = new int[2];
 						newCoords[0]=j; newCoords[1] = y;
-						move.setNewCoords(newCoords);
+						Move move = new Move(piece, newCoords);
 						moves.add(move);
 						j = -20;
 					}
@@ -158,13 +181,15 @@ public class RandomAlg {
 						j = 20;
 					}
 					else if(board[x][j].getCellState() == 0){
+						int[] newCoords = new int[2];
 						newCoords[0]=x; newCoords[1] = j;
-						move.setNewCoords(newCoords);
+						Move move = new Move(piece, newCoords);
 						moves.add(move);
 					}
 					else if(board[x][j].getCellState() == 1 && board[x][j].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+						int[] newCoords = new int[2];
 						newCoords[0]=x; newCoords[1] = j;
-						move.setNewCoords(newCoords);
+						Move move = new Move(piece, newCoords);
 						moves.add(move);
 						j = 20;
 					}
@@ -175,13 +200,15 @@ public class RandomAlg {
 						j = -20;
 					}
 					else if(board[x][j].getCellState() == 0){
+						int[] newCoords = new int[2];
 						newCoords[0]=x; newCoords[1] = j;
-						move.setNewCoords(newCoords);
+						Move move = new Move(piece, newCoords);
 						moves.add(move);
 					}
 					else if(board[x][j].getCellState() == 1 && board[x][j].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+						int[] newCoords = new int[2];
 						newCoords[0]=x; newCoords[1] = j;
-						move.setNewCoords(newCoords);
+						Move move = new Move(piece, newCoords);
 						moves.add(move);
 						j = -20;
 					}
