@@ -254,14 +254,16 @@ public boolean gameActive = false;
 				}
 			}
 		}
-		System.out.println(list.size());
+		System.out.println(list.size() + " movable pieces for player " + currentPlayer.getPlayer_ID());
 		return list;
 	}
 
 	public void handleBattle(int x1, int y1, int x2, int y2){
 		Pieces attack = board[x1][y1].getContent();
 		Pieces defense = board[x2][y2].getContent();
-		
+
+		System.out.println("Battle between rank " + attack.getRank() + "(" + attack.getPlayer_ID() + ") and rank " + defense.getRank() + "(" + defense.getPlayer_ID() + ")");
+
 		if(defense.getRank()==0){
 			endgame();
 		}
@@ -285,7 +287,7 @@ public boolean gameActive = false;
 				board[x2][y2].setContent(attack);
 				board[x1][y1].getContent().setPosition(x2, y2);
 				removePiece(x1, y1);
-
+				System.out.println("Win");
 			}
 
 			//draw
@@ -305,7 +307,7 @@ public boolean gameActive = false;
 				if (defense.known) {
 					unknow(defense);
 				}
-
+				System.out.println("Draw");
 			}
 			//defense wins
 			else {
@@ -324,6 +326,7 @@ public boolean gameActive = false;
 				}
 
 				removePiece(x1, y1);
+				System.out.println("Loss");
 			}
 		}
 
@@ -346,6 +349,7 @@ public boolean gameActive = false;
 			board[x2][y2].setContent(attack);
 			board[x1][y1].getContent().setPosition(x2, y2);
 			removePiece(x1,y1);
+			System.out.println("Dismantle/ Spy Win");
 		}
 	}
 	
