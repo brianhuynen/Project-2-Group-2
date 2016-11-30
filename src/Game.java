@@ -233,25 +233,28 @@ public boolean gameActive = false;
 				//looks for piece
 				Cell current = board[x][y];
 				if(board[x][y].getCellState() == 1){
-					Cell right = board[x+1][y];
-					Cell left = board[x-1][y];
-					Cell up = board[x][y-1];
-					Cell down = board[x][y+1];
-					//checks adjacent cells (if chosen piece is movable)
-					//either a empty cell or opponent piece
-					if((right.getCellState() == 0 || left.getCellState() == 0 || down.getCellState() == 0 || up.getCellState() == 0) ||
-							((right.getCellState() == 1 && (right.getContent().getPlayer_ID() != current.getContent().getPlayer_ID())) ||
-									(left.getCellState() == 1 && (left.getContent().getPlayer_ID() != current.getContent().getPlayer_ID()))||
-									(down.getCellState() == 1 && (down.getContent().getPlayer_ID() != current.getContent().getPlayer_ID()))||
-									(up.getCellState() == 1 && (up.getContent().getPlayer_ID() != current.getContent().getPlayer_ID())))){
-						if(current.getContent().getPlayer_ID() == p.getPlayer_ID()) {
-							int[] coord = {x, y};
-							list.add(coord);
+					if(board[x][y].getContent().getRank() != 11) {
+						Cell right = board[x + 1][y];
+						Cell left = board[x - 1][y];
+						Cell up = board[x][y - 1];
+						Cell down = board[x][y + 1];
+						//checks adjacent cells (if chosen piece is movable)
+						//either a empty cell or opponent piece
+						if ((right.getCellState() == 0 || left.getCellState() == 0 || down.getCellState() == 0 || up.getCellState() == 0) ||
+								((right.getCellState() == 1 && (right.getContent().getPlayer_ID() != current.getContent().getPlayer_ID())) ||
+										(left.getCellState() == 1 && (left.getContent().getPlayer_ID() != current.getContent().getPlayer_ID())) ||
+										(down.getCellState() == 1 && (down.getContent().getPlayer_ID() != current.getContent().getPlayer_ID())) ||
+										(up.getCellState() == 1 && (up.getContent().getPlayer_ID() != current.getContent().getPlayer_ID())))) {
+							if (current.getContent().getPlayer_ID() == p.getPlayer_ID()) {
+								int[] coord = {x, y};
+								list.add(coord);
+							}
 						}
 					}
 				}
 			}
 		}
+		System.out.println(list.size());
 		return list;
 	}
 
