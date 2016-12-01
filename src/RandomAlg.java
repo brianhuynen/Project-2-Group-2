@@ -78,7 +78,6 @@ public class RandomAlg {
 		}
 
 		for (int i=0; i<movables.size(); i++){
-			
 			Pieces piece = movables.get(i);
 			int x = piece.getPosition()[0];
 			int y = piece.getPosition()[1];
@@ -134,7 +133,7 @@ public class RandomAlg {
 					Move move = new Move(piece, newCoords);
 					moves.add(move);
 				}	
-			
+				
 			}
 			else{
 				for(int j = x+1;  j<board.length; j++){
@@ -214,6 +213,7 @@ public class RandomAlg {
 				
 				
 			}
+			
 		}
 		return moves;
     }
