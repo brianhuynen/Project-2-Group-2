@@ -17,6 +17,9 @@ public class Game {
 	Player[] player = new Player[2];
 	boolean gameOver;
 	public boolean gameActive = false;
+	RandomAlg rand;
+
+public boolean gameActive = false;
 
 	public Game(){
 		this.player_1 = player_1;

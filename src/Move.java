@@ -1,120 +1,101 @@
 import java.util.ArrayList;
 
 public class Move {
-
-	public ArrayList<int [] > movesAvailable(Pieces piece, Cell[][] board){
-		ArrayList<int [] > moves = new ArrayList<int []>();
-		if(!piece.isMovable()){
-			return null;
-		}
-		else{
-			int [] position = piece.getPosition();
-			int x = position[0];
-			int y = position[1];
-			int [] move = new int [2];
-			if(piece.getRank()!= 2){
-				if(board[x+1][y].getCellState() == 0){
-					move[0] = x+1; move[1]= y;
-					moves.add(move);
-				}
-				else if(board[x+1][y].getCellState() == 1 && board[x+1][y].getContent().getPlayer_ID() != piece.getPlayer_ID()){
-					move[0] = x+1; move[1] = y;
-					moves.add(move);
-				}
-				
-				if(board[x-1][y].getCellState() == 0){
-					move[0] = x-1; move[1]= y;
-					moves.add(move);
-				}
-				else if(board[x-1][y].getCellState() == 1 && board[x-1][y].getContent().getPlayer_ID() != piece.getPlayer_ID()){
-					move[0] = x-1; move[1] = y;
-					moves.add(move);
-				}
-				if(board[x][y+1].getCellState() == 0){
-					move[0] = x; move[1]= y+1;
-					moves.add(move);
-				}
-				else if(board[x][y+1].getCellState() == 1 && board[x][y+1].getContent().getPlayer_ID() != piece.getPlayer_ID()){
-					move[0] = x; move[1] = y+1;
-					moves.add(move);
-				}
-				if(board[x][y-1].getCellState() == 0){
-					move[0] = x; move[1]= y-1;
-					moves.add(move);
-				}
-				else if(board[x][y-1].getCellState() == 1 && board[x][y-1].getContent().getPlayer_ID() != piece.getPlayer_ID()){
-					move[0] = x; move[1] = y-1;
-					moves.add(move);
-				}	
-			return moves;
-				
-			}
-			else{
-				for(int i = x+1;  i<board.length; i++){
-					if(board[i][y].getCellState() == -1){
-						i = 20;
-					}
-					if(board[i][y].getCellState() == 0){
-						move[0]=i; move[1] = y;
-						moves.add(move);
-					}
-					if(board[i][y].getCellState() == 1 && board[i][y].getContent().getPlayer_ID() != piece.getPlayer_ID()){
-						move[0]=i; move[1] = y;
-						moves.add(move);
-						i = 20;
-					}
-				}
-				for(int i = x-1;  i>0; i--){
-					if(board[i][y].getCellState() == -1){
-						i = 20;
-					}
-					if(board[i][y].getCellState() == 0){
-						move[0]=i; move[1] = y;
-						moves.add(move);
-					}
-					if(board[i][y].getCellState() == 1 && board[i][y].getContent().getPlayer_ID() != piece.getPlayer_ID()){
-						move[0]=i; move[1] = y;
-						moves.add(move);
-						i = 20;
-					}
-				}
-				
-				for(int i = y+1;  i<board.length; i++){
-					if(board[x][i].getCellState() == -1){
-						i = 20;
-					}
-					if(board[x][i].getCellState() == 0){
-						move[0]=x; move[1] = i;
-						moves.add(move);
-					}
-					if(board[x][i].getCellState() == 1 && board[x][i].getContent().getPlayer_ID() != piece.getPlayer_ID()){
-						move[0]=x; move[1] = i;
-						moves.add(move);
-						i = 20;
-					}
-				}
-				
-				for(int i = y-1;  i>0; i--){
-					if(board[x][i].getCellState() == -1){
-						i = 20;
-					}
-					if(board[x][i].getCellState() == 0){
-						move[0]=x; move[1] = i;
-						moves.add(move);
-					}
-					if(board[x][i].getCellState() == 1 && board[x][i].getContent().getPlayer_ID() != piece.getPlayer_ID()){
-						move[0]=x; move[1] = i;
-						moves.add(move);
-						i = 20;
-					}
-				}
-				
-				return moves;
-			}
-			
-			
-			
-		}
-		
+	
+	public Pieces piece;
+	public int[] newCoords;
+	
+	public Move(Pieces piece)
+	{
+		this.piece = piece;
 	}
+	
+	public Move(Pieces piece, int[] newCoords)
+	{
+		this.piece = piece;
+		this.newCoords = newCoords;
+	}
+	
+	public void setNewCoords(int[] newCoords)
+	{
+		this.newCoords = newCoords;
+	}
+	
+	public void printMove()
+	{
+		System.out.println("origin x = " + piece.position[0] + " y = " + piece.position[1] 
+				+ "; destination x = " + newCoords[0] + " y = " + newCoords[1]); 
+	}
+	
+	public void checkBattle(Cell[][] board)
+	{
+		Pieces opponent = board[newCoords[0]][newCoords[1]].getContent();
+		
+		System.out.println("Battle between rank " + piece.getRank() + "(" + piece.getPlayer_ID() + ") and rank " + opponent.getRank() + "(" + opponent.getPlayer_ID() + ")");
+		
+		if(opponent.getRank()==0){
+			System.out.println(piece.getPlayer_ID() + "wins the game.");;
+		}
+		if((piece.getRank() != 1 && opponent.getRank() != 10) || 
+			(piece.getRank()!=3 && opponent.getRank()!= 11)) {
+			//attack wins
+			if (piece.getRank() > opponent.getRank()) {
+				/*if (!piece.known) {
+					makeKnown(attack);
+				}*/
+				/*if (currentPlayer == player_1) {
+					if (defense.known) {
+						unknow(defense);
+					}
+					player_1.offBoard += defense.getRank();
+				} else {
+					player_2.offBoard += defense.getRank();
+				}*/
+				System.out.println("Win");
+			}
+
+			//draw
+			if (piece.getRank() == opponent.getRank()) {
+				/*if (currentPlayer == player_1) {
+					player_1.offBoard += defense.getRank();
+					player_2.offBoard += attack.getRank();
+				} else {
+					player_1.offBoard += attack.getRank();
+					player_2.offBoard += defense.getRank();
+				}
+				removePiece(x1, y1);
+				removePiece(x2, y2);
+				if (attack.known) {
+					unknow(attack);
+				}
+				if (defense.known) {
+					unknow(defense);
+				}*/
+				System.out.println("Draw");
+			}
+			//defense wins
+			else {
+				/*won = defense;
+				lost = attack;
+				if (!defense.known) {
+					makeKnown(defense);
+				}
+				if (attack.known) {
+					unknow(attack);
+				}
+				if (currentPlayer == player_1) {
+					player_2.offBoard += attack.getRank();
+				} else {
+					player_1.offBoard += attack.getRank();
+				}
+
+				removePiece(x1, y1);*/
+				System.out.println("Loss");
+			}
+
+		}
+	}
+	
+		
 }
+
