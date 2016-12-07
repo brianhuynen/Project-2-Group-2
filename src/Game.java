@@ -225,17 +225,6 @@ public class Game {
 	}
 	
 	/**
-	 * Moves a random piece
-	 */
-
-	/**
-	 * Finds all the coordinates of pieces which are able to move to another cell
-	 * @param p player whose movable pieces coordinates who you want to find out
-	 * @return list of coordinates of movable pieces
-	 */
-	
-	
-	/**
 	 * Handles battle between 2 pieces
 	 * @param x1 x-coordinate of piece which is attacking
 	 * @param y1 y-coordinate of piece which is attacking
@@ -263,9 +252,9 @@ public class Game {
 					if (defense.known) {
 						unknow(defense);
 					}
-					player_1.offBoard += defense.getRank();
+					player_1.offBoard ++;
 				} else {
-					player_2.offBoard += defense.getRank();
+					player_2.offBoard ++;
 				}
 				won = attack;
 				lost = defense;
@@ -279,11 +268,11 @@ public class Game {
 			//draw
 			if (attack.getRank() == defense.getRank()) {
 				if (currentPlayer == player_1) {
-					player_1.offBoard += defense.getRank();
-					player_2.offBoard += attack.getRank();
+					player_1.offBoard ++;
+					player_2.offBoard ++;
 				} else {
-					player_1.offBoard += attack.getRank();
-					player_2.offBoard += defense.getRank();
+					player_1.offBoard ++;
+					player_2.offBoard ++;
 				}
 				removePiece(x1, y1);
 				removePiece(x2, y2);
@@ -307,9 +296,9 @@ public class Game {
 					unknow(attack);
 				}
 				if (currentPlayer == player_1) {
-					player_2.offBoard += attack.getRank();
+					player_2.offBoard ++;
 				} else {
-					player_1.offBoard += attack.getRank();
+					player_1.offBoard ++;
 				}
 
 				removePiece(x1, y1);
@@ -377,9 +366,9 @@ public class Game {
 			currentPlayer_ID = 1;
 			currentPlayer = player_1;
 		}
-		if(findMovableCoords(currentPlayer).size()==0){
+		/*if(findMovableCoords(currentPlayer).size()==0){
 			endgame();
-		}
+		}*/
 	}
 	/**
 	 * Checks if the cell is available for placement (empty & in region to place)
