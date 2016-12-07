@@ -42,6 +42,7 @@ public class RandomAlg {
             for (int y=1; y<board[0].length-1; y++){
                 //looks for piece
                 Cell current = board[x][y];
+       
                 if(board[x][y].getCellState() == 1){
                     Cell right = board[x+1][y];
                     Cell left = board[x-1][y];
@@ -57,7 +58,9 @@ public class RandomAlg {
                         if(current.getContent().getPlayer_ID() == player.getPlayer_ID()) {
                             //int[] coord = {x, y};
                             Pieces piece = board[x][y].getContent();
+                            if(piece.getRank() != 0 && piece.getRank() != 11){
                             list.add(piece);
+                            }
                         }
                     }
                 }
