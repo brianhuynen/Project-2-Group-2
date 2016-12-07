@@ -408,10 +408,10 @@ public class Game {
 		}
 	}
 	/**
-	 * 
-	 * @param x
-	 * @param y
-	 * @return
+	 * Checks if placement is inbound 
+	 * @param x x-coordinate where player wants to place piece
+	 * @param y y-coordinate where player wants to place piece
+	 * @return true if placements is inbound, false if not
 	 */
 	public boolean inBound(int x, int y){
 		if(x>11 || x <1 || y >11 || y<1){
@@ -419,7 +419,10 @@ public class Game {
 		}
 		return true;
 	}
-	
+	/**
+	 * 
+	 * @return player whos turn it is
+	 */
 	public Player getCurrentPlayer(){
 		if(currentPlayer_ID == 1){
 			return player_1;
@@ -428,7 +431,9 @@ public class Game {
 			return player_2;
 		}
 	}
-	
+	/**
+	 * changes player turn
+	 */
 	public void changeTurn(){
 		if(getCurrentPlayer() == player_1){
 			currentPlayer_ID = 2;
@@ -442,7 +447,12 @@ public class Game {
 			endgame();
 		}
 	}
-	
+	/**
+	 * Checks if the cell is available for placement (empty & in region to place)
+	 * @param y y-coordinate to place piece
+	 * @param player currentplayer
+	 * @return true, if placement is valid
+	 */
 	public boolean availableCell(int y, Player player){
 		if(player.getPlayer_ID() == 1 && y > 4){
 			return false;
@@ -452,11 +462,17 @@ public class Game {
 		}
 		return true;
 	}
-		
+	/**
+	 * Ends the game
+	 */
 	public void endgame(){
 		gameOver = true;
 	}
 	
+	/**
+	 * Removes a piece p from the list of known pieces from the opponents player
+	 * @param p piece
+	 */
 	public void unknow(Pieces p){
 		if(p.getPlayer_ID() == 1){
 			for(int i=0; i< player_2.knownPieces.size(); i++){
@@ -473,6 +489,11 @@ public class Game {
 			}
 		}
 	}
+	
+	/**
+	 * Adds piece to list of known pieces of opponents player
+	 * @param p known opponents piece
+	 */
 	public void makeKnown(Pieces p){
 		p.known = true;
 		if(p.getPlayer_ID() == 1){
@@ -482,7 +503,11 @@ public class Game {
 			player_1.knownPieces.add(p);
 		}
 	}
-	
+	/**
+	 * Duplicates the board with only own pieces and known opponent pieces
+	 * @param player
+	 * @return the duplicate board
+	 */
 	public Cell[][] duplicate(Player player){
 		Cell[][] duplicate = new Cell[12][12];
 		
@@ -497,7 +522,11 @@ public class Game {
 		}
 		return duplicate;
 	}
-	
+	/**
+	 * Duplicates board with only the pieces of player
+	 * @param player
+	 * @return duplicate board
+	 */
 	public Cell[][] duplicate_unknown(Player player){
 		Cell[][] duplicate = new Cell[12][12];
 		for(int i=0; i<board.length; i++){
@@ -512,7 +541,9 @@ public class Game {
 		}
 		return duplicate;
 	}
-
+	/**
+	 * fills the board with default placement
+	 */
 	public void autofill() {
 		final int[][] PLAYER1 = {{1, 3, 5, 11, 0, 5, 11, 9, 8, 7},
 				{3, 4, 4, 11, 11, 11, 11, 8, 7, 7},

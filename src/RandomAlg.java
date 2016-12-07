@@ -25,8 +25,15 @@ public class RandomAlg {
         {
         	moves.get(i).printMove();
         }*/
-        int i = rand.nextInt(moves.size());
-        return moves.get(i);
+        if(moves.size() != 0){
+	        int i = rand.nextInt(moves.size());
+	        return moves.get(i);
+        }
+        else{
+        	game.endgame();
+        	return null;
+        }
+        
     }
     
     public void randomMove()
