@@ -18,7 +18,11 @@ public class Player {
 		this.offBoard = 0;
 
 	}
-	
+	/**
+	 * Checks if piece is available to be placed
+	 * @param r rank of piece
+	 * @return true if piece is still available
+	 */
 	public boolean pieceIsAvailable(int r){
 		if(r<0 || r>11){
 			//give error box, rank must be between 0 and 11
@@ -35,7 +39,10 @@ public class Player {
 	public int getPlayer_ID(){
 		return player_ID;		
 	}
-	
+	/**
+	 * Checks if all pieces where placed on the board
+	 * @return true if piecesToBePlaced is empty
+	 */
 	public boolean piecesIsEmpty(){
 		for(int i=0; i<12; i++){
 			if(pieces[i]!=0){
