@@ -3,7 +3,18 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Game {
-	
+	/*	How coordinates work on the board:
+
+		x = board.length
+		y = board[0].length
+
+		0 --------------> x
+		| x x x x x x x x
+		| x x x x x x x x
+		| x x x x x x x x
+		v x x x x x x x x
+		y
+	 */
 	Cell[][] board;
 	Field field;
 	Player currentPlayer;
