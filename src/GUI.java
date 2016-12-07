@@ -45,15 +45,10 @@ public class GUI {
 			JPanel piece = piecePanel();
 			frame.add(inputPanel, BorderLayout.EAST);
 			frame.add(piece, BorderLayout.SOUTH);
-			frame.setVisible(true);
-		if(playerTypeData[0] == "AIPlayer"){
-			game.autofill();
+			frame.setVisible(true);		 
 		}
-		if(playerTypeData[1] == "AIPlayer"){
-			game.autofill();
-		}
-			 
-		}
+	
+	
 	//Creates frame where you play the game
 	
 	public static void createGamePanel(JFrame frame1){
@@ -90,10 +85,27 @@ public class GUI {
 
 				playerTypeData[0] = (String) cb1.getSelectedItem();
 				playerTypeData[1] = (String) cb2.getSelectedItem();
+				
 
 				System.out.println(playerTypeData[0] + " " + playerTypeData[1]);
+				if(playerTypeData[1] == "AIPlayer" && playerTypeData[0] == "AIPlayer"){
+					createStartFrame(frame);
+					game.autofill();
+					game.changeTurn();
+					game.autofill();
+					game.changeTurn();
+					createGamePanel(frame);
+				}
+				else if(playerTypeData[0] == "AIPlayer"){
+					createStartFrame(frame);
+					game.autofill();
+					game.changeTurn();
+				}
+				else{
+					createStartFrame(frame);
+				}
 
-				createStartFrame(frame);
+				
 		}});
 
 		//FlowLayout layout = new FlowLayout();
@@ -165,6 +177,11 @@ public class GUI {
 						game.currentPlayer_ID = 2;
 						game.currentPlayer = game.player_2;
 						frame.repaint();
+						if(playerTypeData[0] == "HumanPlayer" && playerTypeData[1] == "AIPlayer"){
+						game.autofill();
+						game.changeTurn();
+						createGamePanel(frame);
+						}
 					}
 					else{
 						game.currentPlayer_ID = 1;
