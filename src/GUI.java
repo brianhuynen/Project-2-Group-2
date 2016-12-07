@@ -326,6 +326,9 @@ public class GUI {
 					RandomAlg rand = new RandomAlg(game, game.currentPlayer);
 					rand.randomMove();
 					//game.ranMovePiece();
+					//MCTS mcts = new MCTS();
+					//Node node = new Node(game);
+					//mcts.playout(node, game, rand);
 					if(game.success) {
 						frame.repaint();
 						game.changeTurn();
