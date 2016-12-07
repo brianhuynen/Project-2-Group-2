@@ -6,7 +6,7 @@ import javax.swing.*;
 public class GUI {
 
 	public static Game game;
-	private static String[] playerTypeData = new String[2];
+	public static String[] playerTypeData = new String[2];
 	
 	public GUI(){
 		Game game = new Game(playerTypeData);
@@ -57,7 +57,9 @@ public class GUI {
 				System.out.println(cb1.getSelectedItem() + " " + cb2.getSelectedItem());
 
 				playerTypeData[0] = (String) cb1.getSelectedItem();
+				game.player_1.setType(playerTypeData[0]);
 				playerTypeData[1] = (String) cb2.getSelectedItem();
+				game.player_2.setType(playerTypeData[1]);
 				
 
 				System.out.println(playerTypeData[0] + " " + playerTypeData[1]);
@@ -69,6 +71,7 @@ public class GUI {
 					game.changeTurn();
 					createGamePanel(frame);
 				}
+				
 				else if(playerTypeData[0] == "AIPlayer"){
 					createStartFrame(frame);
 					game.autofill();
@@ -208,6 +211,7 @@ public class GUI {
 						game.currentPlayer_ID = 1;
 						game.currentPlayer = game.player_1;
 						createGamePanel(frame);
+						
 					}
 					
 				}

@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
+
 public class Game {
 	
 	Cell[][] board;
@@ -18,7 +19,8 @@ public class Game {
 	boolean gameOver;
 	public boolean gameActive = false;
 	RandomAlg rand;
-	String[] playerTypeData;
+	
+	
 
 	public Game(String[] playerTypeData){
 //		this.player_1 = player_1;
@@ -32,11 +34,11 @@ public class Game {
 		this.currentPlayer_ID = player_1.getPlayer_ID();
 		Player currentPlayer = player_1;
 		this.currentPlayer = currentPlayer;
-
 		Field field = new Field();
 		Cell [][] board = field.getBoard();
 		this.field=field;
 		this.board=board;
+		this.gameOver = false;
 	}
 	
 	/**
@@ -275,7 +277,7 @@ public class Game {
 	 * @param p player whose movable pieces coordinates who you want to find out
 	 * @return list of coordinates of movable pieces
 	 */
-	private ArrayList<int[]> findMovableCoords(Player p){
+	public ArrayList<int[]> findMovableCoords(Player p){
 		ArrayList<int[]> list = new ArrayList<int[]>();
 		for (int x=1; x<board.length-1; x++){
 			for (int y=1; y<board[0].length-1; y++){
@@ -444,9 +446,6 @@ public class Game {
 			currentPlayer_ID = 1;
 			currentPlayer = player_1;
 		}
-		if(findMovableCoords(currentPlayer).size()==0){
-			endgame();
-		}
 	}
 	/**
 	 * Checks if the cell is available for placement (empty & in region to place)
@@ -586,20 +585,7 @@ public class Game {
 		}
 	}
 	
-	public void gameLoop(){
-		if(playerTypeData[0] == "AIPlayer" && playerTypeData[1] == "AIPlayer"){
-			while(!gameOver){
-				RandomAlg rand = new RandomAlg(this, currentPlayer);
-				rand.randomMove();
-				//game.ranMovePiece();
-				if(success) {
-					GUI.frame.repaint();
-					changeTurn();
-					//JOptionPane.showMessageDialog(frame, "Turn");
-				}
-			}
-		}
-	}
+
 
 }
 

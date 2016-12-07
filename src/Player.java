@@ -8,6 +8,7 @@ public class Player {
 	public ArrayList<Pieces> piecesCoord = new ArrayList<Pieces>();
 	public ArrayList<Pieces> knownPieces = new ArrayList<Pieces>();
 	public int offBoard;
+	public String type;
 	
 	
 	public Player(int i, Color color){
@@ -51,5 +52,13 @@ public class Player {
 		}
 	
 		return true;
+	}
+	
+	public String getType(){
+		return type;
+	}
+	
+	public void setType(String a){
+		type = a;
 	}
 }
