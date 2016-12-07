@@ -67,6 +67,9 @@ public class RandomAlg {
                 }
             }
         }
+        if(list.size()==0){
+        	//endgame();
+        }
         System.out.println("listsize movables = " + list.size() + " ");
         return list;
     }
