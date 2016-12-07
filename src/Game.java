@@ -19,13 +19,11 @@ public class Game {
 	public boolean gameActive = false;
 	RandomAlg rand;
 
-public boolean gameActive = false;
-
-	public Game(){
-		this.player_1 = player_1;
-		Player player_1 = new Player(1, Color.BLUE);
-		this.player_2 = player_2;
-		Player player_2 = new Player(2, Color.RED);
+	public Game(String[] playerTypeData){
+//		this.player_1 = player_1;
+//		Player player_1 = new Player(1, Color.BLUE);
+//		this.player_2 = player_2;
+//		Player player_2 = new Player(2, Color.RED);
 		Player currentPlayer = player_1;
 		this.currentPlayer = currentPlayer;
 		Field field = new Field();
@@ -33,32 +31,31 @@ public boolean gameActive = false;
 		this.field=field;
 		this.board=board;
 		this.currentPlayer_ID = player_1.getPlayer_ID();
-		player[0] = player_1;
-		player[1] = player_2;
-		indentifyPlayers(player);
+		player = SetPlayerTypeData(playerTypeData);
+		init();
 	}
-	public void playerTypeData(String[] playerTypeData){
+
+	public void init(){ //TODO init gameloop?
+		player_1 = player[0];
+		player_2 = player[1];
+	}
+
+	public Player[] SetPlayerTypeData(String[] playerTypeData){
+		Player[] player = new Player[2];
 		if(playerTypeData[0] == "HumanPlayer"){
-			player_1 = new HumanPlayer(1, Color.BLUE);
+			player[0] = new HumanPlayer(1, Color.BLUE); //ID, Piece Colour
 		}
 		else{
-			player_1 = new AIPlayer(1, Color.BLUE, 1);
+			player[0] = new AIPlayer(1, Color.BLUE, 1); //ID, Piece Colour, Algorithm ID
 		}
 
 		if(playerTypeData[1] == "HumanPlayer"){
-			player_2 = new HumanPlayer(2, Color.RED);
+			player[1] = new HumanPlayer(2, Color.RED);
 		}
 		else{
-			player_2 = new AIPlayer(2, Color.RED, 1);
+			player[1] = new AIPlayer(2, Color.RED, 1);
 		}
-	}
-
-	public boolean[] indentifyPlayers(Player[] player){
-		boolean[] ID = new boolean[2];
-		for(int i = 0; i < player.length; i++){
-			ID[i] = (player[i] instanceof HumanPlayer);
-		}
-		return ID;
+		return player;
 	}
 	
 	public void addPiece(int x, int y, Pieces piece){

@@ -141,12 +141,12 @@ public class GUI {
 
 			public void actionPerformed(java.awt.event.ActionEvent arg0){
 				//Hardcoded piece placement of player 1
-				for(int i = 0; i<playerTypeData.length; i++) {
-					if (game.playerTypeData[i] == "AIPlayer") {
+				for(int i = 0; i<game.player.length; i++) {
+					if (game.player[i].equals("HumanPlayer")) {
 						autofill();
 					}
-					else{
-						//what to do here?
+					else if(game.player[i].equals("AIPlayer")){
+						autofill();
 					}
 				}
 			}
