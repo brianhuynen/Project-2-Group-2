@@ -29,7 +29,10 @@ public class Pieces {
 	public int getRank(){
 		return rank;
 	}
-	
+	/**
+	 * Checks if piece can walk. bombs and flag cannot move
+	 * @return if piece is bomb/ flag return false else returns true
+	 */
 	public boolean isMovable(){
 		if(getRank()==0|| getRank()==11){
 			return false;
