@@ -32,10 +32,10 @@ public class Move {
 		if (board[newCoords[0]][newCoords[1]].getContent() != null){
 		Pieces opponent = board[newCoords[0]][newCoords[1]].getContent();
 		
-		System.out.println("Battle between rank " + piece.getRank() + "(" + piece.getPlayer_ID() + ") and rank " + opponent.getRank() + "(" + opponent.getPlayer_ID() + ")");
+		//System.out.println("Battle between rank " + piece.getRank() + "(" + piece.getPlayer_ID() + ") and rank " + opponent.getRank() + "(" + opponent.getPlayer_ID() + ")");
 		
 		if(opponent.getRank()==0){
-			System.out.println(piece.getPlayer_ID() + "wins the game.");;
+			//System.out.println(piece.getPlayer_ID() + "wins the game.");;
 		}
 		if((piece.getRank() != 1 && opponent.getRank() != 10) || 
 			(piece.getRank()!=3 && opponent.getRank()!= 11)) {

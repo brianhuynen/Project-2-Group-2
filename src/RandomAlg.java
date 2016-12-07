@@ -24,7 +24,7 @@ public class RandomAlg {
         ArrayList<Move> moves = movesAvailable(board);
 
         Random rand = new Random();
-        System.out.println("moves = " + moves.size());
+        //System.out.println("moves = " + moves.size());
         /*for ( int i = 0; i<moves.size(); i++)
         {
         	moves.get(i).printMove();
@@ -86,7 +86,7 @@ public class RandomAlg {
         if(list.size()==0){
         	game.endgame();
         }
-        System.out.println("listsize movables = " + list.size() + " ");
+        //System.out.println("listsize movables = " + list.size() + " ");
         return list;
     }
     
