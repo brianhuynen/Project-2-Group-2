@@ -18,7 +18,7 @@ public class Game {
 	boolean gameOver;
 	public boolean gameActive = false;
 	RandomAlg rand;
-	//int[] score;
+
 
 	public Game(String[] playerTypeData){
 //		this.player_1 = player_1;
@@ -38,6 +38,12 @@ public class Game {
 		this.field=field;
 		this.board=board;
 	}
+	
+	/**
+	 * Sets the type of players, either human or AI
+	 * @param playerTypeData the player types, AI Or human
+	 * @return player??????
+	 */
 
 	public Player[] SetPlayers(String[] playerTypeData){
 		Player[] player = new Player[2];
@@ -57,6 +63,12 @@ public class Game {
 		return player;
 	}
 	
+	/**
+	 * Place pieces on the board
+	 * @param x x-coordinate where you want to place the piece
+	 * @param y y-coordinate where you want to place the piece
+	 * @param piece piece that you want to place
+	 */
 	public void addPiece(int x, int y, Pieces piece){
 		if(!inBound(x,y)){
 			success = false;
@@ -81,7 +93,11 @@ public class Game {
 			}
 		}
 	}
-	
+	/**
+	 * Removes piece from board
+	 * @param x x-coordinate  of the piece you want to remove
+	 * @param y y-coordinate of the piece you want to remove
+	 */
 	public void removePiece(int x, int y){
 		if(board[x][y].getCellState() != 1){
 			success = false;
@@ -104,7 +120,13 @@ public class Game {
 		}
 	}
 
-	
+	/**
+	 * Moves piece on the board
+	 * @param x1 x-coordinate of current place of the piece
+	 * @param y1 y-coordinate of the current place of the piece
+	 * @param x2 x-coordinate of where you want to move the piece to
+	 * @param y2 y-coordinate of where you want to move the piece to
+	 */
 	public void movePiece(int x1, int y1, int x2, int y2){
 		if( inBound(x2,y2) && validMove(x1,y1,x2,y2) && board[x2][y2].getCellState()==0){
 			board[x2][y2].setContent(board[x1][y1].getContent());
@@ -130,7 +152,14 @@ public class Game {
 //		System.out.println(currentPlayer.getPlayer_ID() + " moved " + x1 + "," + y1 + " to " + x2 + ","  + y2 + ", " + success);
 	}
 
-
+	/**
+	 * Checks if the move from (x1,y1) to (x2,y2) is valid.
+	 * @param x1 current x-coordinate of the piece
+	 * @param y1 current y-coordinate of the piece
+	 * @param x2 x-coordinate where you want to move the piece
+	 * @param y2 y-coordinate where you want to move the piece
+	 * @return true if the move was valid. false if move was invalid
+	 */
 	public boolean validMove(int x1, int y1, int x2, int y2){
 		if(board[x1][y1].getContent().getPlayer_ID() != currentPlayer.getPlayer_ID()){
 			//return error
@@ -194,11 +223,25 @@ public class Game {
 		}
 
 	}
+	
+	/**
+	 * Moves a random piece
+	 */
 
-
+	/**
+	 * Finds all the coordinates of pieces which are able to move to another cell
+	 * @param p player whose movable pieces coordinates who you want to find out
+	 * @return list of coordinates of movable pieces
+	 */
 	
 	
-
+	/**
+	 * Handles battle between 2 pieces
+	 * @param x1 x-coordinate of piece which is attacking
+	 * @param y1 y-coordinate of piece which is attacking
+	 * @param x2 x-coordinate of defense piece
+	 * @param y2 y-coordinate of defense piece
+	 */
 	public void handleBattle(int x1, int y1, int x2, int y2){
 		Pieces attack = board[x1][y1].getContent();
 		Pieces defense = board[x2][y2].getContent();
@@ -220,9 +263,9 @@ public class Game {
 					if (defense.known) {
 						unknow(defense);
 					}
-					player_1.offBoard ++;
+					player_1.offBoard += defense.getRank();
 				} else {
-					player_2.offBoard ++;
+					player_2.offBoard += defense.getRank();
 				}
 				won = attack;
 				lost = defense;
@@ -236,11 +279,11 @@ public class Game {
 			//draw
 			if (attack.getRank() == defense.getRank()) {
 				if (currentPlayer == player_1) {
-					player_1.offBoard ++;
-					player_2.offBoard ++;
+					player_1.offBoard += defense.getRank();
+					player_2.offBoard += attack.getRank();
 				} else {
-					player_1.offBoard ++;
-					player_2.offBoard ++;
+					player_1.offBoard += attack.getRank();
+					player_2.offBoard += defense.getRank();
 				}
 				removePiece(x1, y1);
 				removePiece(x2, y2);
@@ -264,9 +307,9 @@ public class Game {
 					unknow(attack);
 				}
 				if (currentPlayer == player_1) {
-					player_2.offBoard ++;
+					player_2.offBoard += attack.getRank();
 				} else {
-					player_1.offBoard ++;
+					player_1.offBoard += attack.getRank();
 				}
 
 				removePiece(x1, y1);
@@ -286,10 +329,10 @@ public class Game {
 				unknow(defense);
 			}
 			if(currentPlayer == player_1){
-				player_1.offBoard ++;
+				player_1.offBoard += defense.getRank();
 			}
 			if(currentPlayer == player_2){
-				player_2.offBoard++;
+				player_2.offBoard+= defense.getRank();
 			}
 			board[x2][y2].setContent(attack);
 			board[x1][y1].getContent().setPosition(x2, y2);
@@ -298,14 +341,22 @@ public class Game {
 			System.out.println("Dismantle/ Spy Win");
 		}
 	}
-	
+	/**
+	 * Checks if placement is inbound 
+	 * @param x x-coordinate where player wants to place piece
+	 * @param y y-coordinate where player wants to place piece
+	 * @return true if placements is inbound, false if not
+	 */
 	public boolean inBound(int x, int y){
 		if(x>11 || x <1 || y >11 || y<1){
 			return false;
 		}
 		return true;
 	}
-	
+	/**
+	 * 
+	 * @return player whos turn it is
+	 */
 	public Player getCurrentPlayer(){
 		if(currentPlayer_ID == 1){
 			return player_1;
@@ -314,7 +365,9 @@ public class Game {
 			return player_2;
 		}
 	}
-	
+	/**
+	 * changes player turn
+	 */
 	public void changeTurn(){
 		if(getCurrentPlayer() == player_1){
 			currentPlayer_ID = 2;
@@ -324,10 +377,16 @@ public class Game {
 			currentPlayer_ID = 1;
 			currentPlayer = player_1;
 		}
-		
-		//Needs to check for unmovable pieces to endgame
+		if(findMovableCoords(currentPlayer).size()==0){
+			endgame();
+		}
 	}
-	
+	/**
+	 * Checks if the cell is available for placement (empty & in region to place)
+	 * @param y y-coordinate to place piece
+	 * @param player currentplayer
+	 * @return true, if placement is valid
+	 */
 	public boolean availableCell(int y, Player player){
 		if(player.getPlayer_ID() == 1 && y > 4){
 			return false;
@@ -337,11 +396,17 @@ public class Game {
 		}
 		return true;
 	}
-		
+	/**
+	 * Ends the game
+	 */
 	public void endgame(){
 		gameOver = true;
 	}
 	
+	/**
+	 * Removes a piece p from the list of known pieces from the opponents player
+	 * @param p piece
+	 */
 	public void unknow(Pieces p){
 		if(p.getPlayer_ID() == 1){
 			for(int i=0; i< player_2.knownPieces.size(); i++){
@@ -358,6 +423,11 @@ public class Game {
 			}
 		}
 	}
+	
+	/**
+	 * Adds piece to list of known pieces of opponents player
+	 * @param p known opponents piece
+	 */
 	public void makeKnown(Pieces p){
 		p.known = true;
 		if(p.getPlayer_ID() == 1){
@@ -367,7 +437,11 @@ public class Game {
 			player_1.knownPieces.add(p);
 		}
 	}
-	
+	/**
+	 * Duplicates the board with only own pieces and known opponent pieces
+	 * @param player
+	 * @return the duplicate board
+	 */
 	public Cell[][] duplicate(Player player){
 		Cell[][] duplicate = new Cell[12][12];
 		
@@ -382,7 +456,11 @@ public class Game {
 		}
 		return duplicate;
 	}
-	
+	/**
+	 * Duplicates board with only the pieces of player
+	 * @param player
+	 * @return duplicate board
+	 */
 	public Cell[][] duplicate_unknown(Player player){
 		Cell[][] duplicate = new Cell[12][12];
 		for(int i=0; i<board.length; i++){
@@ -397,7 +475,9 @@ public class Game {
 		}
 		return duplicate;
 	}
-
+	/**
+	 * fills the board with default placement
+	 */
 	public void autofill() {
 		final int[][] PLAYER1 = {{1, 3, 5, 11, 0, 5, 11, 9, 8, 7},
 				{3, 4, 4, 11, 11, 11, 11, 8, 7, 7},
@@ -439,18 +519,7 @@ public class Game {
 		}
 	}
 	
-	/*public void findScore()
-	{
-		score = new int[2];
-		if(currentPlayer.getPlayer_ID() == player_1.getPlayer_ID())
-		{
-			score[0]+=currentPlayer.offBoard;
-		}
-		else if(currentPlayer.getPlayer_ID() == player_2.getPlayer_ID())
-		{
-			score[1]+=currentPlayer.offBoard;
-		}
-	}*/
+
 	
 
 }

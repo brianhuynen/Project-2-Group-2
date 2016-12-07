@@ -15,6 +15,10 @@ public class RandomAlg {
         this.player = player;
         this.game = game;
     }
+    /**
+     * Chooses a random move
+     * @return random move
+     */
     public Move generateMovement(){
         //finds coordinates of movable pieces
         ArrayList<Move> moves = movesAvailable(board);
@@ -25,10 +29,19 @@ public class RandomAlg {
         {
         	moves.get(i).printMove();
         }*/
-        int i = rand.nextInt(moves.size());
-        return moves.get(i);
+        if(moves.size() != 0){
+	        int i = rand.nextInt(moves.size());
+	        return moves.get(i);
+        }
+        else{
+        	game.endgame();
+        	return null;
+        }
+        
     }
-    
+    /**
+     * Makes a random move
+     */
     public void randomMove()
     {
     	Move move = generateMovement();
@@ -36,7 +49,10 @@ public class RandomAlg {
     	game.movePiece(move.piece.position[0], move.piece.position[1], move.newCoords[0], move.newCoords[1]);
     }
     
-    //fixed
+    /**
+     * Find coordinates of pieces who can make a move
+     * @return list of coordinates which can make a move
+     */
     public ArrayList<Pieces> findMovableCoords(){
         ArrayList<Pieces> list = new ArrayList<Pieces>();
         for (int x=1; x<board.length-1; x++){
@@ -74,7 +90,11 @@ public class RandomAlg {
         return list;
     }
     
-    //fixed
+    /**
+     * Makes a list of all available moves
+     * @param board
+     * @return list of all available moves
+     */
     public ArrayList<Move> movesAvailable(Cell[][] board){
 		ArrayList<Move> moves = new ArrayList<Move>();
 		ArrayList<Pieces> movables = findMovableCoords();
