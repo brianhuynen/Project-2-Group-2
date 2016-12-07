@@ -19,7 +19,11 @@ public class GUI {
 	final int BOARD_HEIGHT = 500;
 	public static JFrame frame;
 
-	//creates frame where you select the players
+	/**
+	 * Creates frame to select player-types
+	 * @param width the width of the frame
+	 * @param height the height of the frame
+	 */
 	public void selectPlayerFrame(int width, int height){
 		JFrame startFrame = new JFrame();
 		this.frame = startFrame;
@@ -30,42 +34,11 @@ public class GUI {
 		startFrame.add(selectPlayer, BorderLayout.CENTER);
 		startFrame.setVisible(true);
 	}
-	 
-	 //Creates the frame where the player can place its pieces
-	public static void createStartFrame (JFrame startFrame){
-			startFrame.dispose();
-			frame = new JFrame();
-			//this.frame = frame;
-			frame.setSize(800, 800);
-			frame.setTitle("Stratego");
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			JPanel inputPanel = inputPanel_1();
-			GridComponent grid = new GridComponent();
-			frame.add(grid);
-			JPanel piece = piecePanel();
-			frame.add(inputPanel, BorderLayout.EAST);
-			frame.add(piece, BorderLayout.SOUTH);
-			frame.setVisible(true);		 
-		}
 	
-	
-	//Creates frame where you play the game
-	
-	public static void createGamePanel(JFrame frame1){
-		game.gameActive = true;
-		frame1.dispose();
-		frame = new JFrame();
-		frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
-		frame.setTitle("Stratego");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		GridComponent grid = new GridComponent();
-		frame.add(grid);
-		JPanel input = inputPanel_2();
-		frame.add(input, BorderLayout.SOUTH);
-		frame.setVisible(true);
-	          
-		
-	}
+	/**
+	 * Creates panel to choose players from
+	 * @return panel with buttons etc
+	 */
 	public static JPanel selectPlayer(){
 		JPanel selectPlayer = new JPanel();
 		JLabel label = new JLabel("Select type of player:");
@@ -118,10 +91,53 @@ public class GUI {
 		selectPlayer.add(startGame);
 		return selectPlayer;
 	}
-
-	//Panel that shows the rank of pieces and how many are left to be placed
-	// Need adjustments!
+	 
+	 /**
+	  * Creates frame to place pieces
+	  * @param startFrame current frame
+	  */
+	public static void createStartFrame (JFrame startFrame){
+			startFrame.dispose();
+			frame = new JFrame();
+			//this.frame = frame;
+			frame.setSize(800, 800);
+			frame.setTitle("Stratego");
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			JPanel inputPanel = inputPanel_1();
+			GridComponent grid = new GridComponent();
+			frame.add(grid);
+			//JPanel piece = piecePanel();
+			frame.add(inputPanel, BorderLayout.EAST);
+			//frame.add(piece, BorderLayout.SOUTH);
+			frame.setVisible(true);		 
+		}
 	
+	
+	/**
+	 * Adds component and panel to the game frame
+	 * @param frame1 current frame
+	 */
+	
+	public static void createGamePanel(JFrame frame1){
+		game.gameActive = true;
+		frame1.dispose();
+		frame = new JFrame();
+		frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+		frame.setTitle("Stratego");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		GridComponent grid = new GridComponent();
+		frame.add(grid);
+		JPanel input = inputPanel_2();
+		frame.add(input, BorderLayout.SOUTH);
+		frame.setVisible(true);		
+	}
+	
+
+	/**
+	 * Creates panel that shows pieces left to place
+	 * @return panel
+	 */
+	/*
 	public static JPanel piecePanel(){
 		String rank ="";
 		JPanel piecePanel = new JPanel();
@@ -147,7 +163,12 @@ public class GUI {
 		}
 		return piecePanel;
 	}
-	//Creates inputpanel for placing pieces on board
+	*/
+	
+	/**
+	 * Creates panel with buttons for placing/removing pieces on the board
+	 * @return panel
+	 */
 	public static JPanel inputPanel_1(){
 		JPanel control = new JPanel();
 		control.setLayout(new BoxLayout(control,BoxLayout.Y_AXIS));
@@ -283,10 +304,11 @@ public class GUI {
 		control.add(done,BorderLayout.SOUTH);
 		return control;
 	}
-	//Creates input panel for the game play
 	
-
-
+	/**
+	 * Creates panel with buttons and JText to move pieces on the board 
+	 * @return panel
+	 */
 	public static JPanel inputPanel_2(){
 		JPanel inputPanel = new JPanel();
 		JTextField x1 = new JTextField(2);
@@ -365,7 +387,10 @@ public class GUI {
 		return inputPanel;
 	}
 
-
+	/**
+	 * Draw board component
+	 *
+	 */
 	//12 = board height and width
 	public static class GridComponent extends JComponent{
 
@@ -431,7 +456,10 @@ public class GUI {
 	}
 
 	}
-
+	/**
+	 * WHAT DOES THIS DOO PEOPLE
+	 * @param ms
+	 */
 	public static void sleep(int ms){
 		try {
 			Thread.sleep(ms);
