@@ -1,28 +1,15 @@
-import java.awt.BasicStroke;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import java.awt.Toolkit;
+import javax.swing.*;
+
 public class GUI {
 
 	public static Game game;
+	private static String[] playerTypeData = new String[2];
 	
 	public GUI(){
-		Game game = new Game();
+		Game game = new Game(playerTypeData);
 		this.game = game;
 	}
 	
@@ -32,14 +19,24 @@ public class GUI {
 	final int BOARD_HEIGHT = 500;
 	public static JFrame frame;
 
-	
-	
+	//creates frame where you select the players
+	public void selectPlayerFrame(int width, int height){
+		JFrame startFrame = new JFrame();
+		this.frame = startFrame;
+		startFrame.setSize(width, height);
+		startFrame.setTitle("Stratego");
+		startFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JPanel selectPlayer = selectPlayer();
+		startFrame.add(selectPlayer, BorderLayout.CENTER);
+		startFrame.setVisible(true);
+	}
 	 
 	 //Creates the frame where the player can place its pieces
-	public void createStartFrame (int width, int height){
-			JFrame frame = new JFrame();
-			this.frame = frame;
-			frame.setSize(width, height);
+	public static void createStartFrame (JFrame startFrame){
+			startFrame.dispose();
+			frame = new JFrame();
+			//this.frame = frame;
+			frame.setSize(800, 800);
 			frame.setTitle("Stratego");
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			JPanel inputPanel = inputPanel_1();
@@ -68,6 +65,37 @@ public class GUI {
 	          
 		
 	}
+	public static JPanel selectPlayer(){
+		JPanel selectPlayer = new JPanel();
+		JLabel label = new JLabel("Select type of player:");
+		JButton startGame = new JButton("Start Game");
+		JLabel player1 = new JLabel("player 1");
+		JLabel player2 = new JLabel("player 2");
+		String[] players1 = {"HumanPlayer", "AIPlayer"};
+		final JComboBox<String> cb1 = new JComboBox<String>(players1);
+		String[] players2 = {"HumanPlayer", "AIPlayer"};
+		final JComboBox<String> cb2 = new JComboBox<String>(players2);
+		playerTypeData[0] = (String) cb1.getSelectedItem();
+		playerTypeData[1] = (String) cb2.getSelectedItem();
+		startGame.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				createStartFrame(frame);
+				}
+		});{
+
+		}
+		//FlowLayout layout = new FlowLayout();
+		//selectPlayer.setLayout(layout);
+		selectPlayer.add(label);
+		selectPlayer.add(player1);
+		selectPlayer.add(cb1);
+		selectPlayer.add(player2);
+		selectPlayer.add(cb2);
+		selectPlayer.add(startGame);
+		return selectPlayer;
+	}
+
 	//Panel that shows the rank of pieces and how many are left to be placed
 	// Need adjustments!
 	
@@ -97,8 +125,6 @@ public class GUI {
 		return piecePanel;
 	}
 	//Creates inputpanel for placing pieces on board
-	
-	
 	public static JPanel inputPanel_1(){
 		JPanel control = new JPanel();
 		control.setLayout(new BoxLayout(control,BoxLayout.Y_AXIS));
@@ -112,47 +138,17 @@ public class GUI {
 		 JTextField yControl = new JTextField();
 		JButton done = new JButton("Done");
 		autofill.addActionListener(new ActionListener(){
+
 			public void actionPerformed(java.awt.event.ActionEvent arg0){
 				//Hardcoded piece placement of player 1
-				final int[][] PLAYER1 = {{ 1, 3, 5,11, 0, 5,11, 9, 8, 7},
-						 				 { 3, 4, 4,11,11,11,11, 8, 7, 7},
-						 				 { 3, 4, 4, 5, 5, 2, 6, 6, 6, 6},
-						 				 { 2, 2, 2, 2, 3,10, 2, 2, 2, 3}};
-				//Hardcoded piece placement of player 2
-				final int[][] PLAYER2 = {{ 3, 2, 2, 2,11, 1, 2, 2, 2, 3},
-							 			 { 5, 5, 4, 4, 4, 4, 3, 3, 3, 2},
-							 			 { 5, 5, 6,11,11, 2,11, 7, 8,10},
-							 			 { 6, 6, 6,11, 0, 7,11, 7, 8, 9}};
-				if(game.currentPlayer_ID == 1){
-					for (int y=0; y<PLAYER1[0].length; y++){
-						for(int x=0; x<PLAYER1.length; x++){
-							int r = PLAYER1[x][y];
-							if(game.getCurrentPlayer().pieceIsAvailable(r)){
-								Pieces piece = new Pieces(r," ",game.currentPlayer_ID);
-								game.addPiece(y+1, x+1, piece);
-								if(game.success){
-									game.getCurrentPlayer().pieces[r]--;
-									frame.repaint();
-								}
-							}
-						}
+				for(int i = 0; i<game.player.length; i++) {
+					if (game.player[i].equals("HumanPlayer")) {
+						autofill();
 					}
-				} else {
-					for (int x=0; x<PLAYER2.length; x++){
-						for(int y=0; y<PLAYER2[0].length; y++){
-							int r = PLAYER2[x][y];
-							if(game.getCurrentPlayer().pieceIsAvailable(r)){
-								Pieces piece = new Pieces(r," ",game.currentPlayer_ID);
-								game.addPiece(y+1, x+7, piece);
-								if(game.success){
-									game.getCurrentPlayer().pieces[r]--;
-									frame.repaint();
-								}
-							}
-						}
+					else if(game.player[i].equals("AIPlayer")){
+						autofill();
 					}
 				}
-				
 			}
 		});
 		done.addActionListener(new ActionListener(){
@@ -268,15 +264,54 @@ public class GUI {
 	}
 	//Creates input panel for the game play
 	
-		
-	
+	public static void autofill() {
+		final int[][] PLAYER1 = {{1, 3, 5, 11, 0, 5, 11, 9, 8, 7},
+				{3, 4, 4, 11, 11, 11, 11, 8, 7, 7},
+				{3, 4, 4, 5, 5, 2, 6, 6, 6, 6},
+				{2, 2, 2, 2, 3, 10, 2, 2, 2, 3}};
+		//Hardcoded piece placement of player 2
+		final int[][] PLAYER2 = {{3, 2, 2, 2, 11, 1, 2, 2, 2, 3},
+				{5, 5, 4, 4, 4, 4, 3, 3, 3, 2},
+				{5, 5, 6, 11, 11, 2, 11, 7, 8, 10},
+				{6, 6, 6, 11, 0, 7, 11, 7, 8, 9}};
+		if (game.currentPlayer_ID == 1) {
+			for (int y = 0; y < PLAYER1[0].length; y++) {
+				for (int x = 0; x < PLAYER1.length; x++) {
+					int r = PLAYER1[x][y];
+					if (game.getCurrentPlayer().pieceIsAvailable(r)) {
+						Pieces piece = new Pieces(r, " ", game.currentPlayer_ID);
+						game.addPiece(y + 1, x + 1, piece);
+						if (game.success) {
+							game.getCurrentPlayer().pieces[r]--;
+							frame.repaint();
+						}
+					}
+				}
+			}
+		} else {
+			for (int x = 0; x < PLAYER2.length; x++) {
+				for (int y = 0; y < PLAYER2[0].length; y++) {
+					int r = PLAYER2[x][y];
+					if (game.getCurrentPlayer().pieceIsAvailable(r)) {
+						Pieces piece = new Pieces(r, " ", game.currentPlayer_ID);
+						game.addPiece(y + 1, x + 7, piece);
+						if (game.success) {
+							game.getCurrentPlayer().pieces[r]--;
+							frame.repaint();
+						}
+					}
+				}
+			}
+		}
+	}
+
 	public static JPanel inputPanel_2(){
 		JPanel inputPanel = new JPanel();
-		 JTextField x1 = new JTextField(2);
+		JTextField x1 = new JTextField(2);
 		JLabel from_X = new JLabel("From X");
-		 JTextField y1 = new JTextField(2);
+		JTextField y1 = new JTextField(2);
 		JLabel from_Y = new JLabel("From Y");
-		 JTextField y2 = new JTextField(2);
+		JTextField y2 = new JTextField(2);
 		JLabel to_Y = new JLabel("To Y");
 		JTextField x2 = new JTextField(2);
 		JLabel to_X = new JLabel("To X");
@@ -349,12 +384,9 @@ public class GUI {
 	}
 
 
-
-	
 	//12 = board height and width
 	public static class GridComponent extends JComponent{
 
-		
 
 	//should go through the board and draw the numbers corresponding to the rank
 	// pieces should be color coded to player.
@@ -425,9 +457,7 @@ public class GUI {
 			Thread.currentThread().interrupt();
 		}
 	}
-	
+
 
 
 }
-
-	
