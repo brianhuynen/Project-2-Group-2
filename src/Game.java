@@ -438,8 +438,9 @@ public class Game {
 			currentPlayer_ID = 1;
 			currentPlayer = player_1;
 		}
-		
-		//Needs to check for unmovable pieces to endgame
+		if(findMovableCoords(currentPlayer).size()==0){
+			endgame();
+		}
 	}
 	
 	public boolean availableCell(int y, Player player){
