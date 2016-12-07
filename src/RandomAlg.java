@@ -21,10 +21,10 @@ public class RandomAlg {
 
         Random rand = new Random();
         System.out.println("moves = " + moves.size());
-        for ( int i = 0; i<moves.size(); i++)
+        /*for ( int i = 0; i<moves.size(); i++)
         {
         	moves.get(i).printMove();
-        }
+        }*/
         int i = rand.nextInt(moves.size());
         return moves.get(i);
     }
@@ -32,6 +32,7 @@ public class RandomAlg {
     public void randomMove()
     {
     	Move move = generateMovement();
+    	move.checkBattle(board);
     	game.movePiece(move.piece.position[0], move.piece.position[1], move.newCoords[0], move.newCoords[1]);
     }
     
@@ -75,13 +76,12 @@ public class RandomAlg {
 		ArrayList<Move> moves = new ArrayList<Move>();
 		ArrayList<Pieces> movables = findMovableCoords();
 
-		for(int i=0; i<movables.size(); i++)
+		/*for(int i=0; i<movables.size(); i++)
 		{
 			System.out.println("movable x = " + movables.get(i).position[0] + " y = " + movables.get(i).position[1]);
-		}
+		}*/
 
 		for (int i=0; i<movables.size(); i++){
-			
 			Pieces piece = movables.get(i);
 			int x = piece.getPosition()[0];
 			int y = piece.getPosition()[1];
@@ -137,7 +137,7 @@ public class RandomAlg {
 					Move move = new Move(piece, newCoords);
 					moves.add(move);
 				}	
-			
+				
 			}
 			else{
 				for(int j = x+1;  j<board.length; j++){
@@ -217,6 +217,7 @@ public class RandomAlg {
 				
 				
 			}
+			
 		}
 		return moves;
     }
