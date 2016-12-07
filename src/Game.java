@@ -305,6 +305,8 @@ public boolean gameActive = false;
 			currentPlayer_ID = 1;
 			currentPlayer = player_1;
 		}
+		
+		//Needs to check for unmovable pieces to endgame
 	}
 	
 	public boolean availableCell(int y, Player player){
