@@ -21,10 +21,10 @@ public class RandomAlg {
 
         Random rand = new Random();
         System.out.println("moves = " + moves.size());
-        for ( int i = 0; i<moves.size(); i++)
+        /*for ( int i = 0; i<moves.size(); i++)
         {
         	moves.get(i).printMove();
-        }
+        }*/
         int i = rand.nextInt(moves.size());
         return moves.get(i);
     }
@@ -32,6 +32,7 @@ public class RandomAlg {
     public void randomMove()
     {
     	Move move = generateMovement();
+    	move.checkBattle(board);
     	game.movePiece(move.piece.position[0], move.piece.position[1], move.newCoords[0], move.newCoords[1]);
     }
     
@@ -42,6 +43,7 @@ public class RandomAlg {
             for (int y=1; y<board[0].length-1; y++){
                 //looks for piece
                 Cell current = board[x][y];
+       
                 if(board[x][y].getCellState() == 1){
                     Cell right = board[x+1][y];
                     Cell left = board[x-1][y];
@@ -57,11 +59,16 @@ public class RandomAlg {
                         if(current.getContent().getPlayer_ID() == player.getPlayer_ID()) {
                             //int[] coord = {x, y};
                             Pieces piece = board[x][y].getContent();
+                            if(piece.getRank() != 0 && piece.getRank() != 11){
                             list.add(piece);
+                            }
                         }
                     }
                 }
             }
+        }
+        if(list.size()==0){
+        	//endgame();
         }
         System.out.println("listsize movables = " + list.size() + " ");
         return list;
@@ -72,10 +79,10 @@ public class RandomAlg {
 		ArrayList<Move> moves = new ArrayList<Move>();
 		ArrayList<Pieces> movables = findMovableCoords();
 
-		for(int i=0; i<movables.size(); i++)
+		/*for(int i=0; i<movables.size(); i++)
 		{
 			System.out.println("movable x = " + movables.get(i).position[0] + " y = " + movables.get(i).position[1]);
-		}
+		}*/
 
 		for (int i=0; i<movables.size(); i++){
 			Pieces piece = movables.get(i);
