@@ -18,6 +18,7 @@ public class Game {
 	boolean gameOver;
 	public boolean gameActive = false;
 	RandomAlg rand;
+	int[] score;
 
 	public Game(String[] playerTypeData){
 //		this.player_1 = player_1;
@@ -117,6 +118,7 @@ public class Game {
 		else if(inBound(x2,y2) && board[x2][y2].getCellState()==1 && currentPlayer.getPlayer_ID() != board[x2][y2].getContent().getPlayer_ID()
 			&& validMove(x1,y1,x2,y2)){
 			handleBattle(x1,y1,x2,y2);
+			System.out.println("Score player 1 = " + player_1.offBoard + "; Score player 2 = " + player_2.offBoard);
 			battled = true;
 			success = true;
 		}
@@ -125,7 +127,7 @@ public class Game {
 			success = false;
 			//return error
 		}
-		System.out.println(currentPlayer.getPlayer_ID() + " moved " + x1 + "," + y1 + " to " + x2 + ","  + y2 + ", " + success);
+//		System.out.println(currentPlayer.getPlayer_ID() + " moved " + x1 + "," + y1 + " to " + x2 + ","  + y2 + ", " + success);
 	}
 
 
@@ -138,7 +140,7 @@ public class Game {
 		int a = 1;
 		Pieces piece  = board[x1][y1].getContent();
 		int rank = piece.getRank();
-		//check if cell is impassable or move is diagnoally or if piece is unmovable
+		//check if cell is impassable or move is diagonally or if piece is unmovable
 		if(!piece.isMovable()|| board[x2][y2].getCellState()==-1 || ((x1!=x2)&&(y1!=y2))){
 			return false;
 		}
@@ -278,6 +280,7 @@ public class Game {
 
 		if(defense.getRank()==0){
 			endgame();
+			//findScore();
 		}
 		if((attack.getRank() != 1 && defense.getRank() != 10) || 
 			(attack.getRank()!=3 && defense.getRank()!= 11)) {
@@ -290,26 +293,27 @@ public class Game {
 					if (defense.known) {
 						unknow(defense);
 					}
-					player_1.offBoard += defense.getRank();
+					player_1.offBoard ++;
 				} else {
-					player_2.offBoard += defense.getRank();
+					player_2.offBoard ++;
 				}
 				won = attack;
 				lost = defense;
 				board[x2][y2].setContent(attack);
 				board[x1][y1].getContent().setPosition(x2, y2);
 				removePiece(x1, y1);
-				System.out.println("Win");
+				//findScore();
+//				System.out.println("Win");
 			}
 
 			//draw
 			if (attack.getRank() == defense.getRank()) {
 				if (currentPlayer == player_1) {
-					player_1.offBoard += defense.getRank();
-					player_2.offBoard += attack.getRank();
+					player_1.offBoard ++;
+					player_2.offBoard ++;
 				} else {
-					player_1.offBoard += attack.getRank();
-					player_2.offBoard += defense.getRank();
+					player_1.offBoard ++;
+					player_2.offBoard ++;
 				}
 				removePiece(x1, y1);
 				removePiece(x2, y2);
@@ -319,7 +323,8 @@ public class Game {
 				if (defense.known) {
 					unknow(defense);
 				}
-				System.out.println("Draw");
+				//findScore();
+//				System.out.println("Draw");
 			}
 			//defense wins
 			else {
@@ -332,13 +337,14 @@ public class Game {
 					unknow(attack);
 				}
 				if (currentPlayer == player_1) {
-					player_2.offBoard += attack.getRank();
+					player_2.offBoard ++;
 				} else {
-					player_1.offBoard += attack.getRank();
+					player_1.offBoard ++;
 				}
 
 				removePiece(x1, y1);
-				System.out.println("Loss");
+				//findScore();
+//				System.out.println("Loss");
 			}
 		}
 
@@ -353,14 +359,15 @@ public class Game {
 				unknow(defense);
 			}
 			if(currentPlayer == player_1){
-				player_1.offBoard += defense.getRank();
+				player_1.offBoard ++;
 			}
 			if(currentPlayer == player_2){
-				player_2.offBoard+= defense.getRank();
+				player_2.offBoard++;
 			}
 			board[x2][y2].setContent(attack);
 			board[x1][y1].getContent().setPosition(x2, y2);
 			removePiece(x1,y1);
+			//findScore();
 			System.out.println("Dismantle/ Spy Win");
 		}
 	}
@@ -505,6 +512,18 @@ public class Game {
 		}
 	}
 	
+	/*public void findScore()
+	{
+		score = new int[2];
+		if(currentPlayer.getPlayer_ID() == player_1.getPlayer_ID())
+		{
+			score[0]+=currentPlayer.offBoard;
+		}
+		else if(currentPlayer.getPlayer_ID() == player_2.getPlayer_ID())
+		{
+			score[1]+=currentPlayer.offBoard;
+		}
+	}*/
 	
 
 }
