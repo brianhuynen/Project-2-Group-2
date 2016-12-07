@@ -24,23 +24,21 @@ public class Game {
 //		Player player_1 = new Player(1, Color.BLUE);
 //		this.player_2 = player_2;
 //		Player player_2 = new Player(2, Color.RED);
+
+		player = SetPlayers(playerTypeData);
+		player_1 = player[0];
+		player_2 = player[1];
+		this.currentPlayer_ID = player_1.getPlayer_ID();
 		Player currentPlayer = player_1;
 		this.currentPlayer = currentPlayer;
+
 		Field field = new Field();
 		Cell [][] board = field.getBoard();
 		this.field=field;
 		this.board=board;
-		this.currentPlayer_ID = player_1.getPlayer_ID();
-		player = SetPlayerTypeData(playerTypeData);
-		init();
 	}
 
-	public void init(){ //TODO init gameloop?
-		player_1 = player[0];
-		player_2 = player[1];
-	}
-
-	public Player[] SetPlayerTypeData(String[] playerTypeData){
+	public Player[] SetPlayers(String[] playerTypeData){
 		Player[] player = new Player[2];
 		if(playerTypeData[0] == "HumanPlayer"){
 			player[0] = new HumanPlayer(1, Color.BLUE); //ID, Piece Colour
@@ -464,6 +462,47 @@ public class Game {
 			}
 		}
 		return duplicate;
+	}
+
+	public void autofill() {
+		final int[][] PLAYER1 = {{1, 3, 5, 11, 0, 5, 11, 9, 8, 7},
+				{3, 4, 4, 11, 11, 11, 11, 8, 7, 7},
+				{3, 4, 4, 5, 5, 2, 6, 6, 6, 6},
+				{2, 2, 2, 2, 3, 10, 2, 2, 2, 3}};
+		//Hardcoded piece placement of player 2
+		final int[][] PLAYER2 = {{3, 2, 2, 2, 11, 1, 2, 2, 2, 3},
+				{5, 5, 4, 4, 4, 4, 3, 3, 3, 2},
+				{5, 5, 6, 11, 11, 2, 11, 7, 8, 10},
+				{6, 6, 6, 11, 0, 7, 11, 7, 8, 9}};
+		if (currentPlayer_ID == 1) {
+			for (int y = 0; y < PLAYER1[0].length; y++) {
+				for (int x = 0; x < PLAYER1.length; x++) {
+					int r = PLAYER1[x][y];
+					if (getCurrentPlayer().pieceIsAvailable(r)) {
+						Pieces piece = new Pieces(r, " ", currentPlayer_ID);
+						addPiece(y + 1, x + 1, piece);
+						if (success) {
+							getCurrentPlayer().pieces[r]--;
+							GUI.frame.repaint();
+						}
+					}
+				}
+			}
+		} else {
+			for (int x = 0; x < PLAYER2.length; x++) {
+				for (int y = 0; y < PLAYER2[0].length; y++) {
+					int r = PLAYER2[x][y];
+					if (getCurrentPlayer().pieceIsAvailable(r)) {
+						Pieces piece = new Pieces(r, " ", currentPlayer_ID);
+						addPiece(y + 1, x + 7, piece);
+						if (success) {
+							getCurrentPlayer().pieces[r]--;
+							GUI.frame.repaint();
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	

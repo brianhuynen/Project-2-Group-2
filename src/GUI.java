@@ -46,6 +46,12 @@ public class GUI {
 			frame.add(inputPanel, BorderLayout.EAST);
 			frame.add(piece, BorderLayout.SOUTH);
 			frame.setVisible(true);
+		if(playerTypeData[0] == "AIPlayer"){
+			game.autofill();
+		}
+		if(playerTypeData[1] == "AIPlayer"){
+			game.autofill();
+		}
 			 
 		}
 	//Creates frame where you play the game
@@ -75,16 +81,21 @@ public class GUI {
 		final JComboBox<String> cb1 = new JComboBox<String>(players1);
 		String[] players2 = {"HumanPlayer", "AIPlayer"};
 		final JComboBox<String> cb2 = new JComboBox<String>(players2);
-		playerTypeData[0] = (String) cb1.getSelectedItem();
-		playerTypeData[1] = (String) cb2.getSelectedItem();
+
 		startGame.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				createStartFrame(frame);
-				}
-		});{
 
-		}
+				System.out.println(cb1.getSelectedItem() + " " + cb2.getSelectedItem());
+
+				playerTypeData[0] = (String) cb1.getSelectedItem();
+				playerTypeData[1] = (String) cb2.getSelectedItem();
+
+				System.out.println(playerTypeData[0] + " " + playerTypeData[1]);
+
+				createStartFrame(frame);
+		}});
+
 		//FlowLayout layout = new FlowLayout();
 		//selectPlayer.setLayout(layout);
 		selectPlayer.add(label);
@@ -141,14 +152,7 @@ public class GUI {
 
 			public void actionPerformed(java.awt.event.ActionEvent arg0){
 				//Hardcoded piece placement of player 1
-				for(int i = 0; i<game.player.length; i++) {
-					if (game.player[i].equals("HumanPlayer")) {
-						autofill();
-					}
-					else if(game.player[i].equals("AIPlayer")){
-						autofill();
-					}
-				}
+						game.autofill();
 			}
 		});
 		done.addActionListener(new ActionListener(){
@@ -264,46 +268,7 @@ public class GUI {
 	}
 	//Creates input panel for the game play
 	
-	public static void autofill() {
-		final int[][] PLAYER1 = {{1, 3, 5, 11, 0, 5, 11, 9, 8, 7},
-				{3, 4, 4, 11, 11, 11, 11, 8, 7, 7},
-				{3, 4, 4, 5, 5, 2, 6, 6, 6, 6},
-				{2, 2, 2, 2, 3, 10, 2, 2, 2, 3}};
-		//Hardcoded piece placement of player 2
-		final int[][] PLAYER2 = {{3, 2, 2, 2, 11, 1, 2, 2, 2, 3},
-				{5, 5, 4, 4, 4, 4, 3, 3, 3, 2},
-				{5, 5, 6, 11, 11, 2, 11, 7, 8, 10},
-				{6, 6, 6, 11, 0, 7, 11, 7, 8, 9}};
-		if (game.currentPlayer_ID == 1) {
-			for (int y = 0; y < PLAYER1[0].length; y++) {
-				for (int x = 0; x < PLAYER1.length; x++) {
-					int r = PLAYER1[x][y];
-					if (game.getCurrentPlayer().pieceIsAvailable(r)) {
-						Pieces piece = new Pieces(r, " ", game.currentPlayer_ID);
-						game.addPiece(y + 1, x + 1, piece);
-						if (game.success) {
-							game.getCurrentPlayer().pieces[r]--;
-							frame.repaint();
-						}
-					}
-				}
-			}
-		} else {
-			for (int x = 0; x < PLAYER2.length; x++) {
-				for (int y = 0; y < PLAYER2[0].length; y++) {
-					int r = PLAYER2[x][y];
-					if (game.getCurrentPlayer().pieceIsAvailable(r)) {
-						Pieces piece = new Pieces(r, " ", game.currentPlayer_ID);
-						game.addPiece(y + 1, x + 7, piece);
-						if (game.success) {
-							game.getCurrentPlayer().pieces[r]--;
-							frame.repaint();
-						}
-					}
-				}
-			}
-		}
-	}
+
 
 	public static JPanel inputPanel_2(){
 		JPanel inputPanel = new JPanel();
