@@ -18,6 +18,7 @@ public class Game {
 	boolean gameOver;
 	public boolean gameActive = false;
 	RandomAlg rand;
+	String[] playerTypeData;
 
 	public Game(String[] playerTypeData){
 //		this.player_1 = player_1;
@@ -585,7 +586,20 @@ public class Game {
 		}
 	}
 	
-	
+	public void gameLoop(){
+		if(playerTypeData[0] == "AIPlayer" && playerTypeData[1] == "AIPlayer"){
+			while(!gameOver){
+				RandomAlg rand = new RandomAlg(this, currentPlayer);
+				rand.randomMove();
+				//game.ranMovePiece();
+				if(success) {
+					GUI.frame.repaint();
+					changeTurn();
+					//JOptionPane.showMessageDialog(frame, "Turn");
+				}
+			}
+		}
+	}
 
 }
 
