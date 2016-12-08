@@ -485,7 +485,6 @@ public class GUI {
 				rand.randomMove();
 
 				frame.paint(frame.getGraphics());
-				//frame.repaint();
 				sleep(1000);
 				game.changeTurn();
 			}
