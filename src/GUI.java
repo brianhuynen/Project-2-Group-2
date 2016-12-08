@@ -348,6 +348,7 @@ public class GUI {
 					game.changeTurn();
 					
 					frame.repaint();
+					gameLoop();
 				}
 				
 				else{
@@ -378,6 +379,7 @@ public class GUI {
 					if(game.success) {
 						frame.repaint();
 						game.changeTurn();
+						gameLoop();
 						//JOptionPane.showMessageDialog(frame, "Turn");
 					}
 				}
@@ -480,25 +482,27 @@ public class GUI {
 	
 	public static void gameLoop(){
 		if( (playerTypeData[0] == playerTypeData[1]) && (playerTypeData[0] == "AIPlayer") ){
-			while(!game.gameOver && game.findMovableCoords(game.currentPlayer).size() != 0){
+			while(!game.gameOver && game.findMovableCoords(game.currentPlayer).size() != 0 && game.gameActive){
 				RandomAlg rand = new RandomAlg(game, game.currentPlayer);
 				rand.randomMove();
 				
-				if(game.success) {
 					frame.repaint();
 					game.changeTurn();
-				}
 			}
 			JOptionPane.showMessageDialog(frame, "END");
 		}
 		
 		
 		else if(playerTypeData[0] != playerTypeData[1]){
-			if(playerTypeData[0] == "AIPlayer"){
-				RandomAlg rand = new RandomAlg(game, game.currentPlayer);
-				rand.randomMove();
-				game.changeTurn();
-			}
+			
+				if(!game.gameOver && game.findMovableCoords(game.currentPlayer).size()!= 0 && game.currentPlayer.getType() == "AIPlayer"){
+					System.out.println("AAAAAAAAAAAAAAAAAA");
+					RandomAlg rand = new RandomAlg(game, game.currentPlayer);
+					rand.randomMove();
+					game.changeTurn();
+					frame.repaint();
+			
+				}
 		}
 	}
 
