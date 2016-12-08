@@ -458,6 +458,15 @@ public class Game {
 	 * changes player turn
 	 */
 	public void changeTurn(){
+		if(currentPlayer.getType() == "AIPlayer"){
+			while(!success){
+				RandomAlg rand = new RandomAlg(this, currentPlayer);
+				rand.randomMove();
+			}
+			if(success){
+				GUI.frame.repaint();
+			}
+		}
 		if(getCurrentPlayer() == player_1){
 			currentPlayer_ID = 2;
 			currentPlayer = player_2;
