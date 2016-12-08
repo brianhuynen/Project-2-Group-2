@@ -79,16 +79,19 @@ public class Setups {
         Random rand = new Random();
         if(playerID == 1){
             int i = rand.nextInt(setups1.size());
+            printSetup(setups1.get(i));
             return setups1.get(i);
         }
         else if(playerID == 2){
             int i = rand.nextInt(setups1.size());
+            printSetup(setups2.get(i));
             return setups2.get(i);
         }
         return null;
     }
     //Prints a setup (Just for testing purposes, please remove later!)
     public void printSetup(int[][] setup){
+        System.out.println("Player setup:");
         for (int x = 0; x<setup.length; x++) {
             System.out.print("{");
             for (int y = 0; y<setup[0].length; y++) {

@@ -570,46 +570,34 @@ public class Game {
 	 * fills the board with default placement
 	 */
 	public void autofill() {
-		final int[][] PLAYER1 = {{1, 3, 5, 11, 0, 5, 11, 9, 8, 7},
-				{3, 4, 4, 11, 11, 11, 11, 8, 7, 7},
-				{3, 4, 4, 5, 5, 2, 6, 6, 6, 6},
-				{2, 2, 2, 2, 3, 10, 2, 2, 2, 3}};
-		//Hardcoded piece placement of player 2
-		final int[][] PLAYER2 = {{3, 2, 2, 2, 11, 1, 2, 2, 2, 3},
-				{5, 5, 4, 4, 4, 4, 3, 3, 3, 2},
-				{5, 5, 6, 11, 11, 2, 11, 7, 8, 10},
-				{6, 6, 6, 11, 0, 7, 11, 7, 8, 9}};
-		if (currentPlayer_ID == 1) {
-			for (int y = 0; y < PLAYER1[0].length; y++) {
-				for (int x = 0; x < PLAYER1.length; x++) {
-					int r = PLAYER1[x][y];
-					if (getCurrentPlayer().pieceIsAvailable(r)) {
-						Pieces piece = new Pieces(r, " ", currentPlayer_ID);
+		Setups s = new Setups();
+		int[][] setup = s.randomPreset(currentPlayer_ID);
+		for (int y = 0; y < setup[0].length; y++) {
+			for (int x = 0; x < setup.length; x++) {
+				int r = setup[x][y];
+				if (getCurrentPlayer().pieceIsAvailable(r)) {
+					Pieces piece = new Pieces(r, " ", currentPlayer_ID);
+					if(currentPlayer_ID == 1) {
 						addPiece(y + 1, x + 1, piece);
-						if (success) {
-							getCurrentPlayer().pieces[r]--;
-							GUI.frame.repaint();
-						}
 					}
-				}
-			}
-		} else {
-			for (int x = 0; x < PLAYER2.length; x++) {
-				for (int y = 0; y < PLAYER2[0].length; y++) {
-					int r = PLAYER2[x][y];
-					if (getCurrentPlayer().pieceIsAvailable(r)) {
-						Pieces piece = new Pieces(r, " ", currentPlayer_ID);
+					else if(currentPlayer_ID == 2) {
 						addPiece(y + 1, x + 7, piece);
-						if (success) {
-							getCurrentPlayer().pieces[r]--;
-							GUI.frame.repaint();
-						}
+					}
+					if (success) {
+						getCurrentPlayer().pieces[r]--;
+						GUI.frame.repaint();
 					}
 				}
 			}
 		}
 	}
-	
 
+	public void clearPieces(){
+		for (int x = 0; x<board.length; x++){
+			for (int y = 0; y< board[0].length; y++){
+				removePiece(x,y);
+			}
+		}
+	}
 }
 

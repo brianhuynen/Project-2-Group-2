@@ -187,7 +187,7 @@ public class GUI {
 		autofill.addActionListener(new ActionListener(){
 
 			public void actionPerformed(java.awt.event.ActionEvent arg0){
-				//Hardcoded piece placement of player 1
+//						game.clearPieces(); //Not sure whether necessary.
 						game.autofill();
 			}
 		});
