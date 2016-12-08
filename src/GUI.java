@@ -494,7 +494,11 @@ public class GUI {
 		
 		
 		else if(playerTypeData[0] != playerTypeData[1]){
-		
+			if(playerTypeData[0] == "AIPlayer"){
+				RandomAlg rand = new RandomAlg(game, game.currentPlayer);
+				rand.randomMove();
+				game.changeTurn();
+			}
 		}
 	}
 
