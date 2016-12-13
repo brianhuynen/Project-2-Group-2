@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 
-;
-
 public class Node 
 {
 	public int[] score;
@@ -35,9 +33,8 @@ public class Node
 		this.parent = parent;
 		player = b.getCurrentPlayer();
 		random = new RandomAlg(b, player);
-//		Cell[][] tempBoard = b.duplicate(player);
+		Cell[][] tempBoard = b.duplicate(player);
 		move = m;
-		//TODO add making appropriate move from brian/esther code
 		score = new int[2];
 		findScore();
 		//pess = new double[b.getQuantityOfPlayers()];
@@ -57,17 +54,14 @@ public class Node
 		}
 	}
 	
-//	public void expandNode(Game currentBoard){
-//		ArrayList<Move> legalMoves = currentBoard.getMoves(CallLocation.treePolicy);
-//		unvisitedChildren = new ArrayList<Node>();
-//		for (int i = 0; i < legalMoves.size(); i++) {
-//			Node tempState = new Node(currentBoard, legalMoves.get(i), this);
-//			unvisitedChildren.add(tempState);
-//		}
-//	}
-	
-	
-	
-	
+	public void expandNode(Game currentBoard){
+		RandomAlg rand = new RandomAlg(currentBoard, currentBoard.currentPlayer);
+		ArrayList<Move> legalMoves = rand.movesAvailable(currentBoard.board);
+		unvisitedChildren = new ArrayList<Node>();
+		for (int i = 0; i < legalMoves.size(); i++) {
+			Node tempState = new Node(currentBoard, this, legalMoves.get(i));
+			unvisitedChildren.add(tempState);
+		}
+	}
 
 }
