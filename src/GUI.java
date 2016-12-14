@@ -482,13 +482,15 @@ public class GUI {
 	
 	public static void gameLoop(){
 		if( (playerTypeData[0] == playerTypeData[1]) && (playerTypeData[0] == "AIPlayer") ){
-			if(!game.gameOver && game.findMovableCoords(game.currentPlayer).size() != 0 && game.gameActive){
+			while(!game.gameOver && game.findMovableCoords(game.currentPlayer).size() != 0 && game.gameActive){
 				RandomAlg rand = new RandomAlg(game, game.currentPlayer);
 				rand.randomMove();
-			
+				sleep(10);
 				frame.repaint();
+				sleep(10);
 				game.changeTurn();
-				gameLoop();
+				sleep(10);
+				//gameLoop();
 			}
 			JOptionPane.showMessageDialog(frame, "END");
 		}
