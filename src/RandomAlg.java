@@ -291,10 +291,55 @@ public class RandomAlg {
     	if ( bposition != null && mposition != null)
     	{
     		//move miners to the bomb
-    		game.findPath(mposition[0], mposition[1], bposition[0], mposition[1]);
+    		game.findPath(mposition[0], mposition[1], bposition[0], bposition[1]);
     	}
+
+    	makeFinalMove(bposition);
  
     }
+
+    public void makeFinalMove(int[] currentPosition)
+	{
+		int x = currentPosition[0];
+		int y = currentPosition[1];
+
+    	if (player.getPlayer_ID() == game.player_1.getPlayer_ID())
+    	{
+    		if(y == 9)
+			{
+				game.movePiece(x, y, x,y+1);
+			}
+			else if(y == 10)
+			{
+				if(board[x-1][y].getCellState() == 1)
+				{
+					game.movePiece(x, y, x - 1, y);
+				}
+				else if(board[x+1][y].getCellState() == 1)
+				{
+					game.movePiece(x, y, x + 1, y);
+				}
+			}
+		}
+		else if (player.getPlayer_ID() == game.player_2.getPlayer_ID())
+		{
+			if(y == 2)
+			{
+				game.movePiece(x, y, x, y-1);
+			}
+			else if(y == 1)
+			{
+				if(board[x-1][y].getCellState() == 0)
+				{
+					game.movePiece(x, y, x - 1, y);
+				}
+				else if(board[x+1][y].getCellState() == 1)
+				{
+					game.movePiece(x, y, x + 1, y);
+				}
+			}
+		}
+	}
     
 	public Cell[][] getBoard()
 	{

@@ -448,7 +448,6 @@ public class Game {
 				findPath(x1,y1-1,x2,y2);
 			}
 		}
-		//TODO if completely surrounded, make a path free for miner.
 	}
 
 	/**
