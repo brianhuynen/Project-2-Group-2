@@ -379,12 +379,12 @@ public class GUI {
 					//MCTS mcts = new MCTS();
 					//Node node = new Node(game);
 					//mcts.playout(node, game, rand);
-					if(game.success) {
-						frame.repaint();
-						game.changeTurn();
-						gameLoop();
-						//JOptionPane.showMessageDialog(frame, "Turn");
-					}
+//					if(game.success) {
+//						frame.repaint();
+//						game.changeTurn();
+//						gameLoop();
+//						//JOptionPane.showMessageDialog(frame, "Turn");
+//					}
 				}
 			}
 		});

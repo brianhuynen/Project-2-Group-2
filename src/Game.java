@@ -173,22 +173,22 @@ public class Game {
 		if(x1 + 1 == x2 && y1 == y2)
 		{
 			movePiece(x1,y1,x2,y2);
-			//changeTurn();
+			changeTurnH();
 		}
 		else if(x1 - 1 == x2 && y1 == y2)
 		{
 			movePiece(x1,y1,x2,y2);
-			//changeTurn();
+			changeTurnH();
 		}
 		else if(x1 == x2 && y1 + 1 == y2)
 		{
 			movePiece(x1,y1,x2,y2);
-			//changeTurn();
+			changeTurnH();
 		}
 		else if(x1 == x2 && y1 - 1 == y2)
 		{
 			movePiece(x1,y1,x2,y2);
-			//changeTurn();
+			changeTurnH();
 		}
 		
 		//recursive part, if piece 1 is located above piece 2
@@ -201,16 +201,19 @@ public class Game {
 				if( board[x1][y1+2].getCellState() == 0 )
 				{
 					movePiece(x1,y1+1,x1,y1+2);
+					changeTurnH();
 					findPath(x1,y1,x2,y2);
 				}
 				else if( board[x1+1][y1+1].getCellState() == 0 )
 				{
 					movePiece(x1,y1+1,x1+1,y1+1);
+					changeTurnH();
 					findPath(x1,y1,x2,y2);
 				}
 				else if( board[x1-1][y1+1].getCellState() == 0 )
 				{
 					movePiece(x1,y1+1,x1-1,y1+1);
+					changeTurnH();
 					findPath(x1,y1,x2,y2);
 				}
 			}
@@ -219,16 +222,19 @@ public class Game {
 				if( board[x1][y1-2].getCellState() == 0 )
 				{
 					movePiece(x1,y1-1,x1,y1-2);
+					changeTurnH();
 					findPath(x1,y1,x2,y2);
 				}
 				else if( board[x1+1][y1-1].getCellState() == 0 )
 				{
 					movePiece(x1,y1-1,x1+1,y1-1);
+					changeTurnH();
 					findPath(x1,y1,x2,y2);
 				}
 				else if( board[x1-1][y1-1].getCellState() == 0 )
 				{
 					movePiece(x1,y1-1,x1-1,y1-1);
+					changeTurnH();
 					findPath(x1,y1,x2,y2);
 				}
 			}
@@ -243,26 +249,31 @@ public class Game {
 			if(x2>x1 && board[x1+1][y1].getCellState() == 0)
 			{
 				movePiece(x1,y1,x1+1,y1);
+				changeTurnH();
 				findPath(x1+1,y1,x2,y2);
 			}
 			else if(x2<x1 && board[x1-1][y1].getCellState() == 0)
 			{
 				movePiece(x1,y1,x1-1,y1);
+				changeTurnH();
 				findPath(x1-1,y1,x2,y2);
 			}
 			else if (board[x1+1][y1].getCellState() == 0)
 			{
 				movePiece(x1,y1,x1+1,y1);
+				changeTurnH();
 				findPath(x1+1,y1,x2,y2);
 			}
 			else if (board[x1-1][y1].getCellState() == 0)
 			{
 				movePiece(x1,y1,x1-1,y1);
+				changeTurnH();
 				findPath(x1-1,y1,x2,y2);
 			}
 			else if (board[x1][y1-1].getCellState() == 0)
 			{
 				movePiece(x1,y1,x1,y1-1);
+				changeTurnH();
 				findPath(x1,y1-1,x2,y2);
 			}
 		}
@@ -275,26 +286,31 @@ public class Game {
 			if(x2>x1 && board[x1+1][y1].getCellState() == 0)
 			{
 				movePiece(x1,y1,x1+1,y1);
+				changeTurnH();
 				findPath(x1+1,y1,x2,y2);
 			}
 			else if(x2<x1 && board[x1-1][y1].getCellState() == 0)
 			{
 				movePiece(x1,y1,x1-1,y1);
+				changeTurnH();
 				findPath(x1-1,y1,x2,y2);
 			}
 			else if (board[x1+1][y1].getCellState() == 0)
 			{
 				movePiece(x1,y1,x1+1,y1);
+				changeTurnH();
 				findPath(x1+1,y1,x2,y2);
 			}
 			else if (board[x1-1][y1].getCellState() == 0)
 			{
 				movePiece(x1,y1,x1-1,y1);
+				changeTurnH();
 				findPath(x1-1,y1,x2,y2);
 			}
 			else if (board[x1][y1+1].getCellState() == 0)
 			{
 				movePiece(x1,y1,x1,y1+1);
+				changeTurnH();
 				findPath(x1,y1+1,x2,y2);
 			}
 		}
@@ -307,26 +323,31 @@ public class Game {
 			if(y2>y1 && board[x1][y1+1].getCellState() == 0)
 			{
 				movePiece(x1,y1,x1,y1+1);
+				changeTurnH();
 				findPath(x1,y1+1,x2,y2);
 			}
 			else if(y2<y1 && board[x1][y1-1].getCellState() == 0)
 			{
 				movePiece(x1,y1,x1,y1-1);
+				changeTurnH();
 				findPath(x1,y1-1,x2,y2);
 			}
 			else if (board[x1][y1+1].getCellState() == 0)
 			{
 				movePiece(x1,y1,x1,y1+1);
+				changeTurnH();
 				findPath(x1,y1+1,x2,y2);
 			}
 			else if (board[x1][y1-1].getCellState() == 0)
 			{
 				movePiece(x1,y1,x1,y1-1);
+				changeTurnH();
 				findPath(x1,y1-1,x2,y2);
 			}
 			else if (board[x1-1][y1].getCellState() == 0)
 			{
 				movePiece(x1,y1,x1-1,y1);
+				changeTurnH();
 				findPath(x1-1,y1,x2,y2);
 			}
 		}
@@ -339,26 +360,31 @@ public class Game {
 			if(y2>y1 && board[x1][y1+1].getCellState() == 0)
 			{
 				movePiece(x1,y1,x1,y1+1);
+				changeTurnH();
 				findPath(x1,y1+1,x2,y2);
 			}
 			else if(y2<y1 && board[x1][y1-1].getCellState() == 0)
 			{
 				movePiece(x1,y1,x1,y1-1);
+				changeTurnH();
 				findPath(x1,y1-1,x2,y2);
 			}
 			else if (board[x1][y1+1].getCellState() == 0)
 			{
 				movePiece(x1,y1,x1,y1+1);
+				changeTurnH();
 				findPath(x1,y1+1,x2,y2);
 			}
 			else if (board[x1][y1-1].getCellState() == 0)
 			{
 				movePiece(x1,y1,x1,y1-1);
+				changeTurnH();
 				findPath(x1,y1-1,x2,y2);
 			}
 			else if (board[x1+1][y1].getCellState() == 0)
 			{
 				movePiece(x1,y1,x1+1,y1);
+				changeTurnH();
 				findPath(x1+1,y1,x2,y2);
 			}
 		}
@@ -366,24 +392,25 @@ public class Game {
 		else if(y2>y1 && board[x1][y1+1].getCellState()==0)
 		{
 			movePiece(x1,y1,x1,y1+1);
-			//changeTurn();
+			changeTurnH();
 			findPath(x1,y1+1,x2,y2);
 		}//if piece 1 is located below piece 2
 		else if(y2<y1 && board[x1][y1-1].getCellState()==0)
 		{
 			movePiece(x1,y1,x1,y1-1);
-			//changeTurn();
+			changeTurnH();
 			findPath(x1,y1-1,x2,y2);
 		}//if piece 1 is located to the left of piece 2
 		else if(x2>x1 && board[x1+1][y1].getCellState()==0)
 		{
 			movePiece(x1,y1,x1+1,y1);
-			//changeTurn();
+			changeTurnH();
 			findPath(x1+1,y1,x2,y2);
 		}//if piece 1 is located to the right of piece 2
 		else if(x2<x1 && board[x1-1][y1].getCellState()==0)
 		{
 			movePiece(x1,y1,x1-1,y1);
+			changeTurnH();
 			findPath(x1-1,y1,x2,y2);
 		}
 		
@@ -393,13 +420,13 @@ public class Game {
 			if(board[x1+1][y1].getCellState()==0)//move right
 			{
 				movePiece(x1,y1,x1+1,y1);
-				//changeTurn();
+				changeTurnH();
 				findPath(x1+1,y1,x2,y2);
 			}
 			else if(board[x1-1][y1].getCellState()==0)//move left
 			{
 				movePiece(x1,y1,x1-1,y1);
-				//changeTurn();
+				changeTurnH();
 				findPath(x1-1,y1,x2,y2);
 			}
 		}
@@ -408,13 +435,13 @@ public class Game {
 			if(board[x1+1][y1].getCellState()==0)
 			{
 				movePiece(x1,y1,x1+1,y1);
-				//changeTurn();
+				changeTurnH();
 				findPath(x1+1,y1,x2,y2);
 			}
 			else if(board[x1-1][y1].getCellState()==0)
 			{
 				movePiece(x1,y1,x1-1,y1);
-				//changeTurn();
+				changeTurnH();
 				findPath(x1-1,y1,x2,y2);
 			}
 		}//if there are obstacles in its path, move one downwards, if not possible, move upwards.
@@ -423,13 +450,13 @@ public class Game {
 			if(board[x1][y1+1].getCellState()==0)//move down
 			{
 				movePiece(x1,y1,x1,y1+1);
-				//changeTurn();
+				changeTurnH();
 				findPath(x1,y1+1,x2,y2);
 			}
 			else if(board[x1][y1-1].getCellState()==0)//move up
 			{
 				movePiece(x1,y1,x1,y1-1);
-				//changeTurn();
+				changeTurnH();
 				findPath(x1,y1-1,x2,y2);
 			}
 		}
@@ -438,16 +465,20 @@ public class Game {
 			if(board[x1][y1+1].getCellState()==0)
 			{
 				movePiece(x1,y1,x1,y1+1);
-				//changeTurn();
+				changeTurnH();
 				findPath(x1,y1+1,x2,y2);
 			}
 			else if(board[x1][y1-1].getCellState()==0)
 			{
 				movePiece(x1,y1,x1,y1-1);
-				//changeTurn();
+				changeTurnH();
 				findPath(x1,y1-1,x2,y2);
 			}
 		}
+	}
+
+	public void changeTurnH(){
+		GUI.frame.repaint();
 	}
 
 	/**
