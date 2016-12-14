@@ -156,7 +156,7 @@ public class Game {
 		else if(inBound(x2,y2) && board[x2][y2].getCellState()==1 && currentPlayer.getPlayer_ID() != board[x2][y2].getContent().getPlayer_ID()
 			&& validMove(x1,y1,x2,y2)){
 			handleBattle(x1,y1,x2,y2);
-			System.out.println("Score player 1 = " + player_1.offBoard + "; Score player 2 = " + player_2.offBoard);
+			//System.out.println("Score player 1 = " + player_1.offBoard + "; Score player 2 = " + player_2.offBoard);
 			battled = true;
 			success = true;
 		}
@@ -173,6 +173,14 @@ public class Game {
 	{
 		//base cases
 		int[] move = new int[2];
+		
+		if(path.isEmpty())
+		{
+			move[0]=x1;
+			move[1]=y1;
+			path.add(move);
+		}
+		
 		if(x1 + 1 == x2 && y1 == y2)
 		{
 			move[0]=x2;
@@ -708,7 +716,7 @@ public class Game {
 				}
 			}
 		}
-		System.out.println(list.size() + " movable pieces for player " + currentPlayer.getPlayer_ID());
+		//System.out.println(list.size() + " movable pieces for player " + currentPlayer.getPlayer_ID());
 		return list;
 	}
 	

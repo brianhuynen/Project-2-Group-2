@@ -486,6 +486,7 @@ public class GUI {
 
 				RandomAlg rand = new RandomAlg(game, game.currentPlayer);
 				rand.randomMove();
+//				rand.generateMovementHeur();
 
 				sleep(10);
 				frame.repaint();
@@ -493,7 +494,7 @@ public class GUI {
 
 
 				frame.paint(frame.getGraphics());
-				sleep(1000);
+				sleep(100);
 
 				game.changeTurn();
 

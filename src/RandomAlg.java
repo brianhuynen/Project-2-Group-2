@@ -40,6 +40,7 @@ public class RandomAlg {
         ArrayList<Move> moves = movesAvailable(board);
 
         Random rand = new Random();
+        System.out.println("Player " + player.player_ID + " has " + player.piecesCoord.size()+ " pieces");
         while(player.piecesCoord.size()>15){
 	        if(moves.size() != 0){
 		        int i = rand.nextInt(moves.size());
@@ -51,7 +52,10 @@ public class RandomAlg {
 	        }
         }
         bruteforce();
-        return null;
+        int[] origin = game.path.remove();
+        int[] destination = game.path.getFirst();
+        Move move = new Move(board[origin[0]][origin[1]].getContent(), destination);
+        return move;
     }
     
     /**
@@ -59,7 +63,7 @@ public class RandomAlg {
      */
     public void randomMove()
     {
-    	Move move = generateMovement();
+    	Move move = generateMovementHeur();
     	move.checkBattle(board);
     	game.movePiece(move.piece.position[0], move.piece.position[1], move.newCoords[0], move.newCoords[1]);
    
@@ -294,7 +298,7 @@ public class RandomAlg {
     		game.findPath(mposition[0], mposition[1], bposition[0], bposition[1]);
     	}
 
-    	makeFinalMove(bposition);
+//    	makeFinalMove(bposition);
  
     }
 
