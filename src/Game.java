@@ -179,7 +179,6 @@ public class Game {
 			move[1]=y2;
 			path.add(move);
 			//movePiece(x1,y1,x2,y2);
-			//changeTurn();
 		}
 		else if(x1 - 1 == x2 && y1 == y2)
 		{
@@ -187,7 +186,6 @@ public class Game {
 			move[1]=y2;
 			path.add(move);
 			//movePiece(x1,y1,x2,y2);
-			//changeTurn();
 		}
 		else if(x1 == x2 && y1 + 1 == y2)
 		{
@@ -195,7 +193,6 @@ public class Game {
 			move[1]=y2;
 			path.add(move);
 			//movePiece(x1,y1,x2,y2);
-			//changeTurn();
 		}
 		else if(x1 == x2 && y1 - 1 == y2)
 		{
@@ -203,7 +200,6 @@ public class Game {
 			move[1]=y2;
 			path.add(move);
 			//movePiece(x1,y1,x2,y2);
-			//changeTurn();
 		}
 		
 		//recursive part, if piece 1 is located above piece 2
@@ -216,16 +212,19 @@ public class Game {
 				if( board[x1][y1+2].getCellState() == 0 )
 				{
 					movePiece(x1,y1+1,x1,y1+2);
+					changeTurnH();
 					findPath(x1,y1,x2,y2);
 				}
 				else if( board[x1+1][y1+1].getCellState() == 0 )
 				{
 					movePiece(x1,y1+1,x1+1,y1+1);
+					changeTurnH();
 					findPath(x1,y1,x2,y2);
 				}
 				else if( board[x1-1][y1+1].getCellState() == 0 )
 				{
 					movePiece(x1,y1+1,x1-1,y1+1);
+					changeTurnH();
 					findPath(x1,y1,x2,y2);
 				}
 			}
@@ -234,16 +233,19 @@ public class Game {
 				if( board[x1][y1-2].getCellState() == 0 )
 				{
 					movePiece(x1,y1-1,x1,y1-2);
+					changeTurnH();
 					findPath(x1,y1,x2,y2);
 				}
 				else if( board[x1+1][y1-1].getCellState() == 0 )
 				{
 					movePiece(x1,y1-1,x1+1,y1-1);
+					changeTurnH();
 					findPath(x1,y1,x2,y2);
 				}
 				else if( board[x1-1][y1-1].getCellState() == 0 )
 				{
 					movePiece(x1,y1-1,x1-1,y1-1);
+					changeTurnH();
 					findPath(x1,y1,x2,y2);
 				}
 			}
@@ -444,7 +446,6 @@ public class Game {
 			move[1]=y1+1;
 			path.add(move);
 			//movePiece(x1,y1,x1,y1+1);
-			//changeTurn();
 			findPath(x1,y1+1,x2,y2);
 		}//if piece 1 is located below piece 2
 		else if(y2<y1 && board[x1][y1-1].getCellState()==0)
@@ -453,7 +454,6 @@ public class Game {
 			move[1]=y1-1;
 			path.add(move);
 			//movePiece(x1,y1,x1,y1-1);
-			//changeTurn();
 			findPath(x1,y1-1,x2,y2);
 		}//if piece 1 is located to the left of piece 2
 		else if(x2>x1 && board[x1+1][y1].getCellState()==0)
@@ -462,7 +462,6 @@ public class Game {
 			move[1]=y1;
 			path.add(move);
 			//movePiece(x1,y1,x1+1,y1);
-			//changeTurn();
 			findPath(x1+1,y1,x2,y2);
 		}//if piece 1 is located to the right of piece 2
 		else if(x2<x1 && board[x1-1][y1].getCellState()==0)
@@ -483,7 +482,6 @@ public class Game {
 				move[1]=y1;
 				path.add(move);
 				//movePiece(x1,y1,x1+1,y1);
-				//changeTurn();
 				findPath(x1+1,y1,x2,y2);
 			}
 			else if(board[x1-1][y1].getCellState()==0)//move left
@@ -492,7 +490,6 @@ public class Game {
 				move[1]=y1;
 				path.add(move);
 				//movePiece(x1,y1,x1-1,y1);
-				//changeTurn();
 				findPath(x1-1,y1,x2,y2);
 			}
 		}
@@ -504,7 +501,6 @@ public class Game {
 				move[1]=y1;
 				path.add(move);
 				//movePiece(x1,y1,x1+1,y1);
-				//changeTurn();
 				findPath(x1+1,y1,x2,y2);
 			}
 			else if(board[x1-1][y1].getCellState()==0)
@@ -513,7 +509,6 @@ public class Game {
 				move[1]=y1;
 				path.add(move);
 				//movePiece(x1,y1,x1-1,y1);
-				//changeTurn();
 				findPath(x1-1,y1,x2,y2);
 			}
 		}//if there are obstacles in its path, move one downwards, if not possible, move upwards.
@@ -525,7 +520,6 @@ public class Game {
 				move[1]=y1+1;
 				path.add(move);
 				//movePiece(x1,y1,x1,y1+1);
-				//changeTurn();
 				findPath(x1,y1+1,x2,y2);
 			}
 			else if(board[x1][y1-1].getCellState()==0)//move up
@@ -534,7 +528,6 @@ public class Game {
 				move[1]=y1-1;
 				path.add(move);
 				//movePiece(x1,y1,x1,y1-1);
-				//changeTurn();
 				findPath(x1,y1-1,x2,y2);
 			}
 		}
@@ -546,7 +539,6 @@ public class Game {
 				move[1]=y1+1;
 				path.add(move);
 				//movePiece(x1,y1,x1,y1+1);
-				//changeTurn();
 				findPath(x1,y1+1,x2,y2);
 			}
 			else if(board[x1][y1-1].getCellState()==0)
@@ -555,10 +547,13 @@ public class Game {
 				move[1]=y1-1;
 				path.add(move);
 				//movePiece(x1,y1,x1,y1-1);
-				//changeTurn();
 				findPath(x1,y1-1,x2,y2);
 			}
 		}
+	}
+
+	public void changeTurnH(){
+		GUI.frame.repaint();
 	}
 
 	/**
