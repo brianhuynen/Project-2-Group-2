@@ -508,6 +508,8 @@ public class GUI {
 		
 		else if(playerTypeData[0] != playerTypeData[1]){
 			while(!game.gameOver && game.findMovableCoords(game.currentPlayer).size()!= 0 && game.currentPlayer.getType() == "AIPlayer"){
+				System.out.println("\nPlayer " + game.player_1.player_ID + " has " + game.player_1.numberPieces+ " pieces");
+				System.out.println("\nPlayer " + game.player_2.player_ID + " has " + game.player_2.numberPieces+ " pieces");
 				RandomAlg rand = new RandomAlg(game, game.currentPlayer);
 				rand.randomMove();
 				game.changeTurn();

@@ -40,9 +40,10 @@ public class RandomAlg {
         ArrayList<Move> moves = movesAvailable(board);
 
         Random rand = new Random();
-        System.out.println("Player " + player.player_ID + " has " + player.numberPieces+ " pieces");
-        while(!knowBomb()){
-	        if(moves.size() != 0){
+//        System.out.println("Player " + player.player_ID + " has " + player.numberPieces+ " pieces");
+//		player.printPiecesCoord();
+		while(!knowBomb()){
+			if(moves.size() != 0){
 		        int i = rand.nextInt(moves.size());
 		        return moves.get(i);
 	        }
@@ -52,7 +53,8 @@ public class RandomAlg {
 	        }
         }
         bruteforce();
-        int[] origin = game.path.remove();
+		System.out.println("hi " + game.path.size());
+		int[] origin = game.path.remove();
         int[] destination = game.path.getFirst();
         Move move = new Move(board[origin[0]][origin[1]].getContent(), destination);
         return move;
@@ -64,7 +66,6 @@ public class RandomAlg {
     public void randomMove()
     {
     	Move move = generateMovementHeur();
-    	move.checkBattle(board);
     	game.movePiece(move.piece.position[0], move.piece.position[1], move.newCoords[0], move.newCoords[1]);
    
     }
@@ -301,7 +302,9 @@ public class RandomAlg {
     		if(player.piecesCoord.get(i).getRank() == 3)
     		{
     			mposition = player.piecesCoord.get(i).position;
-    		}
+    		} else {
+				System.out.println("no miner");
+			}
     	}
     	
     	if ( bposition != null && mposition != null)
