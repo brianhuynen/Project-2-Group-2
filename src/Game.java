@@ -192,6 +192,177 @@ public class Game {
 		}
 		
 		//recursive part, if piece 1 is located above piece 2
+		
+		else if(board[x1][y1+1].getCellState()!=0 && board[x1][y1-1].getCellState()!=0
+				&& board[x1+1][y1].getCellState()!=0 && board[x1-1][y1].getCellState()!=0)
+		{
+			if(y2>y1)
+			{
+				if( board[x1][y1+2].getCellState() == 0 )
+				{
+					movePiece(x1,y1+1,x1,y1+2);
+					findPath(x1,y1,x2,y2);
+				}
+				else if( board[x1+1][y1+1].getCellState() == 0 )
+				{
+					movePiece(x1,y1+1,x1+1,y1+1);
+					findPath(x1,y1,x2,y2);
+				}
+				else if( board[x1-1][y1+1].getCellState() == 0 )
+				{
+					movePiece(x1,y1+1,x1-1,y1+1);
+					findPath(x1,y1,x2,y2);
+				}
+			}
+			if(y2<y1)
+			{
+				if( board[x1][y1-2].getCellState() == 0 )
+				{
+					movePiece(x1,y1-1,x1,y1-2);
+					findPath(x1,y1,x2,y2);
+				}
+				else if( board[x1+1][y1-1].getCellState() == 0 )
+				{
+					movePiece(x1,y1-1,x1+1,y1-1);
+					findPath(x1,y1,x2,y2);
+				}
+				else if( board[x1-1][y1-1].getCellState() == 0 )
+				{
+					movePiece(x1,y1-1,x1-1,y1-1);
+					findPath(x1,y1,x2,y2);
+				}
+			}
+		}
+		
+		//checks if the next move is surrounded by three pieces and tries to go around
+		//for down
+		else if(y2>y1 && board[x1][y1+1].getCellState()==0 &&
+				board[x1-1][y1+1].getCellState()!=0 && board[x1+1][y1+1].getCellState() != 0
+				&& board[x1][y1+2].getCellState() != 0)
+		{
+			if(x2>x1 && board[x1+1][y1].getCellState() == 0)
+			{
+				movePiece(x1,y1,x1+1,y1);
+				findPath(x1+1,y1,x2,y2);
+			}
+			else if(x2<x1 && board[x1-1][y1].getCellState() == 0)
+			{
+				movePiece(x1,y1,x1-1,y1);
+				findPath(x1-1,y1,x2,y2);
+			}
+			else if (board[x1+1][y1].getCellState() == 0)
+			{
+				movePiece(x1,y1,x1+1,y1);
+				findPath(x1+1,y1,x2,y2);
+			}
+			else if (board[x1-1][y1].getCellState() == 0)
+			{
+				movePiece(x1,y1,x1-1,y1);
+				findPath(x1-1,y1,x2,y2);
+			}
+			else if (board[x1][y1-1].getCellState() == 0)
+			{
+				movePiece(x1,y1,x1,y1-1);
+				findPath(x1,y1-1,x2,y2);
+			}
+		}
+		
+		//up
+		else if(y2<y1 && board[x1][y1-1].getCellState()==0 &&
+				board[x1-1][y1-1].getCellState()!=0 && board[x1+1][y1-1].getCellState() != 0
+				&& board[x1][y1-2].getCellState() != 0)
+		{
+			if(x2>x1 && board[x1+1][y1].getCellState() == 0)
+			{
+				movePiece(x1,y1,x1+1,y1);
+				findPath(x1+1,y1,x2,y2);
+			}
+			else if(x2<x1 && board[x1-1][y1].getCellState() == 0)
+			{
+				movePiece(x1,y1,x1-1,y1);
+				findPath(x1-1,y1,x2,y2);
+			}
+			else if (board[x1+1][y1].getCellState() == 0)
+			{
+				movePiece(x1,y1,x1+1,y1);
+				findPath(x1+1,y1,x2,y2);
+			}
+			else if (board[x1-1][y1].getCellState() == 0)
+			{
+				movePiece(x1,y1,x1-1,y1);
+				findPath(x1-1,y1,x2,y2);
+			}
+			else if (board[x1][y1+1].getCellState() == 0)
+			{
+				movePiece(x1,y1,x1,y1+1);
+				findPath(x1,y1+1,x2,y2);
+			}
+		}
+		
+		//right
+		else if(x2>x1 && board[x1+1][y1].getCellState()==0 &&
+				board[x1+1][y1+1].getCellState()!=0 && board[x1+1][y1-1].getCellState() != 0
+				&& board[x1+2][y1].getCellState() != 0)
+		{
+			if(y2>y1 && board[x1][y1+1].getCellState() == 0)
+			{
+				movePiece(x1,y1,x1,y1+1);
+				findPath(x1,y1+1,x2,y2);
+			}
+			else if(y2<y1 && board[x1][y1-1].getCellState() == 0)
+			{
+				movePiece(x1,y1,x1,y1-1);
+				findPath(x1,y1-1,x2,y2);
+			}
+			else if (board[x1][y1+1].getCellState() == 0)
+			{
+				movePiece(x1,y1,x1,y1+1);
+				findPath(x1,y1+1,x2,y2);
+			}
+			else if (board[x1][y1-1].getCellState() == 0)
+			{
+				movePiece(x1,y1,x1,y1-1);
+				findPath(x1,y1-1,x2,y2);
+			}
+			else if (board[x1-1][y1].getCellState() == 0)
+			{
+				movePiece(x1,y1,x1-1,y1);
+				findPath(x1-1,y1,x2,y2);
+			}
+		}
+		
+		//left
+		else if(x2<x1 && board[x1-1][y1].getCellState()==0 &&
+				board[x1-1][y1+1].getCellState()!=0 && board[x1-1][y1-1].getCellState() != 0
+				&& board[x1-2][y1].getCellState() != 0)
+		{
+			if(y2>y1 && board[x1][y1+1].getCellState() == 0)
+			{
+				movePiece(x1,y1,x1,y1+1);
+				findPath(x1,y1+1,x2,y2);
+			}
+			else if(y2<y1 && board[x1][y1-1].getCellState() == 0)
+			{
+				movePiece(x1,y1,x1,y1-1);
+				findPath(x1,y1-1,x2,y2);
+			}
+			else if (board[x1][y1+1].getCellState() == 0)
+			{
+				movePiece(x1,y1,x1,y1+1);
+				findPath(x1,y1+1,x2,y2);
+			}
+			else if (board[x1][y1-1].getCellState() == 0)
+			{
+				movePiece(x1,y1,x1,y1-1);
+				findPath(x1,y1-1,x2,y2);
+			}
+			else if (board[x1+1][y1].getCellState() == 0)
+			{
+				movePiece(x1,y1,x1+1,y1);
+				findPath(x1+1,y1,x2,y2);
+			}
+		}
+		
 		else if(y2>y1 && board[x1][y1+1].getCellState()==0)
 		{
 			movePiece(x1,y1,x1,y1+1);
@@ -214,8 +385,8 @@ public class Game {
 		{
 			movePiece(x1,y1,x1-1,y1);
 			findPath(x1-1,y1,x2,y2);
-		}//TODO if the next move (up/ down/ left/ right) would result in total 
-		// blockage (all sides), move somewhere else.
+		}
+		
 		//if there are obstacles in its path, move one to the right, if not possible, move to the left.
 		else if(y2>y1 && board[x1][y1+1].getCellState()!=0)//block down
 		{

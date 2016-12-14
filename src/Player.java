@@ -13,7 +13,8 @@ public class Player {
 	
 	public Player(int i, Color color){
 		this.player_ID = i;
-		int pieces [] = {1,1,8,5,4,4,4,3,2,1,1,6};
+		//int pieces [] = {1,1,8,5,4,4,4,3,2,1,1,6};
+		int pieces [] = {1,0,0,1,3,0,0,0,0,0,0,3};
 		this.pieces  = pieces;
 		this.pColor = color;
 		this.offBoard = 0;
@@ -21,7 +22,7 @@ public class Player {
 	}
 	/**
 	 * Checks if piece is available to be placed
-	 * @param r rank of piece
+	 * @param r rank of piece.
 	 * @return true if piece is still available
 	 */
 	public boolean pieceIsAvailable(int r){
