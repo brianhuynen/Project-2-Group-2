@@ -625,10 +625,30 @@ public class Game {
 			endgame();
 			//findScore();
 		}
-		if((attack.getRank() != 1 && defense.getRank() != 10) || 
-			(attack.getRank()!=3 && defense.getRank()!= 11)) {
+		if((attack.getRank() == 1 && defense.getRank() == 10) ||
+			(attack.getRank() == 3 && defense.getRank() == 11)) {
 			//attack wins
-			if (attack.getRank() > defense.getRank()) {
+			won = attack;
+			lost = defense;
+			if(!attack.known){
+				makeKnown(attack);
+			}
+			if(defense.known){
+				unknow(defense);
+			}
+			if(currentPlayer == player_1){
+				player_1.offBoard += defense.getRank();
+			}
+			if(currentPlayer == player_2){
+				player_2.offBoard+= defense.getRank();
+			}
+			board[x2][y2].setContent(attack);
+			board[x1][y1].getContent().setPosition(x2, y2);
+			removePiece(x1,y1);
+			//findScore();
+//			System.out.println("Dismantle/ Spy Win");
+		}//attack wins
+		else if (attack.getRank() > defense.getRank()) {
 				if (!attack.known) {
 					makeKnown(attack);
 				}
@@ -646,7 +666,7 @@ public class Game {
 				board[x1][y1].getContent().setPosition(x2, y2);
 				removePiece(x1, y1);
 				//findScore();
-				System.out.println("Win");
+//				System.out.println("Win");
 			}
 
 			//draw
@@ -687,33 +707,9 @@ public class Game {
 
 				removePiece(x1, y1);
 				//findScore();
-				System.out.println("Loss");
+//				System.out.println("Loss");
 			}
 		}
-
-		//attack wins
-		else{
-			won = attack;
-			lost = defense;
-			if(!attack.known){
-				makeKnown(attack);
-			}
-			if(defense.known){
-				unknow(defense);
-			}
-			if(currentPlayer == player_1){
-				player_1.offBoard += defense.getRank();
-			}
-			if(currentPlayer == player_2){
-				player_2.offBoard+= defense.getRank();
-			}
-			board[x2][y2].setContent(attack);
-			board[x1][y1].getContent().setPosition(x2, y2);
-			removePiece(x1,y1);
-			//findScore();
-			System.out.println("Dismantle/ Spy Win");
-		}
-	}
 	/**
 	 * Checks if placement is inbound 
 	 * @param x x-coordinate where player wants to place piece
