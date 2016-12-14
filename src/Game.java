@@ -139,7 +139,7 @@ public class Game {
 			success = false;
 		}
 	}
-	public void removePieceDraw(int x, int y){
+	public void removeOtherPiece(int x, int y){
 		if(board[x][y].getCellState() != 1){
 			success = false;
 		}
@@ -154,7 +154,7 @@ public class Game {
 			}
 			int j = 0;
 			boolean done = false;
-			while(!done && j < currentPlayer.piecesCoord.size()) {
+			while(!done && j < player.piecesCoord.size()) {
 				if(player.piecesCoord.get(j) == board[x][y].getContent()){
 					System.out.println("Player " + player.getPlayer_ID() + " loses one piece");
 					player.piecesCoord.remove(j);
@@ -767,8 +767,10 @@ public class Game {
 		Pieces attack = board[x1][y1].getContent();
 		Pieces defense = board[x2][y2].getContent();
 
-		System.out.println("Battle between rank " + attack.getRank() + "(" + attack.getPlayer_ID() + ") and rank " + defense.getRank() + "(" + defense.getPlayer_ID() + ")");
-
+		System.out.println("Battle between rank " + attack.getRank() + "(" + attack.getPlayer_ID() +
+							") on (" + attack.getPosition()[0] + "," + attack.getPosition()[1] +
+							") and rank " + defense.getRank() + "(" + defense.getPlayer_ID() +
+							") on (" + defense.getPosition()[0] + "," + defense.getPosition()[1] + ")");
 		if(defense.getRank()==0){
 			endgame();
 			//findScore();
@@ -790,7 +792,7 @@ public class Game {
 			if(currentPlayer == player_2){
 				player_2.offBoard += defense.getRank();
 			}
-			removePiece(x2,y2);
+			removeOtherPiece(x2,y2);
 			board[x1][y1].setCellState(0);
 			board[x1][y1].setContent(null);
 			attack.setPosition(x2,y2);
@@ -812,11 +814,11 @@ public class Game {
 				}
 				won = attack;
 				lost = defense;
-				removePiece(x2, y2);
+				removeOtherPiece(x2,y2);
 				board[x1][y1].setCellState(0);
 				board[x1][y1].setContent(null);
+				attack.setPosition(x2,y2);
 				board[x2][y2].setContent(attack);
-				board[x2][y2].getContent().setPosition(x2, y2);
 				//findScore();
 //				System.out.println("Win");
 			}
@@ -833,7 +835,7 @@ public class Game {
 				removePiece(x1, y1);
 				board[x1][y1].setCellState(0);
 				board[x1][y1].setContent(null);
-				removePieceDraw(x2, y2);
+				removeOtherPiece(x2, y2);
 				board[x2][y2].setCellState(0);
 				board[x2][y2].setContent(null);
 				if (attack.known) {

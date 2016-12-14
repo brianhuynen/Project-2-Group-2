@@ -15,8 +15,7 @@ public class Player {
 	public Player(int i, Color color){
 		this.player_ID = i;
 		int pieces [] = {1,1,8,5,4,4,4,3,2,1,1,6}; //Stores how many pieces of each rank can be stored.
-//		int pieces [] = {1,0,0,1,3,0,0,0,0,0,0,3}; //For testing purposes 1
-//		int pieces [] = {1,0,4,0,0,0,0,0,0,0,0,0}; //For testing purposes 2
+//		int pieces [] = {1,0,0,1,3,0,0,0,0,0,0,3}; //For testing purposes.
 		this.pieces  = pieces;
 		this.numberPieces = 0;
 		this.pColor = color;
@@ -67,9 +66,11 @@ public class Player {
 	}
 
 	public void printPiecesCoord(){
+		System.out.print(getPlayer_ID()+": ");
 		for (Pieces p: piecesCoord){
 			System.out.print(p.getRank() + " at (" + p.getPosition()[0] + "," + p.getPosition()[1] + "), ");
 		}
+		System.out.println();
 	}
 	
 	public void printKnown()
