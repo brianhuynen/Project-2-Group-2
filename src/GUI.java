@@ -504,15 +504,12 @@ public class GUI {
 		
 		
 		else if(playerTypeData[0] != playerTypeData[1]){
-			
-				if(!game.gameOver && game.findMovableCoords(game.currentPlayer).size()!= 0 && game.currentPlayer.getType() == "AIPlayer"){
-					System.out.println("AAAAAAAAAAAAAAAAAA");
-					RandomAlg rand = new RandomAlg(game, game.currentPlayer);
-					rand.randomMove();
-					game.changeTurn();
-					frame.repaint();
-			
-				}
+			while(!game.gameOver && game.findMovableCoords(game.currentPlayer).size()!= 0 && game.currentPlayer.getType() == "AIPlayer"){
+				RandomAlg rand = new RandomAlg(game, game.currentPlayer);
+				rand.randomMove();
+				game.changeTurn();
+				frame.repaint();
+			}
 		}
 	}
 
