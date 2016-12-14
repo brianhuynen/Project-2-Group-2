@@ -369,7 +369,7 @@ public class GUI {
 		});
 		ranMove.addActionListener( new ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent e){
-				for(int i = 0; i<100; i++) {
+				for(int i = 0; i<1; i++) {
 					RandomAlg rand = new RandomAlg(game, game.currentPlayer);
 					rand.randomMove();
 					//game.findPath(6, 4, 5, 6);
