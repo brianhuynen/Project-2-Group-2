@@ -98,6 +98,7 @@ public class Game {
 			else{
 				if(availableCell(y, currentPlayer)){
 					currentPlayer.piecesCoord.add(piece);
+					currentPlayer.numberPieces++;
 					success = true;
 					piece.setPosition(x, y);
 					board[x][y].setCellState(1);
@@ -120,11 +121,15 @@ public class Game {
 		}
 		else if(board[x][y].getContent().getPlayer_ID() == currentPlayer.getPlayer_ID() ||
 				gameActive){
-			for(int i=0; i<currentPlayer.piecesCoord.size(); i++){
+			//for(int i=0; i<currentPlayer.piecesCoord.size(); i++){
+			int i = 0;
+			boolean done = false;
+			while(!done && i < currentPlayer.piecesCoord.size()) {
 				if(currentPlayer.piecesCoord.get(i) == board[x][y].getContent()){
 					currentPlayer.piecesCoord.remove(i);
-					break;
+					currentPlayer.numberPieces--;
 				}
+				i++;
 			}
 		board[x][y].setCellState(0);
 		board[x][y].setContent(null);

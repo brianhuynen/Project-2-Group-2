@@ -40,8 +40,8 @@ public class RandomAlg {
         ArrayList<Move> moves = movesAvailable(board);
 
         Random rand = new Random();
-        System.out.println("Player " + player.player_ID + " has " + player.piecesCoord.size()+ " pieces");
-        while(player.piecesCoord.size()>15){
+        System.out.println("Player " + player.player_ID + " has " + player.numberPieces+ " pieces");
+        while(!knowBomb()){
 	        if(moves.size() != 0){
 		        int i = rand.nextInt(moves.size());
 		        return moves.get(i);
@@ -265,6 +265,18 @@ public class RandomAlg {
 		return moves;
     }
 
+    public boolean knowBomb()
+    {
+    	boolean bomb = false;
+    	for(int i = 0; i < player.knownPieces.size(); i++) {
+    		if (player.knownPieces.get(i).getRank()==11)
+    		{
+    			bomb = true;
+    		}
+    	}
+    	return bomb;
+    }
+    
     /**
      * bruteforce algorithm to run after player has 15 pieces or less
      */

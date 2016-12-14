@@ -7,6 +7,7 @@ public class Player {
 	public Color pColor;
 	public ArrayList<Pieces> piecesCoord = new ArrayList<Pieces>();
 	public ArrayList<Pieces> knownPieces = new ArrayList<Pieces>();
+	public int numberPieces;
 	public int offBoard;
 	public String type;
 	
@@ -16,6 +17,7 @@ public class Player {
 		int pieces [] = {1,1,8,5,4,4,4,3,2,1,1,6};
 //		int pieces [] = {1,0,0,1,3,0,0,0,0,0,0,3}; //For testing purposes :(
 		this.pieces  = pieces;
+		this.numberPieces = 0;
 		this.pColor = color;
 		this.offBoard = 0;
 
