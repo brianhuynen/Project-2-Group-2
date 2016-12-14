@@ -22,7 +22,7 @@ public class Player {
 	}
 	/**
 	 * Checks if piece is available to be placed
-	 * @param r rank of piece.
+	 * @param r rank of piece
 	 * @return true if piece is still available
 	 */
 	public boolean pieceIsAvailable(int r){

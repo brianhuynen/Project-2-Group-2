@@ -20,6 +20,7 @@ public class MCTS
 	
 //	public Move runMCTS(Game startingBoard, int runs, boolean bounds) {
 //		scoreBounds = bounds;
+		//scoreBounds = bounds;
 //		randomalg = new RandomAlg(startingBoard, startingBoard.currentPlayer);
 //		root = new Node(startingBoard);
 //

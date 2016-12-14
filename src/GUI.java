@@ -370,9 +370,9 @@ public class GUI {
 		ranMove.addActionListener( new ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent e){
 				for(int i = 0; i<1; i++) {
-					RandomAlg rand = new RandomAlg(game, game.currentPlayer);
-					rand.randomMove();
-					//game.findPath(6, 4, 5, 6);
+//					RandomAlg rand = new RandomAlg(game, game.currentPlayer);
+//					rand.randomMove();
+					game.findPath(6, 4, 8, 9);
 					//game.ranMovePiece();
 					//MCTS mcts = new MCTS();
 					//Node node = new Node(game);
