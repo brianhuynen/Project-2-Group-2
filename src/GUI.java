@@ -372,6 +372,7 @@ public class GUI {
 				for(int i = 0; i<1; i++) {
 					RandomAlg rand = new RandomAlg(game, game.currentPlayer);
 					rand.randomMove();
+					//game.findPath(6, 4, 5, 6);
 					//game.ranMovePiece();
 					//MCTS mcts = new MCTS();
 					//Node node = new Node(game);
@@ -414,63 +415,60 @@ public class GUI {
 		g2.setColor(Color.BLACK);
 		for(int i=0; i<12; i++){
 			for(int j=0; j<12; j++){
-		Rectangle box = new Rectangle(50+(50*i),50+(50*j),50,50);
+			Rectangle box = new Rectangle(50+(50*i),50+(50*j),50,50);
 			g2.setStroke(new BasicStroke(3));
 			g2.draw(box);
 			if(game.board[i][j].getCellState()== -1){
 				g2.fill(box);
 			}
-			if(game.board[i][j].getCellState()== 1 && game.currentPlayer_ID == game.board[i][j].getContent().getPlayer_ID() ){
-				int x = (50*i)+ 60;
-				int y = (50*j)+ 100;
+			if (game.board[i][j].getCellState() == 1 && game.currentPlayer_ID == game.board[i][j].getContent().getPlayer_ID()) {
+				int x = (50 * i) + 60;
+				int y = (50 * j) + 100;
 				int rank = game.board[i][j].getContent().getRank();
-				String s ="";
-				if(rank != 0 && rank!= 11 && rank!=10){
+				String s = "";
+				if (rank != 0 && rank != 11 && rank != 10) {
 					s = Integer.toString(rank);
 				}
-				if(rank == 0){
+				if (rank == 0) {
 					s = "F";
 				}
 
-				if(rank == 10){
+				if (rank == 10) {
 					s = "M";
-				}
-				else if(rank == 11){
+				} else if (rank == 11) {
 					s = "B";
 				}
 
-					g2.setColor(game.currentPlayer.pColor);
+				g2.setColor(game.currentPlayer.pColor);
 
 				g.setFont(new Font("default", Font.BOLD, 50));
-				if(rank ==10){
+				if (rank == 10) {
 					//X-10 to set M in middle of cell
-					g2.drawString(s, x-10, y);
-				} 
-				else {
+					g2.drawString(s, x - 10, y);
+				} else {
 					g2.drawString(s, x, y);
 				}
-					g2.setColor(Color.black);
+				g2.setColor(Color.black);
 			}
-			if(game.board[i][j].getCellState()== 1 && game.currentPlayer_ID != game.board[i][j].getContent().getPlayer_ID() ){
-				if(game.currentPlayer_ID == 1){
+			if (game.board[i][j].getCellState() == 1 && game.currentPlayer_ID != game.board[i][j].getContent().getPlayer_ID()) {
+				if (game.currentPlayer_ID == 1) {
 					g2.setColor(Color.RED);
-				}
-				else{
+				} else {
 					g2.setColor(Color.BLUE);
 				}
-				Rectangle box1 = new Rectangle(51+(50*i),51+(50*j),49,49);
+				Rectangle box1 = new Rectangle(51 + (50 * i), 51 + (50 * j), 49, 49);
 				g2.fill(box1);
 				g2.setColor(Color.black);
 			}
-			
+
 			}
 		}
 	}
 
 	}
 	/**
-	 * WHAT DOES THIS DOO PEOPLE
-	 * @param ms
+	 * Each time this method is called, it interrupts the thread for ms milliseconds.
+	 * @param ms	For how long the thread will be interrupted in milliseconds.
 	 */
 	public static void sleep(int ms){
 		try {
@@ -483,14 +481,23 @@ public class GUI {
 	public static void gameLoop(){
 		if( (playerTypeData[0] == playerTypeData[1]) && (playerTypeData[0] == "AIPlayer") ){
 			while(!game.gameOver && game.findMovableCoords(game.currentPlayer).size() != 0 && game.gameActive){
+
 				RandomAlg rand = new RandomAlg(game, game.currentPlayer);
 				rand.randomMove();
+
 				sleep(10);
 				frame.repaint();
 				sleep(10);
+
+
+				frame.paint(frame.getGraphics());
+				sleep(1000);
+
 				game.changeTurn();
+
 				sleep(10);
 				//gameLoop();
+
 			}
 			JOptionPane.showMessageDialog(frame, "END");
 		}

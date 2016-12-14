@@ -164,6 +164,120 @@ public class Game {
 			//return error
 		}
 //		System.out.println(currentPlayer.getPlayer_ID() + " moved " + x1 + "," + y1 + " to " + x2 + ","  + y2 + ", " + success);
+		currentPlayer.printKnown();
+	}
+	
+	public void findPath(int x1, int y1, int x2, int y2)
+	{
+		//base cases
+		if(x1 + 1 == x2 && y1 == y2)
+		{
+			movePiece(x1,y1,x2,y2);
+			changeTurn();
+		}
+		else if(x1 - 1 == x2 && y1 == y2)
+		{
+			movePiece(x1,y1,x2,y2);
+			changeTurn();
+		}
+		else if(x1 == x2 && y1 + 1 == y2)
+		{
+			movePiece(x1,y1,x2,y2);
+			changeTurn();
+		}
+		else if(x1 == x2 && y1 - 1 == y2)
+		{
+			movePiece(x1,y1,x2,y2);
+			changeTurn();
+		}
+		
+		//recursive part, if piece 1 is located above piece 2
+		else if(y2>y1 && board[x1][y1+1].getCellState()==0)
+		{
+			movePiece(x1,y1,x1,y1+1);
+			changeTurn();
+			findPath(x1,y1+1,x2,y2);
+		}//if piece 1 is located below piece 2
+		else if(y2<y1 && board[x1][y1-1].getCellState()==0)
+		{
+			movePiece(x1,y1,x1,y1-1);
+			changeTurn();
+			findPath(x1,y1-1,x2,y2);
+		}//if piece 1 is located to the left of piece 2
+		else if(x2>x1 && board[x1+1][y1].getCellState()==0)
+		{
+			movePiece(x1,y1,x1+1,y1);
+			changeTurn();
+			findPath(x1+1,y1,x2,y2);
+		}//if piece 1 is located to the right of piece 2
+		else if(x2<x1 && board[x1-1][y1].getCellState()==0)
+		{
+			movePiece(x1,y1,x1-1,y1);
+			findPath(x1-1,y1,x2,y2);
+		}//TODO if the next move (up/ down/ left/ right) would result in total 
+		// blockage (all sides), move somewhere else.
+		//if there are obstacles in its path, move one to the right, if not possible, move to the left.
+		else if(y2>y1 && board[x1][y1+1].getCellState()!=0)//block down
+		{
+			if(board[x1+1][y1].getCellState()==0)//move right
+			{
+				movePiece(x1,y1,x1+1,y1);
+				changeTurn();
+				findPath(x1+1,y1,x2,y2);
+			}
+			else if(board[x1-1][y1].getCellState()==0)//move left
+			{
+				movePiece(x1,y1,x1-1,y1);
+				changeTurn();
+				findPath(x1-1,y1,x2,y2);
+			}
+		}
+		else if(y2<y1 && board[x1][y1-1].getCellState()!=0)//block up
+		{
+			if(board[x1+1][y1].getCellState()==0)
+			{
+				movePiece(x1,y1,x1+1,y1);
+				changeTurn();
+				findPath(x1+1,y1,x2,y2);
+			}
+			else if(board[x1-1][y1].getCellState()==0)
+			{
+				movePiece(x1,y1,x1-1,y1);
+				changeTurn();
+				findPath(x1-1,y1,x2,y2);
+			}
+		}//if there are obstacles in its path, move one downwards, if not possible, move upwards.
+		else if(x2>x1 && board[x1+1][y1].getCellState()!=0)//block right
+		{
+			if(board[x1][y1+1].getCellState()==0)//move down
+			{
+				movePiece(x1,y1,x1,y1+1);
+				changeTurn();
+				findPath(x1,y1+1,x2,y2);
+			}
+			else if(board[x1][y1-1].getCellState()==0)//move up
+			{
+				movePiece(x1,y1,x1,y1-1);
+				changeTurn();
+				findPath(x1,y1-1,x2,y2);
+			}
+		}
+		else if(x2<x1 && board[x1-1][y1].getCellState()!=0)//block left
+		{
+			if(board[x1][y1+1].getCellState()==0)
+			{
+				movePiece(x1,y1,x1,y1+1);
+				changeTurn();
+				findPath(x1,y1+1,x2,y2);
+			}
+			else if(board[x1][y1-1].getCellState()==0)
+			{
+				movePiece(x1,y1,x1,y1-1);
+				changeTurn();
+				findPath(x1,y1-1,x2,y2);
+			}
+		}
+		//TODO if completely surrounded, make a path free for miner.
 	}
 
 	/**

@@ -24,11 +24,6 @@ public class RandomAlg {
         ArrayList<Move> moves = movesAvailable(board);
 
         Random rand = new Random();
-        //System.out.println("moves = " + moves.size());
-        /*for ( int i = 0; i<moves.size(); i++)
-        {
-        	moves.get(i).printMove();
-        }*/
         if(moves.size() != 0){
 	        int i = rand.nextInt(moves.size());
 	        return moves.get(i);
@@ -39,6 +34,26 @@ public class RandomAlg {
         }
         
     }
+    //starts heuristic ranalg
+    public Move generateMovementHeur(){
+        //finds coordinates of movable pieces
+        ArrayList<Move> moves = movesAvailable(board);
+
+        Random rand = new Random();
+        while(player.piecesCoord.size()>15){
+	        if(moves.size() != 0){
+		        int i = rand.nextInt(moves.size());
+		        return moves.get(i);
+	        }
+	        else{
+	        	game.endgame();
+	        	return null;
+	        }
+        }
+        bruteforce();
+        return null;
+    }
+    
     /**
      * Makes a random move
      */
@@ -246,6 +261,41 @@ public class RandomAlg {
 		return moves;
     }
 
+    /**
+     * bruteforce algorithm to run after player has 15 pieces or less
+     */
+    public void bruteforce()
+    {
+    	int[] bposition = null;
+    	int[] mposition = null;
+    	for(int i = 0; i < player.knownPieces.size(); i++) {
+    		if (player.knownPieces.get(i).getRank()==11)
+    		{
+    			//System.out.println("!!!!!!!!!!!!!!!!!!!FOUND BOMB");
+    			bposition = player.knownPieces.get(i).position;
+    		}
+    		else
+    		{
+    			System.out.println("no bomb");
+    		}
+    	}
+    	
+    	for (int i = 0; i < player.piecesCoord.size(); i++)
+    	{
+    		if(player.piecesCoord.get(i).getRank() == 3)
+    		{
+    			mposition = player.piecesCoord.get(i).position;
+    		}
+    	}
+    	
+    	if ( bposition != null && mposition != null)
+    	{
+    		//move miners to the bomb
+    		game.findPath(mposition[0], mposition[1], bposition[0], mposition[1]);
+    	}
+ 
+    }
+    
 	public Cell[][] getBoard()
 	{
 		return board;

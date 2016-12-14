@@ -61,4 +61,13 @@ public class Player {
 	public void setType(String a){
 		type = a;
 	}
+	
+	public void printKnown()
+	{
+		System.out.println("Known pieces by player " + player_ID + ": " );
+		for (int i = 0; i< knownPieces.size(); i++)
+		{
+			System.out.println("piece with rank " + knownPieces.get(i).rank );
+		}
+	}
 }
