@@ -485,9 +485,19 @@ public class GUI {
 				RandomAlg rand = new RandomAlg(game, game.currentPlayer);
 				rand.randomMove();
 
+				sleep(10);
+				frame.repaint();
+				sleep(10);
+
+
 				frame.paint(frame.getGraphics());
 				sleep(1000);
+
 				game.changeTurn();
+
+				sleep(10);
+				//gameLoop();
+
 			}
 			JOptionPane.showMessageDialog(frame, "END");
 		}
