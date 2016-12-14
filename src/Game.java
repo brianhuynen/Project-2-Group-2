@@ -524,7 +524,6 @@ public class Game {
 	}
 	
 	/**
-<<<<<<< HEAD
 	 * Moves a random piece
 	 */
 	public void ranMovePiece(){
