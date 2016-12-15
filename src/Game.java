@@ -126,7 +126,7 @@ public class Game {
 			boolean done = false;
 			while(!done && i < currentPlayer.piecesCoord.size()) {
 				if(currentPlayer.piecesCoord.get(i) == board[x][y].getContent()){
-					System.out.println("Player " + currentPlayer.getPlayer_ID() + " loses one piece");
+//					System.out.println("Player " + currentPlayer.getPlayer_ID() + " loses one piece");
 					currentPlayer.piecesCoord.remove(i);
 					currentPlayer.numberPieces--;
 				}
@@ -156,7 +156,7 @@ public class Game {
 			boolean done = false;
 			while(!done && j < player.piecesCoord.size()) {
 				if(player.piecesCoord.get(j) == board[x][y].getContent()){
-					System.out.println("Player " + player.getPlayer_ID() + " loses one piece");
+//					System.out.println("Player " + player.getPlayer_ID() + " loses one piece");
 					player.piecesCoord.remove(j);
 					player.numberPieces--;
 				}
@@ -767,10 +767,10 @@ public class Game {
 		Pieces attack = board[x1][y1].getContent();
 		Pieces defense = board[x2][y2].getContent();
 
-		System.out.println("Battle between rank " + attack.getRank() + "(" + attack.getPlayer_ID() +
-							") on (" + attack.getPosition()[0] + "," + attack.getPosition()[1] +
-							") and rank " + defense.getRank() + "(" + defense.getPlayer_ID() +
-							") on (" + defense.getPosition()[0] + "," + defense.getPosition()[1] + ")");
+//		System.out.println("Battle between rank " + attack.getRank() + "(" + attack.getPlayer_ID() +
+//							") on (" + attack.getPosition()[0] + "," + attack.getPosition()[1] +
+//							") and rank " + defense.getRank() + "(" + defense.getPlayer_ID() +
+//							") on (" + defense.getPosition()[0] + "," + defense.getPosition()[1] + ")");
 		if(defense.getRank()==0){
 			endgame();
 			//findScore();
@@ -907,8 +907,8 @@ public class Game {
 			GUI.frame.repaint();
 		}
 		*/
-		System.out.println("Player " + player_1.player_ID + " has " + player_1.numberPieces+ " pieces");
-		System.out.println("Player " + player_2.player_ID + " has " + player_2.numberPieces+ " pieces");
+//		System.out.println("Player " + player_1.player_ID + " has " + player_1.numberPieces+ " pieces");
+//		System.out.println("Player " + player_2.player_ID + " has " + player_2.numberPieces+ " pieces");
 //		player_1.printPiecesCoord();
 //		player_2.printPiecesCoord();
 //		printBoard();

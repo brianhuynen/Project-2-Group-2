@@ -40,25 +40,55 @@ public class RandomAlg {
         ArrayList<Move> moves = movesAvailable(board);
 
         Random rand = new Random();
-//        System.out.println("Player " + player.player_ID + " has " + player.numberPieces+ " pieces");
-//		player.printPiecesCoord();
-		while(!knowBomb()){
-			if(moves.size() != 0){
+//		while(!knowBomb()){
+//			if(moves.size() != 0){
+//		        int i = rand.nextInt(moves.size());
+//		        return moves.get(i);
+//	        }
+//	        else{
+//	        	game.endgame();
+//	        	return null;
+//	        }
+//        }
+		while(oppositePlayer().piecesCoord.size() > 10)
+		{
+			if(moves.size() != 0)
+			{
 		        int i = rand.nextInt(moves.size());
 		        return moves.get(i);
 	        }
-	        else{
+	        else
+			{
 	        	game.endgame();
 	        	return null;
 	        }
-        }
+		}
+
         bruteforce();
-		System.out.println("hi " + game.path.size());
-		int[] origin = game.path.remove();
-        int[] destination = game.path.getFirst();
-        Move move = new Move(board[origin[0]][origin[1]].getContent(), destination);
+		Move move = null;
+
+		if(game.path.size() > 1)
+		{
+			int[] origin = game.path.remove();
+			int[] destination = game.path.getFirst();
+			move = new Move(board[origin[0]][origin[1]].getContent(), destination);
+		}
+		else
+		{
+			int i = rand.nextInt(moves.size());
+			return moves.get(i);
+		}
+
         return move;
     }
+
+    public Player oppositePlayer(){
+    	if(player == game.player_1){
+    		return game.player_2;
+		} else {
+    		return game.player_1;
+		}
+	}
     
     /**
      * Makes a random move
@@ -288,13 +318,13 @@ public class RandomAlg {
     	for(int i = 0; i < player.knownPieces.size(); i++) {
     		if (player.knownPieces.get(i).getRank()==11)
     		{
-    			//System.out.println("!!!!!!!!!!!!!!!!!!!FOUND BOMB");
     			bposition = player.knownPieces.get(i).position;
-    		}
-    		else
-    		{
-    			System.out.println("no bomb");
-    		}
+				System.out.println(player.getPlayer_ID() + ": Bomb at (" + bposition[0] + "," + bposition[1] + ")");
+			}
+//    		else
+//    		{
+//    			System.out.println("no bomb");
+//    		}
     	}
     	
     	for (int i = 0; i < player.piecesCoord.size(); i++)
@@ -302,9 +332,12 @@ public class RandomAlg {
     		if(player.piecesCoord.get(i).getRank() == 3)
     		{
     			mposition = player.piecesCoord.get(i).position;
-    		} else {
-				System.out.println("no miner");
-			}
+				System.out.println(player.getPlayer_ID() + ": Miner at (" + mposition[0] + "," + mposition[1] + ")");
+    		}
+//    		else
+//			{
+//				System.out.println("no miner");
+//			}
     	}
     	
     	if ( bposition != null && mposition != null)

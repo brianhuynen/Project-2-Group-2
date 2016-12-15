@@ -47,9 +47,9 @@ public class Setups {
 //                       {-1,-1,-1,-1,-1, 3,-1,-1,-1,-1}};
 
         setups1 = new ArrayList<int[][]>();
-        setups1.add(s11);
-        setups1.add(s21);
-        setups1.add(s31);
+//        setups1.add(s11);
+//        setups1.add(s21);
+//        setups1.add(s31);
         setups1.add(s41);
 
         //Mirrored setups for player 2, stored in arraylist setups2
@@ -79,9 +79,9 @@ public class Setups {
 //                       {-1, 3,-1,-1,-1,-1,11, 0,11,-1}};
 
         setups2 = new ArrayList<int[][]>();
-        setups2.add(s12);
-        setups2.add(s22);
-        setups2.add(s32);
+//        setups2.add(s12);
+//        setups2.add(s22);
+//        setups2.add(s32);
         setups2.add(s42);
 
     }
