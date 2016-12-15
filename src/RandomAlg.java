@@ -97,9 +97,9 @@ public class RandomAlg {
     {
     	Move move = generateMovementHeur();
     	game.movePiece(move.piece.position[0], move.piece.position[1], move.newCoords[0], move.newCoords[1]);
-   
+
     }
-    
+
     /**
      * Find coordinates of pieces who can make a move
      * @return list of coordinates which can make a move
@@ -319,7 +319,7 @@ public class RandomAlg {
     		if (player.knownPieces.get(i).getRank()==11)
     		{
     			bposition = player.knownPieces.get(i).position;
-				System.out.println(player.getPlayer_ID() + ": Bomb at (" + bposition[0] + "," + bposition[1] + ")");
+				System.out.println("Bomb at (" + bposition[0] + "," + bposition[1] + ")");
 			}
 //    		else
 //    		{
@@ -332,14 +332,14 @@ public class RandomAlg {
     		if(player.piecesCoord.get(i).getRank() == 3)
     		{
     			mposition = player.piecesCoord.get(i).position;
-				System.out.println(player.getPlayer_ID() + ": Miner at (" + mposition[0] + "," + mposition[1] + ")");
+				System.out.println("Miner at (" + mposition[0] + "," + mposition[1] + ")");
     		}
 //    		else
 //			{
 //				System.out.println("no miner");
 //			}
     	}
-    	
+
     	if ( bposition != null && mposition != null)
     	{
     		//move miners to the bomb
@@ -347,7 +347,7 @@ public class RandomAlg {
     	}
 
 //    	makeFinalMove(bposition);
- 
+
     }
 
     public void makeFinalMove(int[] currentPosition)
