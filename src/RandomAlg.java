@@ -67,11 +67,13 @@ public class RandomAlg {
         bruteforce();
 		Move move = null;
 
+        System.out.println(game.path.size());
+
 		if(game.path.size() > 1)
 		{
 			int[] origin = game.path.remove();
 			int[] destination = game.path.getFirst();
-			move = new Move(board[origin[0]][origin[1]].getContent(), destination);
+			move = new Move(game.board[origin[0]][origin[1]].getContent(), destination);
 		}
 		else
 		{
@@ -96,7 +98,7 @@ public class RandomAlg {
     public void randomMove()
     {
     	Move move = generateMovementHeur();
-    	game.movePiece(move.piece.position[0], move.piece.position[1], move.newCoords[0], move.newCoords[1]);
+        game.movePiece(move.piece.position[0], move.piece.position[1], move.newCoords[0], move.newCoords[1]);
 
     }
 
@@ -315,34 +317,39 @@ public class RandomAlg {
     {
     	int[] bposition = null;
     	int[] mposition = null;
-    	for(int i = 0; i < player.knownPieces.size(); i++) {
-    		if (player.knownPieces.get(i).getRank()==11)
-    		{
-    			bposition = player.knownPieces.get(i).position;
-				System.out.println("Bomb at (" + bposition[0] + "," + bposition[1] + ")");
-			}
-//    		else
+//    	for(int i = 0; i < player.knownPieces.size(); i++) {
+//    		if (player.knownPieces.get(i).getRank()==11)
 //    		{
-//    			System.out.println("no bomb");
-//    		}
-    	}
-    	
-    	for (int i = 0; i < player.piecesCoord.size(); i++)
-    	{
-    		if(player.piecesCoord.get(i).getRank() == 3)
-    		{
-    			mposition = player.piecesCoord.get(i).position;
-				System.out.println("Miner at (" + mposition[0] + "," + mposition[1] + ")");
-    		}
-//    		else
-//			{
-//				System.out.println("no miner");
+//    			bposition = player.knownPieces.get(i).position;
+//				System.out.println("Bomb at (" + bposition[0] + "," + bposition[1] + ")");
 //			}
-    	}
+//    	}
+        for (int i = 0; i < oppositePlayer().piecesCoord.size(); i++)
+        {
+            if (oppositePlayer().piecesCoord.get(i).getRank() == 11)
+            {
+                if ((player == game.player_1 && oppositePlayer().piecesCoord.get(i).getPosition()[1] >= 9) ||
+                        (player == game.player_2 && oppositePlayer().piecesCoord.get(i).getPosition()[1] <= 2))
+                {
+                    bposition = oppositePlayer().piecesCoord.get(i).position;
+                    System.out.println("Bomb at (" + bposition[0] + "," + bposition[1] + ")");
+                    break;
+                }
+            }
+        }
+
+    	for (int i = 0; i < player.piecesCoord.size(); i++) {
+            if (player.piecesCoord.get(i).getRank() == 3) {
+                mposition = player.piecesCoord.get(i).position;
+                System.out.println("Miner at (" + mposition[0] + "," + mposition[1] + ")");
+                break;
+            }
+        }
 
     	if ( bposition != null && mposition != null)
     	{
     		//move miners to the bomb
+            game.path.clear();
     		game.findPath(mposition[0], mposition[1], bposition[0], bposition[1]);
     	}
 
