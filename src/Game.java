@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 
@@ -203,7 +204,7 @@ public class Game {
 //		System.out.println(currentPlayer.getPlayer_ID() + " moved " + x1 + "," + y1 + " to " + x2 + ","  + y2 + ", " + success);
 		currentPlayer.printKnown();
 	}
-	
+
 	public void findPath(int x1, int y1, int x2, int y2)
 	{
 		//base cases
@@ -1066,12 +1067,12 @@ public class Game {
 		}
 	}
 
-	public void clearPieces(){
-		for (int x = 0; x<board.length; x++){
-			for (int y = 0; y< board[0].length; y++){
-				removePiece(x,y);
-			}
-		}
-	}
+
+	public void printPath(){
+        System.out.println();
+        for (int[] coord: path){
+            System.out.print("("+coord[0]+","+coord[1]+") ->");
+        }
+    }
 }
 
