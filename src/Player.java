@@ -1,7 +1,7 @@
 import java.awt.Color;
 import java.util.ArrayList;
 public class Player {
-	
+	//h
 	public int player_ID;
 	public int pieces[];
 	public Color pColor;
