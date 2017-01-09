@@ -1,3 +1,5 @@
+import com.sun.org.apache.xpath.internal.SourceTree;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -371,20 +373,20 @@ public class GUI {
 			public void actionPerformed(java.awt.event.ActionEvent e){
 				for(int i = 0; i<1; i++) {
 					RandomAlg rand = new RandomAlg(game, game.currentPlayer);
-//					rand.randomMove();
-					game.findPath(6, 4, 9, 10);
-					int[] bposition = {9,10};
-					rand.makeFinalMove(bposition);
+					rand.randomMove();
+//					game.findPath(6, 4, 9, 10);
+//					int[] bposition = {9,10};
+//					rand.makeFinalMove(bposition);
 					//game.ranMovePiece();
 					//MCTS mcts = new MCTS();
 					//Node node = new Node(game);
 					//mcts.playout(node, game, rand);
-//					if(game.success) {
-//						frame.repaint();
-//						game.changeTurn();
-//						gameLoop();
-//						//JOptionPane.showMessageDialog(frame, "Turn");
-//					}
+					if(game.success) {
+						frame.repaint();
+						game.changeTurn();
+						gameLoop();
+						//JOptionPane.showMessageDialog(frame, "Turn");
+					}
 				}
 			}
 		});
@@ -482,21 +484,38 @@ public class GUI {
 	
 	public static void gameLoop(){
 		if( (playerTypeData[0] == playerTypeData[1]) && (playerTypeData[0] == "AIPlayer") ){
+			int counter = 0;
+			long startTime = System.currentTimeMillis();
+			// wait for activity here
 			while(!game.gameOver && game.findMovableCoords(game.currentPlayer).size() != 0 && game.gameActive){
 
 				RandomAlg rand = new RandomAlg(game, game.currentPlayer);
+				if(game.currentPlayer == game.player_1){
+					counter++;
+				}
 				rand.randomMove();
-//				rand.generateMovementHeur();
 
+				//sleep(10);
 				frame.repaint();
+				//sleep(10);
+
+
 				frame.paint(frame.getGraphics());
-				sleep(0);
+				//sleep(100);
+
 				game.changeTurn();
 
+				//sleep(10);
 				//gameLoop();
 
 			}
-			JOptionPane.showMessageDialog(frame, "END");
+			long endTime = System.currentTimeMillis();
+			long timer = (endTime - startTime);
+
+			JOptionPane.showMessageDialog(frame, "END, moves:" + counter+" time: " + timer+"  win? "+ game.flagCaptured);
+			System.out.println("counter" + counter);
+
+			System.out.println("timer" + timer);
 		}
 		
 		

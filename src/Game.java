@@ -5,6 +5,7 @@ import java.util.Random;
 
 
 public class Game {
+	public boolean flagCaptured;
 	/*	How coordinates work on the board:
 
 		x = board.length
@@ -772,6 +773,7 @@ public class Game {
 //							") and rank " + defense.getRank() + "(" + defense.getPlayer_ID() +
 //							") on (" + defense.getPosition()[0] + "," + defense.getPosition()[1] + ")");
 		if(defense.getRank()==0){
+			flagCaptured = true;
 			endgame();
 			//findScore();
 		}
