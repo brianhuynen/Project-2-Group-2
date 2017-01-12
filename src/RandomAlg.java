@@ -97,16 +97,9 @@ public class RandomAlg {
      */
     public void randomMove()
     {
-<<<<<<< HEAD
-    	Move move = generateMovement();
-    	move.checkBattle(board);
-    	game.movePiece(move.piece.position[0], move.piece.position[1], move.newCoords[0], move.newCoords[1]);
-   
-=======
     	Move move = generateMovementHeur();
         game.movePiece(move.piece.position[0], move.piece.position[1], move.newCoords[0], move.newCoords[1]);
 
->>>>>>> branch 'carolley' of https://github.com/brianhuynen/Project-2-Group-2.git
     }
 
     /**
