@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
-public class MCTS {
+public class MCTS extends Game{
 	private Random random;
 	private Node rootNode;
 	private double explorationConstant = Math.sqrt(2.0);
@@ -19,8 +19,10 @@ public class MCTS {
 
 	private HeuristicFunction heuristic;
 	
-	public MCTS() {
+	public MCTS(String[] playerTypeData, Game g) {
+		super(playerTypeData);
 		random = new Random();
+		super.board = g.duplicate();
 	}
 
 	/**
@@ -31,14 +33,14 @@ public class MCTS {
 	 * @param bounds enable or disable score bounds.
 	 * @return
 	 */
-	public Move runMCTS(Game startingGameState, int runs, boolean bounds) {
+	public Move runMCTS(int runs, boolean bounds) {
 		scoreBounds = bounds;
-		rootNode = new Node(startingGameState);
+		rootNode = new Node(this);
 
 		long startTime = System.nanoTime();
 
 		for (int i = 0; i < runs; i++) {
-			select(startingGameState.duplicate(), rootNode);
+			select(super.board, rootNode);
 		}
 
 		long endTime = System.nanoTime();
@@ -62,11 +64,11 @@ public class MCTS {
 	 * @param brd
 	 * 			  Board state to work from.
 	 */
-	private void select(Game currentBoard, Node currentNode){
+	private void select(Cell[][] currentBoard, Node currentNode){
 		// Begin tree policy. Traverse down the tree and expand. Return
 		// the new node or the deepest node it could reach. Return too
 		// a board matching the returned node.
-		Entry<Game, Node> boardNodePair = treePolicy(currentBoard, currentNode);
+		Entry<Cell[][], Node> boardNodePair = treePolicy(currentBoard, currentNode);
 		
 		// Run a random playout until the end of the game.
 		double[] score = playout(boardNodePair.getValue(), boardNodePair.getKey());
@@ -79,19 +81,19 @@ public class MCTS {
 		}
 	}
 	
-	private SimpleEntry<Game, Node> treePolicy(Game g, Node node) {
-		while(!g.gameOver()) {
+	private SimpleEntry<Cell[][], Node> treePolicy(Cell[][] currentBoard, Node node) {
+		while(!gameOver(this)) {
 				if (node.unvisitedChildren == null) {
-					node.expandNode(g); 
+					node.expandNode(currentBoard); 
 				}
 				
 				if (!node.unvisitedChildren.isEmpty()) {
 					Node temp = node.unvisitedChildren.remove(random.nextInt(node.unvisitedChildren.size()));
 					node.children.add(temp);
-					g.makeMove(temp.move);
-					return new AbstractMap.SimpleEntry<>(g, temp);
+					currentBoard.makeMove(temp.move);
+					return new AbstractMap.SimpleEntry<>(currentBoard, temp);
 				} else {
-					ArrayList<Node> bestNodes = findChildren(node, g, optimisticBias, pessimisticBias, explorationConstant);
+					ArrayList<Node> bestNodes = findChildren(node, currentBoard, optimisticBias, pessimisticBias, explorationConstant);
 					
 					if (bestNodes.size() == 0){
 						// We have failed to find a single child to visit
@@ -211,10 +213,9 @@ public class MCTS {
 	 * @param state
 	 * @return
 	 */
-	private double[] playout(Node state, Game game) {
+	private double[] playout(Node state, Cell[][] board) {
 		ArrayList<Move> moves;
 		Move mv;
-		Cell[][]brd = game.duplicate();
 
 		// Start playing random moves until the game is over
 		while (!game.gameOver()) {
@@ -271,7 +272,7 @@ public class MCTS {
 	 * @param explorationConstant
 	 * @return
 	 */
-	public ArrayList<Node> findChildren(Node n, Game g, double optimisticBias, double pessimisticBias, double explorationConstant){
+	public ArrayList<Node> findChildren(Node n, Cell[][] currentBoard, double optimisticBias, double pessimisticBias, double explorationConstant){
 		double bestValue = Double.NEGATIVE_INFINITY;
 		ArrayList<Node> bestNodes = new ArrayList<Node>();
 		for (Node s : n.children) {
@@ -284,7 +285,7 @@ public class MCTS {
 						+pessimisticBias * s.pess[n.player];
 
 				if (heuristic != null){
-					tempBest += heuristic.h(g);
+					tempBest += heuristic.h(currentBoard);
 				}
 				
 				if (tempBest > bestValue) {
