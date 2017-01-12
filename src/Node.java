@@ -20,7 +20,7 @@ public class Node {
 	 * 
 	 * @param b
 	 */
-	public Node(Game g) {
+	public Node() {
 		children = new ArrayList<Node>();
 		player = g.currentPlayer_ID;
 		score = new double[nPlayers];
@@ -37,13 +37,15 @@ public class Node {
 	 * @param m
 	 * @param prnt
 	 */
-	public Node(Game g, Move m, Node prnt) {
+	
+	//TODO: Note that the root node of each tree is the player the MCTS algorithm belongs to.
+	//		In that case, make sure that each even layer stores the move of the opponent player,
+	//		and each odd layer stores the move of the player itself.
+	public Node(Move m, Node prnt) {
 		children = new ArrayList<Node>();
 		parent = prnt;
 		move = m;
-		Cell[][] tempBoard = g.duplicate();
-		g.makeMove(tempBoard,m);
-		player = g.currentPlayer_ID;
+		//makeMove(m);
 		score = new double[nPlayers];
 		pess = new double[nPlayers];
 		opti = new double[nPlayers];
@@ -83,11 +85,11 @@ public class Node {
 	 * unvisited child nodes.
 	 * @param currentBoard
 	 */
-	public void expandNode(Game currentGame){
-		ArrayList<Move> legalMoves = currentGame.getMoves(CallLocation.treePolicy);
+	public void expandNode(Cell[][] currentBoard){
+		ArrayList<Move> legalMoves = currentBoard.getMoves(CallLocation.treePolicy);
 		unvisitedChildren = new ArrayList<Node>();
 		for (int i = 0; i < legalMoves.size(); i++) {
-			Node tempState = new Node(currentGame, legalMoves.get(i), this);
+			Node tempState = new Node(currentBoard, legalMoves.get(i), this);
 			unvisitedChildren.add(tempState);
 		}
 	}
