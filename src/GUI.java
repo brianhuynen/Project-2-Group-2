@@ -355,7 +355,7 @@ public class GUI {
 //					RandomAlg rand = new RandomAlg(game, game.currentPlayer);
 //					rand.randomMove();
                 try {
-                    game.findPath(fromX, fromY, toX, toY);
+                   // game.findPath(fromX, fromY, toX, toY);
                 } catch (StackOverflowError err){
                     System.out.print("\nfail... ");
                 }
