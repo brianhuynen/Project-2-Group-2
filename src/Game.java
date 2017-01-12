@@ -363,7 +363,7 @@ public class Game {
 	}
 
 	public void repaint(){
-		GUI.frame.repaint();
+		GUI.frame.repaint();//bananas are tasty
 	}
 
 	/**
