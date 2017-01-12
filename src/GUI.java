@@ -142,48 +142,28 @@ public class GUI {
 	 * @return panel
 	 */
 	/*
-	public static JPanel piecePanel(){
-		String rank ="";
-		JPanel piecePanel = new JPanel();
-		for(int i=0; i<12; i++){
-			if(i!= 0 && i!=10 && i!=11){
-				rank = Integer.toString(i);
-			}
-			else{
-				if(i==0){
-				 	rank = "F";
-				}
-				else if (i==10) {
-					rank = "M";
-				}
-				else{
-					rank = "B";
-				}
-			}
-			JLabel label = new JLabel("Piece " + rank +" : "+ game.currentPlayer.pieces[i]);
-			// new Jlabel how many left of the piece type
-			piecePanel.add(label);
-			
-		}
-		return piecePanel;
-	}
-	*/
+
 	
 	/**
 	 * Creates panel with buttons for placing/removing pieces on the board
 	 * @return panel
 	 */
+	//@michael Textfield made static
+	private static JTextField xControl = new JTextField();
+	private static JTextField rank = new JTextField();
+	private static JTextField yControl = new JTextField();
+	
 	public static JPanel inputPanel_1(){
 		JPanel control = new JPanel();
 		control.setLayout(new BoxLayout(control,BoxLayout.Y_AXIS));
 		JButton autofill = new JButton("Autofill");
 		JButton add = new JButton("Add");
 		JLabel rankPiece = new JLabel("Rank");
-		JTextField rank = new JTextField();
+
 		JLabel xPos = new JLabel("X");
-		 JTextField xControl = new JTextField();
+		
 		JLabel yPos = new JLabel("Y");
-		 JTextField yControl = new JTextField();
+		
 		JButton done = new JButton("Done");
 		autofill.addActionListener(new ActionListener(){
 
@@ -316,15 +296,20 @@ public class GUI {
 	 * Creates panel with buttons and JText to move pieces on the board 
 	 * @return panel
 	 */
+	//@michael made Jtextfield static
+	private static JTextField x1 = new JTextField(2);
+	private static JTextField y1 = new JTextField(2);
+	private static JTextField x2 = new JTextField(2);
+	private static JTextField y2 = new JTextField(2);
 	public static JPanel inputPanel_2(){
 		JPanel inputPanel = new JPanel();
-		JTextField x1 = new JTextField(2);
+		
 		JLabel from_X = new JLabel("From X");
-		JTextField y1 = new JTextField(2);
+		
 		JLabel from_Y = new JLabel("From Y");
-		JTextField y2 = new JTextField(2);
+		
 		JLabel to_Y = new JLabel("To Y");
-		JTextField x2 = new JTextField(2);
+
 		JLabel to_X = new JLabel("To X");
 		JButton move = new JButton("Move");
 		JButton findPath = new JButton("Find Path");
@@ -380,7 +365,7 @@ public class GUI {
 //					RandomAlg rand = new RandomAlg(game, game.currentPlayer);
 //					rand.randomMove();
                 try {
-                    game.findPath(fromX, fromY, toX, toY);
+                   // game.findPath(fromX, fromY, toX, toY);
                 } catch (StackOverflowError err){
                     System.out.print("\nfail... ");
                 }

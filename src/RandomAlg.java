@@ -350,7 +350,7 @@ public class RandomAlg {
     	{
     		//move miners to the bomb
             game.path.clear();
-    		game.findPath(mposition[0], mposition[1], bposition[0], bposition[1]);
+    		//game.findPath(mposition[0], mposition[1], bposition[0], bposition[1]);
     	}
 
 //    	makeFinalMove(bposition);
