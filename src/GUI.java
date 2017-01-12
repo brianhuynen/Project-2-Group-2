@@ -12,7 +12,7 @@ public class GUI {
 		Game game = new Game(playerTypeData);
 		this.game = game;
 	}
-	
+	//***
 	final static int FRAME_WIDTH = 800;
 	final static int FRAME_HEIGHT = 700;
 	final int BOARD_WIDTH = 500;
@@ -142,32 +142,7 @@ public class GUI {
 	 * @return panel
 	 */
 	/*
-	public static JPanel piecePanel(){
-		String rank ="";
-		JPanel piecePanel = new JPanel();
-		for(int i=0; i<12; i++){
-			if(i!= 0 && i!=10 && i!=11){
-				rank = Integer.toString(i);
-			}
-			else{
-				if(i==0){
-				 	rank = "F";
-				}
-				else if (i==10) {
-					rank = "M";
-				}
-				else{
-					rank = "B";
-				}
-			}
-			JLabel label = new JLabel("Piece " + rank +" : "+ game.currentPlayer.pieces[i]);
-			// new Jlabel how many left of the piece type
-			piecePanel.add(label);
-			
-		}
-		return piecePanel;
-	}
-	*/
+
 	
 	/**
 	 * Creates panel with buttons for placing/removing pieces on the board
@@ -337,7 +312,7 @@ public class GUI {
 
 		JLabel to_X = new JLabel("To X");
 		JButton move = new JButton("Move");
-		JButton ranMove = new JButton("Random");
+		JButton findPath = new JButton("Find Path");
 		move.addActionListener( new ActionListener(){
 		
 			public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -377,14 +352,29 @@ public class GUI {
 				y2.setText("");
 			}
 		});
-		ranMove.addActionListener( new ActionListener(){
+		findPath.addActionListener( new ActionListener(){
 			public void actionPerformed(java.awt.event.ActionEvent e){
-				for(int i = 0; i<1; i++) {
-					RandomAlg rand = new RandomAlg(game, game.currentPlayer);
+
+			    game.path.clear();
+
+                int fromX = Integer.parseInt(x1.getText());
+                int fromY = Integer.parseInt(y1.getText());
+                int toX = Integer.parseInt(x2.getText());
+                int toY = Integer.parseInt(y2.getText());
+//				for(int i = 0; i<1; i++) {
+//					RandomAlg rand = new RandomAlg(game, game.currentPlayer);
 //					rand.randomMove();
-					game.findPath(6, 4, 9, 10);
-					int[] bposition = {9,10};
-					rand.makeFinalMove(bposition);
+                try {
+                   // game.findPath(fromX, fromY, toX, toY);
+                } catch (StackOverflowError err){
+                    System.out.print("\nfail... ");
+                }
+                System.out.println("\ndone");
+                System.out.println(game.path.size());
+                game.printPath();
+
+//					int[] bposition = {9,10};
+//					rand.makeFinalMove(bposition);
 					//game.ranMovePiece();
 					//MCTS mcts = new MCTS();
 					//Node node = new Node(game);
@@ -395,7 +385,7 @@ public class GUI {
 //						gameLoop();
 //						//JOptionPane.showMessageDialog(frame, "Turn");
 //					}
-				}
+//				}
 			}
 		});
 		
@@ -408,7 +398,7 @@ public class GUI {
 		inputPanel.add(to_Y);
 		inputPanel.add(y2);
 		inputPanel.add(move);
-		inputPanel.add(ranMove);
+		inputPanel.add(findPath);
 		return inputPanel;
 	}
 

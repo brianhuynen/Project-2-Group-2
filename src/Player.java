@@ -1,7 +1,7 @@
 import java.awt.Color;
 import java.util.ArrayList;
 public class Player {
-	
+	//h
 	public int player_ID;
 	public int pieces[];
 	public Color pColor;
@@ -15,7 +15,7 @@ public class Player {
 	public Player(int i, Color color){
 		this.player_ID = i;
 		int pieces [] = {1,1,8,5,4,4,4,3,2,1,1,6}; //Stores how many pieces of each rank can be stored.
-//		int pieces [] = {1,0,0,1,3,0,0,0,0,0,0,3}; //For testing purposes.
+		//int pieces [] = {1,0,0,1,3,0,0,0,0,0,0,3}; //For testing purposes.
 //		int pieces [] = {1,0,0,5,0,0,0,0,0,0,0,6}; //test stuff
 		this.pieces  = pieces;
 		this.numberPieces = 0;

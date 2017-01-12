@@ -20,7 +20,7 @@ public class Setups {
             x
      */
     public Setups(){
-//        //Setups for player1, stored in arraylist setups1
+        //Setups for player1, stored in arraylist setups1
         int[][] s11 = {{ 2, 3,11, 2, 3,11, 0,11, 3, 3},
                        { 4,11, 4, 7, 8, 5,11, 5, 6, 4},
                        { 5, 4,11, 1, 9, 2, 7, 7, 8, 2},
@@ -47,10 +47,10 @@ public class Setups {
 //                       {-1,-1,-1,-1,-1, 3,-1,-1,-1,-1}};
 
         setups1 = new ArrayList<int[][]>();
-//        setups1.add(s11);
-//        setups1.add(s21);
-//        setups1.add(s31);
-        setups1.add(s41);
+        setups1.add(s11);
+        setups1.add(s21);
+        setups1.add(s31);
+//        setups1.add(s41);
 
         //Mirrored setups for player 2, stored in arraylist setups2
         int[][] s12 = {{ 6, 2, 2, 5, 2, 6, 3,10, 2, 6},
@@ -74,14 +74,14 @@ public class Setups {
                        { 3, 2, 3, 3, 4,11, 0,11, 3, 2}};
 
 //        int[][] s12 = {{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-//                       {-1,-1,-1,-1, 4,-1, 4,-1,-1,-1},
+//                       {-1,-1,-1, 4,-1,-1, 4,-1,-1,-1},
 //                       {-1,-1,-1,-1,-1, 4,-1,11,-1,-1},
 //                       {-1, 3,-1,-1,-1,-1,11, 0,11,-1}};
 
         setups2 = new ArrayList<int[][]>();
 //        setups2.add(s12);
-//        setups2.add(s22);
-//        setups2.add(s32);
+        setups2.add(s22);
+        setups2.add(s32);
         setups2.add(s42);
 
     }
