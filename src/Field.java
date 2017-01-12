@@ -13,6 +13,7 @@ public class Field {
 					||(i==8 && j==6)|| (i==7 && j==6)){
 					Cell cell = new Cell(null, -1);
 					field[i][j]= cell;
+					cell.setPosition(i, j);
 				}
 				else{
 					Cell cell = new Cell(null,0);
