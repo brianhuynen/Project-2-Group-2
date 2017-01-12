@@ -13,6 +13,7 @@ public class Cell {
 		this.content=content;	
 		this.cellState = cellState;
 		position = new int[2];
+		fcost = Integer.MAX_VALUE;
 	}
 	
 	public void setPosition(int x, int y)
