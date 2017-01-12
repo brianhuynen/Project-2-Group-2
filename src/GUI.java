@@ -12,7 +12,7 @@ public class GUI {
 		Game game = new Game(playerTypeData);
 		this.game = game;
 	}
-	
+	//***
 	final static int FRAME_WIDTH = 800;
 	final static int FRAME_HEIGHT = 700;
 	final int BOARD_WIDTH = 500;
