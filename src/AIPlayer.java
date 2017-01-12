@@ -15,7 +15,7 @@ public class AIPlayer extends Player {
     public Move generateMovement(Game game){
         if (this.getAlgID() == 1){
             RandomAlg alg = new RandomAlg(game, this);
-            return alg.generateMovementHeur();
+            return alg.generateMovement();
         }
         return null;
     }
