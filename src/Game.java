@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 
@@ -126,15 +127,44 @@ public class Game {
 			boolean done = false;
 			while(!done && i < currentPlayer.piecesCoord.size()) {
 				if(currentPlayer.piecesCoord.get(i) == board[x][y].getContent()){
+//					System.out.println("Player " + currentPlayer.getPlayer_ID() + " loses one piece");
 					currentPlayer.piecesCoord.remove(i);
 					currentPlayer.numberPieces--;
 				}
 				i++;
 			}
-		board[x][y].setCellState(0);
-		board[x][y].setContent(null);
 		success = true;
 		
+		}
+		else{
+			success = false;
+		}
+	}
+	public void removeOtherPiece(int x, int y){
+		if(board[x][y].getCellState() != 1){
+			success = false;
+		}
+		else if(board[x][y].getContent().getPlayer_ID() == currentPlayer.getPlayer_ID() ||
+				gameActive){
+			//for(int i=0; i<currentPlayer.piecesCoord.size(); i++){
+			Player player = null;
+			if (currentPlayer == player_1){
+				player = player_2;
+			} else {
+				player = player_1;
+			}
+			int j = 0;
+			boolean done = false;
+			while(!done && j < player.piecesCoord.size()) {
+				if(player.piecesCoord.get(j) == board[x][y].getContent()){
+//					System.out.println("Player " + player.getPlayer_ID() + " loses one piece");
+					player.piecesCoord.remove(j);
+					player.numberPieces--;
+				}
+				j++;
+			}
+			success = true;
+
 		}
 		else{
 			success = false;
@@ -152,8 +182,9 @@ public class Game {
 		if( inBound(x2,y2) && validMove(x1,y1,x2,y2) && board[x2][y2].getCellState()==0){
 			board[x2][y2].setContent(board[x1][y1].getContent());
 			board[x1][y1].getContent().setPosition(x2, y2);
+			board[x1][y1].setCellState(0);
 			board[x2][y2].setCellState(1);
-			removePiece(x1,y1);
+//			removePiece(x1,y1);
 			battled = false;
 			success = true;
 			
@@ -173,7 +204,7 @@ public class Game {
 //		System.out.println(currentPlayer.getPlayer_ID() + " moved " + x1 + "," + y1 + " to " + x2 + ","  + y2 + ", " + success);
 		currentPlayer.printKnown();
 	}
-	
+
 	public void findPath(int x1, int y1, int x2, int y2)
 	{
 		//base cases
@@ -565,10 +596,6 @@ public class Game {
 		}
 	}
 
-	public void changeTurnH(){
-		GUI.frame.repaint();
-	}
-
 	/**
 	 * Checks if the move from (x1,y1) to (x2,y2) is valid.
 	 * @param x1 current x-coordinate of the piece
@@ -724,7 +751,11 @@ public class Game {
 		//System.out.println(list.size() + " movable pieces for player " + currentPlayer.getPlayer_ID());
 		return list;
 	}
-	
+
+	public void repaint(){
+		GUI.frame.repaint();
+	}
+
 	/**
 
 	 * Handles battle between 2 pieces
@@ -737,8 +768,10 @@ public class Game {
 		Pieces attack = board[x1][y1].getContent();
 		Pieces defense = board[x2][y2].getContent();
 
-		System.out.println("Battle between rank " + attack.getRank() + "(" + attack.getPlayer_ID() + ") and rank " + defense.getRank() + "(" + defense.getPlayer_ID() + ")");
-
+//		System.out.println("Battle between rank " + attack.getRank() + "(" + attack.getPlayer_ID() +
+//							") on (" + attack.getPosition()[0] + "," + attack.getPosition()[1] +
+//							") and rank " + defense.getRank() + "(" + defense.getPlayer_ID() +
+//							") on (" + defense.getPosition()[0] + "," + defense.getPosition()[1] + ")");
 		if(defense.getRank()==0){
 			endgame();
 			//findScore();
@@ -758,11 +791,13 @@ public class Game {
 				player_1.offBoard += defense.getRank();
 			}
 			if(currentPlayer == player_2){
-				player_2.offBoard+= defense.getRank();
+				player_2.offBoard += defense.getRank();
 			}
+			removeOtherPiece(x2,y2);
+			board[x1][y1].setCellState(0);
+			board[x1][y1].setContent(null);
+			attack.setPosition(x2,y2);
 			board[x2][y2].setContent(attack);
-			board[x1][y1].getContent().setPosition(x2, y2);
-			removePiece(x1,y1);
 			//findScore();
 //			System.out.println("Dismantle/ Spy Win");
 		}//attack wins
@@ -780,9 +815,11 @@ public class Game {
 				}
 				won = attack;
 				lost = defense;
+				removeOtherPiece(x2,y2);
+				board[x1][y1].setCellState(0);
+				board[x1][y1].setContent(null);
+				attack.setPosition(x2,y2);
 				board[x2][y2].setContent(attack);
-				board[x1][y1].getContent().setPosition(x2, y2);
-				removePiece(x1, y1);
 				//findScore();
 //				System.out.println("Win");
 			}
@@ -797,7 +834,11 @@ public class Game {
 					player_2.offBoard ++;
 				}
 				removePiece(x1, y1);
-				removePiece(x2, y2);
+				board[x1][y1].setCellState(0);
+				board[x1][y1].setContent(null);
+				removeOtherPiece(x2, y2);
+				board[x2][y2].setCellState(0);
+				board[x2][y2].setContent(null);
 				if (attack.known) {
 					unknow(attack);
 				}
@@ -824,6 +865,8 @@ public class Game {
 				}
 
 				removePiece(x1, y1);
+				board[x1][y1].setCellState(0);
+				board[x1][y1].setContent(null);
 				//findScore();
 //				System.out.println("Loss");
 			}
@@ -865,6 +908,11 @@ public class Game {
 			GUI.frame.repaint();
 		}
 		*/
+//		System.out.println("Player " + player_1.player_ID + " has " + player_1.numberPieces+ " pieces");
+//		System.out.println("Player " + player_2.player_ID + " has " + player_2.numberPieces+ " pieces");
+//		player_1.printPiecesCoord();
+//		player_2.printPiecesCoord();
+//		printBoard();
 		if(getCurrentPlayer() == player_1){
 			currentPlayer_ID = 2;
 			currentPlayer = player_2;
@@ -999,12 +1047,32 @@ public class Game {
 		}
 	}
 
-	public void clearPieces(){
-		for (int x = 0; x<board.length; x++){
-			for (int y = 0; y< board[0].length; y++){
-				removePiece(x,y);
+	public void printBoard(){
+		System.out.println();
+		for(int y = 0; y<board[0].length; y++){
+			for(int x = 0; x<board.length; x++){
+				if(board[x][y].getCellState() == 1) {
+					if (board[x][y].getContent().getRank() < 10) {
+						System.out.print(" " + board[x][y].getContent().getRank() + ",");
+					} else {
+						System.out.print(board[x][y].getContent().getRank() + ",");
+					}
+				} else if(board[x][y].getCellState() == -1){
+					System.out.print("-1,");
+				} else if(board[x][y].getCellState() == 0){
+					System.out.print("  ,");
+				}
 			}
+			System.out.println();
 		}
 	}
+
+
+	public void printPath(){
+        System.out.println();
+        for (int[] coord: path){
+            System.out.print("("+coord[0]+","+coord[1]+") ->");
+        }
+    }
 }
 

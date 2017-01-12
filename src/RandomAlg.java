@@ -40,35 +40,75 @@ public class RandomAlg {
         ArrayList<Move> moves = movesAvailable(board);
 
         Random rand = new Random();
-        System.out.println("Player " + player.player_ID + " has " + player.numberPieces+ " pieces");
-        while(!knowBomb()){
-	        if(moves.size() != 0){
+//		while(!knowBomb()){
+//			if(moves.size() != 0){
+//		        int i = rand.nextInt(moves.size());
+//		        return moves.get(i);
+//	        }
+//	        else{
+//	        	game.endgame();
+//	        	return null;
+//	        }
+//        }
+		while(oppositePlayer().piecesCoord.size() > 10)
+		{
+			if(moves.size() != 0)
+			{
 		        int i = rand.nextInt(moves.size());
 		        return moves.get(i);
 	        }
-	        else{
+	        else
+			{
 	        	game.endgame();
 	        	return null;
 	        }
-        }
+		}
+
         bruteforce();
-        int[] origin = game.path.remove();
-        int[] destination = game.path.getFirst();
-        Move move = new Move(board[origin[0]][origin[1]].getContent(), destination);
+		Move move = null;
+
+        System.out.println(game.path.size());
+
+		if(game.path.size() > 1)
+		{
+			int[] origin = game.path.remove();
+			int[] destination = game.path.getFirst();
+			move = new Move(game.board[origin[0]][origin[1]].getContent(), destination);
+		}
+		else
+		{
+			int i = rand.nextInt(moves.size());
+			return moves.get(i);
+		}
+
         return move;
     }
+
+    public Player oppositePlayer(){
+    	if(player == game.player_1){
+    		return game.player_2;
+		} else {
+    		return game.player_1;
+		}
+	}
     
     /**
      * Makes a random move
      */
     public void randomMove()
     {
+<<<<<<< HEAD
     	Move move = generateMovement();
     	move.checkBattle(board);
     	game.movePiece(move.piece.position[0], move.piece.position[1], move.newCoords[0], move.newCoords[1]);
    
+=======
+    	Move move = generateMovementHeur();
+        game.movePiece(move.piece.position[0], move.piece.position[1], move.newCoords[0], move.newCoords[1]);
+
+>>>>>>> branch 'carolley' of https://github.com/brianhuynen/Project-2-Group-2.git
     }
-    
+
     /**
      * Find coordinates of pieces who can make a move
      * @return list of coordinates which can make a move
@@ -284,34 +324,44 @@ public class RandomAlg {
     {
     	int[] bposition = null;
     	int[] mposition = null;
-    	for(int i = 0; i < player.knownPieces.size(); i++) {
-    		if (player.knownPieces.get(i).getRank()==11)
-    		{
-    			//System.out.println("!!!!!!!!!!!!!!!!!!!FOUND BOMB");
-    			bposition = player.knownPieces.get(i).position;
-    		}
-    		else
-    		{
-    			System.out.println("no bomb");
-    		}
-    	}
-    	
-    	for (int i = 0; i < player.piecesCoord.size(); i++)
-    	{
-    		if(player.piecesCoord.get(i).getRank() == 3)
-    		{
-    			mposition = player.piecesCoord.get(i).position;
-    		}
-    	}
-    	
+//    	for(int i = 0; i < player.knownPieces.size(); i++) {
+//    		if (player.knownPieces.get(i).getRank()==11)
+//    		{
+//    			bposition = player.knownPieces.get(i).position;
+//				System.out.println("Bomb at (" + bposition[0] + "," + bposition[1] + ")");
+//			}
+//    	}
+        for (int i = 0; i < oppositePlayer().piecesCoord.size(); i++)
+        {
+            if (oppositePlayer().piecesCoord.get(i).getRank() == 11)
+            {
+                if ((player == game.player_1 && oppositePlayer().piecesCoord.get(i).getPosition()[1] >= 9) ||
+                        (player == game.player_2 && oppositePlayer().piecesCoord.get(i).getPosition()[1] <= 2))
+                {
+                    bposition = oppositePlayer().piecesCoord.get(i).position;
+                    System.out.println("Bomb at (" + bposition[0] + "," + bposition[1] + ")");
+                    break;
+                }
+            }
+        }
+
+    	for (int i = 0; i < player.piecesCoord.size(); i++) {
+            if (player.piecesCoord.get(i).getRank() == 3) {
+                mposition = player.piecesCoord.get(i).position;
+                System.out.println("Miner at (" + mposition[0] + "," + mposition[1] + ")");
+                break;
+            }
+        }
+
     	if ( bposition != null && mposition != null)
     	{
     		//move miners to the bomb
+            game.path.clear();
     		game.findPath(mposition[0], mposition[1], bposition[0], bposition[1]);
     	}
 
 //    	makeFinalMove(bposition);
- 
+
     }
 
     public void makeFinalMove(int[] currentPosition)
