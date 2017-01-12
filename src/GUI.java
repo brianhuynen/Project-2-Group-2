@@ -142,32 +142,7 @@ public class GUI {
 	 * @return panel
 	 */
 	/*
-	public static JPanel piecePanel(){
-		String rank ="";
-		JPanel piecePanel = new JPanel();
-		for(int i=0; i<12; i++){
-			if(i!= 0 && i!=10 && i!=11){
-				rank = Integer.toString(i);
-			}
-			else{
-				if(i==0){
-				 	rank = "F";
-				}
-				else if (i==10) {
-					rank = "M";
-				}
-				else{
-					rank = "B";
-				}
-			}
-			JLabel label = new JLabel("Piece " + rank +" : "+ game.currentPlayer.pieces[i]);
-			// new Jlabel how many left of the piece type
-			piecePanel.add(label);
-			
-		}
-		return piecePanel;
-	}
-	*/
+
 	
 	/**
 	 * Creates panel with buttons for placing/removing pieces on the board
