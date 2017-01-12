@@ -595,10 +595,9 @@ public class Game {
 	}
 	/**
 	 * Duplicates the board with only own pieces and known opponent pieces
-	 * @param player
 	 * @return the duplicate board
 	 */
-	public Cell[][] duplicate(Player player){
+	public Cell[][] duplicate(){
 		Cell[][] duplicate = new Cell[12][12];
 		
 		for(int i=0; i<board[0].length; i++){
