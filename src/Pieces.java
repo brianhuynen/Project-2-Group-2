@@ -8,6 +8,7 @@ public class Pieces {
 	public int [] position;
 	public boolean known;
 	
+	
 	public Pieces(int rank, String name, int player_ID){
 		this.rank = rank;
 		this.name = name;
