@@ -61,9 +61,9 @@ public class Cell {
 	{
 		this.hcost = hcost;
 	}
-	public void setFcost(int fcost)
+	public void setFcost()
 	{
-		this.fcost = fcost;
+		fcost = hcost + gcost;
 	}
 	
 	public int[] getPosition()
