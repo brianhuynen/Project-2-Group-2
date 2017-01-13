@@ -17,10 +17,11 @@ public class Node {
 	
 	/**
 	 * This creates the root node
+	 * @param g 
 	 * 
 	 * @param b
 	 */
-	public Node() {
+	public Node(MCTS g) {
 		children = new ArrayList<Node>();
 		player = g.currentPlayer_ID;
 		score = new double[nPlayers];
@@ -41,11 +42,11 @@ public class Node {
 	//TODO: Note that the root node of each tree is the player the MCTS algorithm belongs to.
 	//		In that case, make sure that each even layer stores the move of the opponent player,
 	//		and each odd layer stores the move of the player itself.
-	public Node(Move m, Node prnt) {
+	public Node(MCTS g,Move m, Node prnt) {
 		children = new ArrayList<Node>();
 		parent = prnt;
 		move = m;
-		//makeMove(m);
+		g.makeMove(m);
 		score = new double[nPlayers];
 		pess = new double[nPlayers];
 		opti = new double[nPlayers];

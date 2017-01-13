@@ -4,5 +4,5 @@
 
  */
 public interface HeuristicFunction {
-	public double h(Cell[][] currentBoard);
+	public double h(Game g);
 }

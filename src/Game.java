@@ -18,6 +18,7 @@ public class Game {
 		v x x x x x x x x
 		y
 	 */
+	int turnCount = 0;
 	Cell[][] board;
 	Field field;
 	Player currentPlayer;
@@ -523,6 +524,8 @@ public class Game {
 //		player_1.printPiecesCoord();
 //		player_2.printPiecesCoord();
 //		printBoard();
+		turnCount++;
+		System.out.println("number of turns " + turnCount+ ";  player : "+ currentPlayer_ID);
 		if(getCurrentPlayer() == player_1){
 			currentPlayer_ID = 2;
 			currentPlayer = player_2;

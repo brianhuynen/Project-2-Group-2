@@ -35,7 +35,7 @@ public class MCTS extends Game{
 	 */
 	public Move runMCTS(int runs, boolean bounds) {
 		scoreBounds = bounds;
-		rootNode = new Node(this);
+		rootNode = new Node(super.board);
 
 		long startTime = System.nanoTime();
 
@@ -81,7 +81,7 @@ public class MCTS extends Game{
 		}
 	}
 	
-	private SimpleEntry<Cell[][], Node> treePolicy(Cell[][] currentBoard, Node node) {
+	private SimpleEntry<MCTS, Node> treePolicy(Cell[][] currentBoard, Node node) {
 		while(!gameOver(this)) {
 				if (node.unvisitedChildren == null) {
 					node.expandNode(currentBoard); 
@@ -90,8 +90,8 @@ public class MCTS extends Game{
 				if (!node.unvisitedChildren.isEmpty()) {
 					Node temp = node.unvisitedChildren.remove(random.nextInt(node.unvisitedChildren.size()));
 					node.children.add(temp);
-					currentBoard.makeMove(temp.move);
-					return new AbstractMap.SimpleEntry<>(currentBoard, temp);
+					makeMove(temp.move);
+					return new AbstractMap.SimpleEntry<>(this, temp);
 				} else {
 					ArrayList<Node> bestNodes = findChildren(node, currentBoard, optimisticBias, pessimisticBias, explorationConstant);
 					
@@ -105,11 +105,11 @@ public class MCTS extends Game{
 					
 					Node finalNode = bestNodes.get(random.nextInt(bestNodes.size()));
 					node = finalNode;
-					b.makeMove(finalNode.move);
+					makeMove(finalNode.move);
 				}
 		}
 		
-		return new AbstractMap.SimpleEntry<>(b, node);
+		return new AbstractMap.SimpleEntry<>(this, node);
 	}
 	
 	
@@ -218,9 +218,9 @@ public class MCTS extends Game{
 		Move mv;
 
 		// Start playing random moves until the game is over
-		while (!game.gameOver()) {
-			moves = game.getMoves(CallLocation.treePolicy);
-			if (game.currentPlayer_ID >= 0) {
+		while (!gameOver(this)) {
+			moves = getMoves(CallLocation.treePolicy);
+			if (currentPlayer_ID >= 0) {
 				// make random selection normally
 				mv = moves.get(random.nextInt(moves.size()));
 			} else {
@@ -231,17 +231,39 @@ public class MCTS extends Game{
 				 * of the moves. 
 				 */
 				
-				mv = getRandomMove(brd, moves);
+				mv = getRandomMove( moves);
 			}
 									
-			brd.makeMove(mv);
+			makeMove(mv);
 		}
 		
-		return brd.getScore();
+		return getScore();
 	}
-
-	private Move getRandomMove(Game game, ArrayList<Move> moves) {
-		double []weights = game.getMoveWeights();
+/**@todo get score at node for gameState
+ * 
+ * @return
+ */
+	private double[] getScore() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+/**@todo get all possible moves from gameState
+ * 
+ * @param treepolicy
+ * @return
+ */
+	private ArrayList<Move> getMoves(CallLocation treepolicy) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+/**@todo override ranMove method from game applied weights 
+ * 
+ * 
+ * @param moves
+ * @return
+ */
+	private Move getRandomMove( ArrayList<Move> moves) {
+		double []weights = getMoveWeights();
 		
 		double totalWeight = 0.0d;
 		for (int i = 0; i < weights.length; i++)
@@ -263,8 +285,16 @@ public class MCTS extends Game{
 		
 		return moves.get(randomIndex);
 	}
-	
-	/**
+	/**@todo update weights method considering backprop
+	 * 
+	 * @return
+	 */
+	private double[] getMoveWeights() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**@todo override findmovable coordinates and valid move check
 	 * Produce a list of viable nodes to visit. The actual 
 	 * selection is done in runMCTS
 	 * @param optimisticBias
@@ -342,6 +372,14 @@ public class MCTS extends Game{
 
 	public void setTimeDisplay(boolean displayTime) {
 		this.trackTime = displayTime;
+	}
+/**@todo override move piece
+ * 
+ * @param m
+ */
+	public void makeMove(Move m) {
+		
+		
 	}
 }
 
