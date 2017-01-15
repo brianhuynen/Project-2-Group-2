@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Random;
 
 
+
+
+
+
 public class Game {
 	/*	How coordinates work on the board:
 
@@ -35,6 +39,11 @@ public class Game {
 	RandomAlg rand;
 	LinkedList<int[]> path= new LinkedList<int[]>();
 	
+	int winner;
+	boolean draw;
+	boolean gameWon;
+	int freecells;
+	int turns;
 	
 
 
@@ -57,12 +66,37 @@ public class Game {
 		this.gameOver = false;
 	}
 	
+	/***
+	 * create a duplicate of the game properties
+	 * 
+	 * @return copy of the game for mcts
+	 */
+	public Game DuplicateG(){
+
+		Game g= new Game(null);
+		g.winner = winner;
+		g.currentPlayer_ID = currentPlayer_ID;
+		g.currentPlayer = currentPlayer;
+		g.draw = draw;
+		g.freecells = freecells;
+		g.gameWon = gameWon;
+		g.turnCount = turnCount;
+		//player = SetPlayers(playerTypeData);
+		//player_1 = player[0];
+		//player_2 = player[1];
+		
+		Field field = new Field();
+		Cell [][] board = field.getBoard();
+		g.field=field;
+		g.board=board;
+		g.gameOver = false;
+		return g;
+	}
 	/**
 	 * Sets the type of players, either human or AI
 	 * @param playerTypeData the player types, AI Or human
 	 * @return player??????
 	 */
-
 	public Player[] SetPlayers(String[] playerTypeData){
 		Player[] player = new Player[2];
 		if(playerTypeData[0] == "HumanPlayer"){
@@ -686,5 +720,76 @@ public class Game {
             System.out.print("("+coord[0]+","+coord[1]+") ->");
         }
     }
+
+	public void makeMove(int[] mv) {
+		int[] move = (int[])mv;
+		
+		
+	}
+
+	public int getQuantityOfPlayers() {
+		
+		return 2;
+	}
+/**
+ * strategy method for MCTS
+ * @param location
+ * @return
+ */
+	public ArrayList<int[]> getMoves(CallLocation location) {
+
+		// RETURN A LIST OF THE CURRENT PLAYER'S POSSIBLE MOVES
+		ArrayList<int[]> listOfMoves = new ArrayList<int[]>();
+		ArrayList<int[]> movables = findMovableCoords(currentPlayer);
+		int[] movementData = new int[3];
+
+		// IN THE CASE OF PLAYOUT
+		if (location == CallLocation.playout) {
+			//ArrayList<int[]> movesAllowedByPiece = getAllowedMoves(movables);
+
+			listOfMoves.addAll(movables);
+
+				}
+
+			
+		
+
+		// IN THE CASE OF TREEPOLICY
+		else {
+
+		}
+
+		return listOfMoves;
+	}
+
+	public double[] getMoveWeights() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+/**@Brian write game over method ;p
+ * 
+ * @return
+ */
+	public boolean gameOver() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+/**
+ * can be passed on with playerData
+ * @return
+ */
+	public double[] getScore() {
+		double []score;
+		score = new double[2];
+		if (!draw) {
+			score[winner] = 1.0d;
+		} else {
+			score[0] = 0.5d;
+			score[1] = 0.5d;
+		}
+
+		return score;
+		
+	}
 }
 

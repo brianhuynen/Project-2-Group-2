@@ -1,12 +1,9 @@
-
 import java.util.AbstractMap;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
 
-public class MCTS extends Game{
+public class MCTS {
 	private Random random;
 	private Node rootNode;
 	private double explorationConstant = Math.sqrt(2.0);
@@ -19,10 +16,8 @@ public class MCTS extends Game{
 
 	private HeuristicFunction heuristic;
 	
-	public MCTS(String[] playerTypeData, Game g) {
-		super(playerTypeData);
+	public MCTS() {
 		random = new Random();
-		super.board = g.duplicate();
 	}
 
 	/**
@@ -33,14 +28,14 @@ public class MCTS extends Game{
 	 * @param bounds enable or disable score bounds.
 	 * @return
 	 */
-	public Move runMCTS(int runs, boolean bounds) {
+	public int[] runMCTS(Game startingGame, int runs, boolean bounds) {
 		scoreBounds = bounds;
-		rootNode = new Node(super.board);
+		rootNode = new Node(startingGame);
 
 		long startTime = System.nanoTime();
 
 		for (int i = 0; i < runs; i++) {
-			select(super.board, rootNode);
+		 select(startingGame.DuplicateG(), rootNode);
 		}
 
 		long endTime = System.nanoTime();
@@ -64,11 +59,11 @@ public class MCTS extends Game{
 	 * @param brd
 	 * 			  Board state to work from.
 	 */
-	private void select(Cell[][] currentBoard, Node currentNode){
+	private void select(Game currentGame, Node currentNode){
 		// Begin tree policy. Traverse down the tree and expand. Return
 		// the new node or the deepest node it could reach. Return too
 		// a board matching the returned node.
-		Entry<Cell[][], Node> boardNodePair = treePolicy(currentBoard, currentNode);
+		Map.Entry<Game, Node> boardNodePair = treePolicy(currentGame, currentNode);
 		
 		// Run a random playout until the end of the game.
 		double[] score = playout(boardNodePair.getValue(), boardNodePair.getKey());
@@ -81,35 +76,35 @@ public class MCTS extends Game{
 		}
 	}
 	
-	private SimpleEntry<MCTS, Node> treePolicy(Cell[][] currentBoard, Node node) {
-		while(!gameOver(this)) {
+	private Map.Entry<Game, Node> treePolicy(Game g, Node node) {
+		while(!g.gameOver()) {
 				if (node.unvisitedChildren == null) {
-					node.expandNode(currentBoard); 
+					node.expandNode(g); 
 				}
 				
 				if (!node.unvisitedChildren.isEmpty()) {
 					Node temp = node.unvisitedChildren.remove(random.nextInt(node.unvisitedChildren.size()));
 					node.children.add(temp);
-					makeMove(temp.move);
-					return new AbstractMap.SimpleEntry<>(this, temp);
+					g.makeMove(temp.move);
+					return new AbstractMap.SimpleEntry<>(g, temp);
 				} else {
-					ArrayList<Node> bestNodes = findChildren(node, currentBoard, optimisticBias, pessimisticBias, explorationConstant);
+					ArrayList<Node> bestNodes = findChildren(node, g, optimisticBias, pessimisticBias, explorationConstant);
 					
 					if (bestNodes.size() == 0){
 						// We have failed to find a single child to visit
 						// from a non-terminal node, so we conclude that
 						// all children must have been PRUNED, and that 
 						// therefore there is no reason to continue.
-						return new AbstractMap.SimpleEntry<>(b, node);						
+						return new AbstractMap.SimpleEntry<>(g, node);						
 					}
 					
 					Node finalNode = bestNodes.get(random.nextInt(bestNodes.size()));
 					node = finalNode;
-					makeMove(finalNode.move);
+					g.makeMove(finalNode.move);
 				}
 		}
 		
-		return new AbstractMap.SimpleEntry<>(this, node);
+		return new AbstractMap.SimpleEntry<>(g, node);
 	}
 	
 	
@@ -121,7 +116,7 @@ public class MCTS extends Game{
 	 *            this is the node whose children are considered
 	 * @return the best Move the algorithm can find
 	 */
-	private Move finalMoveSelection(Node n) {
+	private int[] finalMoveSelection(Node n) {
 		Node r = null;
 		
 		switch (finalSelectionPolicy) {
@@ -193,18 +188,6 @@ public class MCTS extends Game{
 		return finalNode;
 	}
 	
-	public boolean gameOver(Game game){
-		for(Player p: game.player){
-			for(Pieces piece: p.piecesCoord){
-				if(piece.getRank() == 0){
-					return false;
-				}
-				else return true;
-			}
-		}
-		return false;
-	}
-	
 	
 	
 	/**
@@ -213,14 +196,15 @@ public class MCTS extends Game{
 	 * @param state
 	 * @return
 	 */
-	private double[] playout(Node state, Cell[][] board) {
-		ArrayList<Move> moves;
-		Move mv;
+	private double[] playout(Node state, Game game) {
+		ArrayList<int[]> moves;
+		int[] mv;
+		Game gm = game.DuplicateG();
 
 		// Start playing random moves until the game is over
-		while (!gameOver(this)) {
-			moves = getMoves(CallLocation.treePolicy);
-			if (currentPlayer_ID >= 0) {
+		while (!gm.gameOver()) {
+			moves = gm.getMoves(CallLocation.treePolicy);
+			if (gm.currentPlayer_ID >= 0) {
 				// make random selection normally
 				mv = moves.get(random.nextInt(moves.size()));
 			} else {
@@ -231,39 +215,17 @@ public class MCTS extends Game{
 				 * of the moves. 
 				 */
 				
-				mv = getRandomMove( moves);
+				mv = getRandomMove(gm, moves);
 			}
 									
-			makeMove(mv);
+			gm.makeMove(mv);
 		}
 		
-		return getScore();
+		return gm.getScore();
 	}
-/**@todo get score at node for gameState
- * 
- * @return
- */
-	private double[] getScore() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-/**@todo get all possible moves from gameState
- * 
- * @param treepolicy
- * @return
- */
-	private ArrayList<Move> getMoves(CallLocation treepolicy) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-/**@todo override ranMove method from game applied weights 
- * 
- * 
- * @param moves
- * @return
- */
-	private Move getRandomMove( ArrayList<Move> moves) {
-		double []weights = getMoveWeights();
+
+	private int[] getRandomMove(Game game, ArrayList<int[]> moves) {
+		double []weights = game.getMoveWeights();
 		
 		double totalWeight = 0.0d;
 		for (int i = 0; i < weights.length; i++)
@@ -285,16 +247,8 @@ public class MCTS extends Game{
 		
 		return moves.get(randomIndex);
 	}
-	/**@todo update weights method considering backprop
-	 * 
-	 * @return
-	 */
-	private double[] getMoveWeights() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**@todo override findmovable coordinates and valid move check
+	
+	/**
 	 * Produce a list of viable nodes to visit. The actual 
 	 * selection is done in runMCTS
 	 * @param optimisticBias
@@ -302,7 +256,7 @@ public class MCTS extends Game{
 	 * @param explorationConstant
 	 * @return
 	 */
-	public ArrayList<Node> findChildren(Node n, Cell[][] currentBoard, double optimisticBias, double pessimisticBias, double explorationConstant){
+	public ArrayList<Node> findChildren(Node n, Game g, double optimisticBias, double pessimisticBias, double explorationConstant){
 		double bestValue = Double.NEGATIVE_INFINITY;
 		ArrayList<Node> bestNodes = new ArrayList<Node>();
 		for (Node s : n.children) {
@@ -315,7 +269,7 @@ public class MCTS extends Game{
 						+pessimisticBias * s.pess[n.player];
 
 				if (heuristic != null){
-					tempBest += heuristic.h(currentBoard);
+					tempBest += heuristic.h(g);
 				}
 				
 				if (tempBest > bestValue) {
@@ -373,13 +327,6 @@ public class MCTS extends Game{
 	public void setTimeDisplay(boolean displayTime) {
 		this.trackTime = displayTime;
 	}
-/**@todo override move piece
- * 
- * @param m
- */
-	public void makeMove(Move m) {
-		
-		
-	}
 }
+
 
