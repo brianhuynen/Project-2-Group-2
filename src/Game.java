@@ -338,6 +338,8 @@ public class Game {
 	
 	/**
 	 * Moves a random piece
+	 *
+	 *
 	 */
 	public void ranMovePiece(){
 		//finds coordinates of movable pieces
