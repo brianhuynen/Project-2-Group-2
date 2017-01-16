@@ -920,13 +920,20 @@ public class Game {
 		// TODO Auto-generated method stub
 		return null;
 	}
-/**@Brian write game over method ;p
- * 
+/**This method checks two game over conditions:
+ * If the player cannot move, or;
+ * If the player does not own a flag;
  * @return
  */
 	public boolean gameOver() {
-		// TODO Auto-generated method stub
-		return false;
+        if(findMovableCoords(currentPlayer).size() != 0){
+            for(Pieces piece: currentPlayer.piecesCoord) {
+                if (piece.getRank() == 0) {
+                    return false;
+                }
+            }
+        }
+		return true;
 	}
 /**
  * can be passed on with playerData
