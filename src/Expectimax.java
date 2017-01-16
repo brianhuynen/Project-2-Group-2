@@ -11,6 +11,7 @@ public class Expectimax {
     public Expectimax()
     {
         children = new ArrayList<Node>();
+
     }
 
 }
