@@ -45,9 +45,9 @@ public class GUI {
 		JButton startGame = new JButton("Start Game");
 		JLabel player1 = new JLabel("player 1");
 		JLabel player2 = new JLabel("player 2");
-		String[] players1 = {"HumanPlayer", "AIPlayer"};
+		String[] players1 = {"HumanPlayer", "AIPlayer", "MCTS"};
 		final JComboBox<String> cb1 = new JComboBox<String>(players1);
-		String[] players2 = {"HumanPlayer", "AIPlayer"};
+		String[] players2 = {"HumanPlayer", "AIPlayer", "MCTS"};
 		final JComboBox<String> cb2 = new JComboBox<String>(players2);
 
 		startGame.addActionListener(new ActionListener() {
@@ -63,7 +63,10 @@ public class GUI {
 				
 
 				System.out.println(playerTypeData[0] + " " + playerTypeData[1]);
-				if(playerTypeData[1] == "AIPlayer" && playerTypeData[0] == "AIPlayer"){
+				if((playerTypeData[1] == "AIPlayer"      &&  playerTypeData[0] == "AIPlayer")||
+                        (playerTypeData[1] == "MCTS"     &&  playerTypeData[0] == "MCTS")||
+                        (playerTypeData[1] == "AIPlayer" &&  playerTypeData[0] == "MCTS")||
+                        (playerTypeData[1] == "MCTS"     &&  playerTypeData[0] == "AIPlayer")){
 					createStartFrame(frame);
 					game.autofill();
 					game.changeTurn();
@@ -182,7 +185,7 @@ public class GUI {
 						game.currentPlayer_ID = 2;
 						game.currentPlayer = game.player_2;
 						frame.repaint();
-						if(playerTypeData[0] == "HumanPlayer" && playerTypeData[1] == "AIPlayer"){
+						if(playerTypeData[0] == "HumanPlayer" && ((playerTypeData[1] == "AIPlayer")||(playerTypeData[1] == "MCTS"))){
 						game.autofill();
 						game.changeTurn();
 						createGamePanel(frame);
@@ -481,7 +484,7 @@ public class GUI {
 	}
 	
 	public static void gameLoop(){
-		if( (playerTypeData[0] == playerTypeData[1]) && (playerTypeData[0] == "AIPlayer") ){
+		if( (playerTypeData[0] == playerTypeData[1]) && ((playerTypeData[0] == "AIPlayer") || (playerTypeData[0] == "MCTS")) ){
 			while(!game.gameOver && game.findMovableCoords(game.currentPlayer).size() != 0 && game.gameActive){
 
 				RandomAlg rand = new RandomAlg(game, game.currentPlayer);
@@ -501,7 +504,7 @@ public class GUI {
 		
 		
 		else if(playerTypeData[0] != playerTypeData[1]){
-			while(!game.gameOver && game.findMovableCoords(game.currentPlayer).size()!= 0 && game.currentPlayer.getType() == "AIPlayer"){
+			while(!game.gameOver && game.findMovableCoords(game.currentPlayer).size()!= 0 && ((game.currentPlayer.getType() == "AIPlayer")||(game.currentPlayer.getType() == "MCTS"))){
 				RandomAlg rand = new RandomAlg(game, game.currentPlayer);
 				rand.randomMove();
 				game.changeTurn();
