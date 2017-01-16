@@ -11,6 +11,12 @@ public class Pathfinding
 		this.playerID = playerID;
 	}
 	
+	/**
+	 * the main part of the A* algorithm
+	 * @param start starting cell
+	 * @param goal goal cell
+	 * @return a list ??????
+	 */
 	public ArrayList<Cell> aStar(Cell start, Cell goal)
 	{
 		
@@ -43,7 +49,7 @@ public class Pathfinding
 			
 			ArrayList<Cell> successors = generateSuccessors(node, goal.getPosition());
 			
-			for( int i = 0; i < successors.size(); i++ )
+			outerLoop: for( int i = 0; i < successors.size(); i++ )
 			{
 				if(successors.get(i) == goal)
 				{
@@ -59,20 +65,22 @@ public class Pathfinding
 					if(openSet.get(j).getPosition() == successors.get(i).getPosition()
 							&& openSet.get(j).getFcost() < successors.get(i).getFcost())
 					{
-						continue;
+						continue outerLoop;
 					}
 				}
 				for ( int j = 0; j<closedSet.size(); j++ )
 				{
-					
+					if(closedSet.get(j).getPosition() == successors.get(i).getPosition()
+							&& closedSet.get(j).getFcost() < successors.get(i).getFcost())
+					{
+						continue outerLoop;
+					}
 				}
-				
-				
-				
-				
+				openSet.add(successors.get(i));
 			}
-			
+			closedSet.add(node);
 		}
+		
 		return null;
 	}
 	
@@ -111,6 +119,10 @@ public class Pathfinding
 		return list;
 	}
 	
+	/**
+	 * calculating the estimated cost used in a star;
+	 * currently using manhattan distance with a scaler of 1
+	 */
 	public int calculateHcost(int[] start, int[] goal)
 	{
 		int h = 0;

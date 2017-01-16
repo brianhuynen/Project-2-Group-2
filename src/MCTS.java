@@ -137,7 +137,7 @@ public class MCTS {
 	/**
 	 * Select the most visited child node
 	 * @param n
-	 * @return
+	 * @return final node random selection with updated bias
 	 */
 	private Node robustChild(Node n){
 		double bestValue = Double.NEGATIVE_INFINITY;
@@ -146,8 +146,8 @@ public class MCTS {
 
 		for (Node s : n.children) {
 			tempBest = s.games;
-			//tempBest += s.opti[n.player] * optimisticBias;
-			//tempBest += s.pess[n.player] * pessimisticBias;
+			tempBest += s.opti[n.player] * optimisticBias;
+			tempBest += s.pess[n.player] * pessimisticBias;
 			if (tempBest > bestValue) {
 				bestNodes.clear();
 				bestNodes.add(s);
@@ -165,7 +165,7 @@ public class MCTS {
 	/**
 	 * Select the child node with the highest score
 	 * @param n
-	 * @return
+	 * @return best node selection
 	 */
 	private Node maxChild(Node n){
 		double bestValue = Double.NEGATIVE_INFINITY;
@@ -194,7 +194,8 @@ public class MCTS {
 	 * Playout function for MCTS
 	 * 
 	 * @param state
-	 * @return
+	 * weights are still to implement
+	 * @return score outcome after playout
 	 */
 	private double[] playout(Node state, Game game) {
 		ArrayList<int[]> moves;
