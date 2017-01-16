@@ -763,18 +763,179 @@ public class Game {
 
 		return listOfMoves;
 	}
-
+	 
+    /**
+     * Makes a list of all available moves
+     * @param board
+     * @return list of all available moves
+     */
+//    public ArrayList<Move> movesAvailable(Cell[][] board){
+//		ArrayList<Move> moves = new ArrayList<Move>();
+//		ArrayList<int[]> movables = findMovableCoords(currentPlayer);
+//
+//		/*for(int i=0; i<movables.size(); i++)
+//		{
+//			System.out.println("movable x = " + movables.get(i).position[0] + " y = " + movables.get(i).position[1]);
+//		}*/
+//
+//		for (int i=0; i<movables.size(); i++){
+//			int[] move = movables.get(i);
+//			int x = move[0];
+//			int y = move[1];
+//			
+//			
+//			if(board[x][y].getCellState()!= 2){
+//				if(board[x+1][y].getCellState() == 0){
+//					int[] newCoords = new int[2];
+//					newCoords[0] = x+1; newCoords[1]= y;
+//					Move move = new Move(piece, newCoords);
+//					moves.add(move);
+//				}
+//				else if(board[x+1][y].getCellState() == 1 && board[x+1][y].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+//					int[] newCoords = new int[2];
+//					newCoords[0] = x+1; newCoords[1]= y;
+//					Move move = new Move(piece, newCoords);
+//					moves.add(move);
+//				}
+//				
+//				if(board[x-1][y].getCellState() == 0){
+//					int[] newCoords = new int[2];
+//					newCoords[0] = x-1; newCoords[1]= y;
+//					Move move = new Move(piece, newCoords);
+//					moves.add(move);
+//				}
+//				else if(board[x-1][y].getCellState() == 1 && board[x-1][y].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+//					int[] newCoords = new int[2];
+//					newCoords[0] = x-1; newCoords[1] = y;
+//					Move move = new Move(piece, newCoords);
+//					moves.add(move);
+//				}
+//				if(board[x][y+1].getCellState() == 0){
+//					int[] newCoords = new int[2];
+//					newCoords[0] = x; newCoords[1]= y+1;
+//					Move move = new Move(piece, newCoords);
+//					moves.add(move);
+//				}
+//				else if(board[x][y+1].getCellState() == 1 && board[x][y+1].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+//					int[] newCoords = new int[2];
+//					newCoords[0] = x; newCoords[1] = y+1;
+//					Move move = new Move(piece, newCoords);
+//					moves.add(move);
+//				}
+//				if(board[x][y-1].getCellState() == 0){
+//					int[] newCoords = new int[2];
+//					newCoords[0] = x; newCoords[1]= y-1;
+//					Move move = new Move(piece, newCoords);
+//					moves.add(move);
+//				}
+//				else if(board[x][y-1].getCellState() == 1 && board[x][y-1].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+//					int[] newCoords = new int[2];
+//					newCoords[0] = x; newCoords[1] = y-1;
+//					Move move = new Move(piece, newCoords);
+//					moves.add(move);
+//				}	
+//				
+//			}
+//			else{
+//				for(int j = x+1;  j<board.length; j++){
+//					if(board[j][y].getCellState() == -1){
+//						j = 20;
+//					}
+//					else if(board[j][y].getCellState() == 0){
+//						int[] newCoords = new int[2];
+//						newCoords[0]=j; newCoords[1] = y;
+//						Move move = new Move(piece, newCoords);
+//						moves.add(move);
+//					}
+//					else if(board[j][y].getCellState() == 1 && board[j][y].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+//						int[] newCoords = new int[2];
+//						newCoords[0]=j; newCoords[1] = y;
+//						Move move = new Move(piece, newCoords);
+//						moves.add(move);
+//						j = 20;
+//					}
+//				}
+//				for(int j = x-1;  j>0; j--){
+//					if(board[j][y].getCellState() == -1){
+//						j = -20;
+//					}
+//					else if(board[j][y].getCellState() == 0){
+//						int[] newCoords = new int[2];
+//						newCoords[0]=j; newCoords[1] = y;
+//						Move move = new Move(piece, newCoords);
+//						moves.add(move);
+//					}
+//					else if(board[j][y].getCellState() == 1 && board[j][y].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+//						int[] newCoords = new int[2];
+//						newCoords[0]=j; newCoords[1] = y;
+//						Move move = new Move(piece, newCoords);
+//						moves.add(move);
+//						j = -20;
+//					}
+//				}
+//				
+//				for(int j = y+1;  j<board.length; j++){
+//					if(board[x][j].getCellState() == -1){
+//						j = 20;
+//					}
+//					else if(board[x][j].getCellState() == 0){
+//						int[] newCoords = new int[2];
+//						newCoords[0]=x; newCoords[1] = j;
+//						Move move = new Move(piece, newCoords);
+//						moves.add(move);
+//					}
+//					else if(board[x][j].getCellState() == 1 && board[x][j].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+//						int[] newCoords = new int[2];
+//						newCoords[0]=x; newCoords[1] = j;
+//						Move move = new Move(piece, newCoords);
+//						moves.add(move);
+//						j = 20;
+//					}
+//				}
+//				
+//				for(int j = y-1;  j>0; j--){
+//					if(board[x][j].getCellState() == -1){
+//						j = -20;
+//					}
+//					else if(board[x][j].getCellState() == 0){
+//						int[] newCoords = new int[2];
+//						newCoords[0]=x; newCoords[1] = j;
+//						Move move = new Move(piece, newCoords);
+//						moves.add(move);
+//					}
+//					else if(board[x][j].getCellState() == 1 && board[x][j].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+//						int[] newCoords = new int[2];
+//						newCoords[0]=x; newCoords[1] = j;
+//						Move move = new Move(piece, newCoords);
+//						moves.add(move);
+//						j = -20;
+//					}
+//				}
+//				
+//				
+//			}
+//			
+//		}
+//		return moves;
+//    }
 	public double[] getMoveWeights() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-/**@Brian write game over method ;p
- * 
+/**This method checks two game over conditions:
+ * If the player cannot move, or;
+ * If the player does not own a flag;
  * @return
  */
 	public boolean gameOver() {
-		// TODO Auto-generated method stub
-		return false;
+        if(findMovableCoords(currentPlayer).size() != 0){
+            for(Pieces piece: currentPlayer.piecesCoord) {
+                if (piece.getRank() == 0) {
+                    return false;
+                }
+            }
+        }
+		return true;
 	}
 /**
  * can be passed on with playerData
