@@ -9,8 +9,9 @@ public class GUI {
 	public static String[] playerTypeData = new String[2];
 	
 	public GUI(){
-		Game game = new Game(playerTypeData);
-		this.game = game;
+//        System.out.println(playerTypeData[0] + " " + playerTypeData[1]);
+//        Game game = new Game(playerTypeData);
+//		this.game = game;
 	}
 	//***
 	final static int FRAME_WIDTH = 800;
@@ -54,15 +55,16 @@ public class GUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				System.out.println(cb1.getSelectedItem() + " " + cb2.getSelectedItem());
+				System.out.println("Selected:" + cb1.getSelectedItem() + " " + cb2.getSelectedItem());
 
 				playerTypeData[0] = (String) cb1.getSelectedItem();
-				game.player_1.setType(playerTypeData[0]);
+//				game.player_1.setType(playerTypeData[0]);
 				playerTypeData[1] = (String) cb2.getSelectedItem();
-				game.player_2.setType(playerTypeData[1]);
-				
+//				game.player_2.setType(playerTypeData[1]);
 
-				System.out.println(playerTypeData[0] + " " + playerTypeData[1]);
+                game = new Game(playerTypeData);
+
+//				System.out.println(playerTypeData[0] + " " + playerTypeData[1]);
 				if((playerTypeData[1] == "AIPlayer"      &&  playerTypeData[0] == "AIPlayer")||
                         (playerTypeData[1] == "MCTS"     &&  playerTypeData[0] == "MCTS")||
                         (playerTypeData[1] == "AIPlayer" &&  playerTypeData[0] == "MCTS")||

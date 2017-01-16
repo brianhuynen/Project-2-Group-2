@@ -42,7 +42,7 @@ public class Node {
 		children = new ArrayList<Node>();
 		parent = prnt;
 		move = m;
-		Game tempGame = g.DuplicateG();
+		Game tempGame = null;//g.DuplicateG();
 		tempGame.makeMove(m);
 		player = tempGame.currentPlayer_ID;
 		score = new double[ g.getQuantityOfPlayers()];

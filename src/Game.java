@@ -63,10 +63,10 @@ public class Game {
 
 
 	public Game(String[] playerTypeData){
-		this.player_1 = player_1;
-		Player player_1 = new Player(1, Color.BLUE);
-		this.player_2 = player_2;
-		Player player_2 = new Player(2, Color.RED);
+//		this.player_1 = player_1;
+//		Player player_1 = new Player(1, Color.BLUE);
+//		this.player_2 = player_2;
+//		Player player_2 = new Player(2, Color.RED);
 
 		player = SetPlayers(playerTypeData);
 		player_1 = player[0];
@@ -99,7 +99,7 @@ public class Game {
 		//player = SetPlayers(playerTypeData);
 		//player_1 = player[0];
 		//player_2 = player[1];
-		
+
 		Field field = new Field();
 		Cell [][] board = field.getBoard();
 		g.field=field;
@@ -120,10 +120,10 @@ public class Game {
 		else if(playerTypeData[0] == "AIPlayer"){
 			player[0] = new AIPlayer(1, Color.BLUE, 1); //ID, Piece Colour, Algorithm ID
 		}
-		//TODO Michael, your stuff here :D
-		else if(playerTypeData[0] == "MCTS"){
-
-        }
+//		//TODO Michael, your stuff here :D
+//		else if(playerTypeData[0] == "MCTS"){
+//
+//        }
 
 		if(playerTypeData[1] == "HumanPlayer"){
 			player[1] = new HumanPlayer(2, Color.RED);
@@ -131,10 +131,10 @@ public class Game {
 		else if(playerTypeData[1] == "AIPlayer"){
 			player[1] = new AIPlayer(2, Color.RED, 1);
 		}
-        //TODO Michael, your stuff here :D
-		else if(playerTypeData[1] == "MCTS"){
-
-        }
+//        //TODO Michael, your stuff here :D
+//		else if(playerTypeData[1] == "MCTS"){
+//
+//        }
 		return player;
 	}
 	

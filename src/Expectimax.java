@@ -6,11 +6,21 @@ import java.util.ArrayList;
 public class Expectimax {
 
     public ArrayList<Node> children;
+    public double[] values;
 
 
     public Expectimax()
     {
         children = new ArrayList<Node>();
+        //buildTree();
+        run();
+    }
+
+    public void buildTree(){
+
+    }
+
+    public void run(){
 
     }
 
