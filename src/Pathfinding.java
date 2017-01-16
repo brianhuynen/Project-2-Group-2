@@ -88,6 +88,7 @@ public class Pathfinding
 					if(openSet.get(j).getContent().getPosition() == successors.get(i).getContent().getPosition()
 							&& openSet.get(j).getContent().getFcost() < successors.get(i).getContent().getFcost())
 					{
+						System.out.println("skipping succesor n = " + j);
 						continue outerLoop;
 					}
 				}
@@ -96,6 +97,7 @@ public class Pathfinding
 					if(closedSet.get(j).getContent().getPosition() == successors.get(i).getContent().getPosition()
 							&& closedSet.get(j).getContent().getFcost() < successors.get(i).getContent().getFcost())
 					{
+						System.out.println("skipping succesor n = " + j);
 						continue outerLoop;
 					}
 				}
@@ -141,31 +143,35 @@ public class Pathfinding
 	{
 		ArrayList<ANode> list = new ArrayList<ANode>();
 		int[] pos = node.getContent().getPosition();
-		
+		System.out.println("in successors method");
 		//up
-		if(pos[0]-1 < 1 && board[pos[0]-1][pos[1]].getContent() == null )
+		if(pos[0]-1 > 1 && board[pos[0]-1][pos[1]].getContent() == null )
 		{
+			System.out.println("up");
 			ANode child = new ANode(board[pos[0]-1][pos[1]]);
 			child.setParent(node);
 			list.add(child);
 		}
 		//right
-		if(pos[1]+1 > 11 && board[pos[0]][pos[1]+1].getContent() == null)
+		if(pos[1]+1 < 11 && board[pos[0]][pos[1]+1].getContent() == null)
 		{
+			System.out.println("right");
 			ANode child = new ANode(board[pos[0]][pos[1]+1]);
 			child.setParent(node);
 			list.add(child);
 		}
 		//down
-		if(pos[0]+1 > 11 && board[pos[0]+1][pos[1]].getContent() == null)
+		if(pos[0]+1 < 11 && board[pos[0]+1][pos[1]].getContent() == null)
 		{
+			System.out.println("down");
 			ANode child = new ANode(board[pos[0]+1][pos[1]]);
 			child.setParent(node);
 			list.add(child);
 		}
 		//left
-		if(pos[1]-1 < 1 && board[pos[0]][pos[1]-1].getContent() == null)
+		if(pos[1]-1 > 1 && board[pos[0]][pos[1]-1].getContent() == null)
 		{
+			System.out.println("left");
 			ANode child = new ANode(board[pos[0]][pos[1]-1]);
 			child.setParent(node);
 			list.add(child);
