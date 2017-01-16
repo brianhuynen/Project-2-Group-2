@@ -63,10 +63,10 @@ public class Game {
 
 
 	public Game(String[] playerTypeData){
-//		this.player_1 = player_1;
-//		Player player_1 = new Player(1, Color.BLUE);
-//		this.player_2 = player_2;
-//		Player player_2 = new Player(2, Color.RED);
+		this.player_1 = player_1;
+		Player player_1 = new Player(1, Color.BLUE);
+		this.player_2 = player_2;
+		Player player_2 = new Player(2, Color.RED);
 
 		player = SetPlayers(playerTypeData);
 		player_1 = player[0];
