@@ -151,7 +151,7 @@ public class Node {
 		}
 
 		// TODO: This causes redundant pruning. Fix it
-		pruneBranches();
+		//pruneBranches();
 		if (parent != null)
 			parent.backPropagateBoundsHelper();
 	}
