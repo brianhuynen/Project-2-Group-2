@@ -9,5 +9,6 @@ public class Heuristic implements HeuristicFunction{
 	public HeuristicFunction setHeuristic(HeuristicFunction h){
 		return h;
 		
-	}
+	
+}
 }

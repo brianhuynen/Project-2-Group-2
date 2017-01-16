@@ -1,16 +1,17 @@
+
+
 import java.util.ArrayList;
 import java.util.Set;
 
 public class Node {
 	public double[] score;
 	public double games;
-	public Move move;
+	public int[] move;
 	public ArrayList<Node> unvisitedChildren;
 	public ArrayList<Node> children;
 	public Set<Integer> rVisited;
 	public Node parent;
 	public int player;
-	public int nPlayers=2;
 	public double[] pess;
 	public double[] opti;
 	public boolean pruned;
@@ -20,13 +21,13 @@ public class Node {
 	 * 
 	 * @param b
 	 */
-	public Node() {
+	public Node(Game g) {
 		children = new ArrayList<Node>();
 		player = g.currentPlayer_ID;
-		score = new double[nPlayers];
-		pess = new double[nPlayers];
-		opti = new double[nPlayers];
-		for (int i = 0; i <nPlayers; i++)
+		score = new double[2];
+		pess = new double[2];
+		opti = new double[2];
+		for (int i = 0; i < 2; i++)
 			opti[i] = 1;
 	}
 
@@ -37,19 +38,17 @@ public class Node {
 	 * @param m
 	 * @param prnt
 	 */
-	
-	//TODO: Note that the root node of each tree is the player the MCTS algorithm belongs to.
-	//		In that case, make sure that each even layer stores the move of the opponent player,
-	//		and each odd layer stores the move of the player itself.
-	public Node(Move m, Node prnt) {
+	public Node(Game g, int[] m, Node prnt) {
 		children = new ArrayList<Node>();
 		parent = prnt;
 		move = m;
-		//makeMove(m);
-		score = new double[nPlayers];
-		pess = new double[nPlayers];
-		opti = new double[nPlayers];
-		for (int i = 0; i < nPlayers; i++)
+		Game tempGame = g.DuplicateG();
+		tempGame.makeMove(m);
+		player = tempGame.currentPlayer_ID;
+		score = new double[ g.getQuantityOfPlayers()];
+		pess = new double[ g.getQuantityOfPlayers()];
+		opti = new double[ g.getQuantityOfPlayers()];
+		for (int i = 0; i < g.getQuantityOfPlayers(); i++)
 			opti[i] = 1;
 	}
 
@@ -85,11 +84,11 @@ public class Node {
 	 * unvisited child nodes.
 	 * @param currentBoard
 	 */
-	public void expandNode(Cell[][] currentBoard){
-		ArrayList<Move> legalMoves = currentBoard.getMoves(CallLocation.treePolicy);
+	public void expandNode(Game currentGame){
+		ArrayList<int[]> legalMoves = currentGame.getMoves(CallLocation.treePolicy);
 		unvisitedChildren = new ArrayList<Node>();
 		for (int i = 0; i < legalMoves.size(); i++) {
-			Node tempState = new Node(currentBoard, legalMoves.get(i), this);
+			Node tempState = new Node(currentGame, legalMoves.get(i), this);
 			unvisitedChildren.add(tempState);
 		}
 	}
@@ -173,8 +172,8 @@ public class Node {
 	 * @param board
 	 * @return
 	 */
-	public int randomSelect(Game g) {
-		double []weights = g.getMoveWeights();
+	public int randomSelect(Game game ){
+		double []weights = game.getMoveWeights();
 		
 		double totalWeight = 0.0d;
 		for (int i = 0; i < weights.length; i++)
