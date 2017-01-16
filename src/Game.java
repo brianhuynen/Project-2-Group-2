@@ -95,23 +95,31 @@ public class Game {
 	/**
 	 * Sets the type of players, either human or AI
 	 * @param playerTypeData the player types, AI Or human
-	 * @return player??????
+	 * @return The array of players
 	 */
 	public Player[] SetPlayers(String[] playerTypeData){
 		Player[] player = new Player[2];
 		if(playerTypeData[0] == "HumanPlayer"){
 			player[0] = new HumanPlayer(1, Color.BLUE); //ID, Piece Colour
 		}
-		else{
+		else if(playerTypeData[0] == "AIPlayer"){
 			player[0] = new AIPlayer(1, Color.BLUE, 1); //ID, Piece Colour, Algorithm ID
 		}
+		//TODO Michael, your stuff here :D
+		else if(playerTypeData[0] == "MCTS"){
+
+        }
 
 		if(playerTypeData[1] == "HumanPlayer"){
 			player[1] = new HumanPlayer(2, Color.RED);
 		}
-		else{
+		else if(playerTypeData[1] == "AIPlayer"){
 			player[1] = new AIPlayer(2, Color.RED, 1);
 		}
+        //TODO Michael, your stuff here :D
+		else if(playerTypeData[1] == "MCTS"){
+
+        }
 		return player;
 	}
 	
