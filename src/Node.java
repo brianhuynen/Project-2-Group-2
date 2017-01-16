@@ -6,7 +6,7 @@ import java.util.Set;
 public class Node {
 	public double[] score;
 	public double games;
-	public int[] move;
+	public Move move;
 	public ArrayList<Node> unvisitedChildren;
 	public ArrayList<Node> children;
 	public Set<Integer> rVisited;
@@ -38,7 +38,7 @@ public class Node {
 	 * @param m
 	 * @param prnt
 	 */
-	public Node(Game g, int[] m, Node prnt) {
+	public Node(Game g, Move m, Node prnt) {
 		children = new ArrayList<Node>();
 		parent = prnt;
 		move = m;
@@ -85,7 +85,7 @@ public class Node {
 	 * @param currentBoard
 	 */
 	public void expandNode(Game currentGame){
-		ArrayList<int[]> legalMoves = currentGame.getMoves(CallLocation.treePolicy);
+		ArrayList<Move> legalMoves = currentGame.getMoves(CallLocation.treePolicy);
 		unvisitedChildren = new ArrayList<Node>();
 		for (int i = 0; i < legalMoves.size(); i++) {
 			Node tempState = new Node(currentGame, legalMoves.get(i), this);

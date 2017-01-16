@@ -28,7 +28,7 @@ public class MCTS {
 	 * @param bounds enable or disable score bounds.
 	 * @return
 	 */
-	public int[] runMCTS(Game startingGame, int runs, boolean bounds) {
+	public Move runMCTS(Game startingGame, int runs, boolean bounds) {
 		scoreBounds = bounds;
 		rootNode = new Node(startingGame);
 
@@ -57,7 +57,7 @@ public class MCTS {
 	 * @param node
 	 *            Node from which to start selection
 	 * @param brd
-	 * 			  Board state to work from.
+	 * 			  Game state to work from.
 	 */
 	private void select(Game currentGame, Node currentNode){
 		// Begin tree policy. Traverse down the tree and expand. Return
@@ -116,7 +116,7 @@ public class MCTS {
 	 *            this is the node whose children are considered
 	 * @return the best Move the algorithm can find
 	 */
-	private int[] finalMoveSelection(Node n) {
+	private Move finalMoveSelection(Node n) {
 		Node r = null;
 		
 		switch (finalSelectionPolicy) {
@@ -198,8 +198,8 @@ public class MCTS {
 	 * @return score outcome after playout
 	 */
 	private double[] playout(Node state, Game game) {
-		ArrayList<int[]> moves;
-		int[] mv;
+		ArrayList<Move> moves;
+		Move mv;
 		Game gm = game.DuplicateG();
 
 		// Start playing random moves until the game is over
@@ -225,7 +225,7 @@ public class MCTS {
 		return gm.getScore();
 	}
 
-	private int[] getRandomMove(Game game, ArrayList<int[]> moves) {
+	private Move getRandomMove(Game game, ArrayList<Move> moves) {
 		double []weights = game.getMoveWeights();
 		
 		double totalWeight = 0.0d;

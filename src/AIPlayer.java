@@ -17,6 +17,35 @@ public class AIPlayer extends Player {
             RandomAlg alg = new RandomAlg(game, this);
             return alg.generateMovement();
         }
+        if (this.getAlgID() == 2){
+            MCTS mcts= new MCTS();
+           
+    		mcts.setExplorationConstant(0.4);
+    		mcts.setTimeDisplay(true);
+    		Move move = null;
+    		mcts.setOptimisticBias(0.0d);
+    		mcts.setPessimisticBias(0.0d);
+    		mcts.setMoveSelectionPolicy(FinalSelectionPolicy.robustChild);
+    		int []scores = new int[3];
+
+    			while (!game.gameOver()){
+    				move = mcts.runMCTS(game, 100, false);
+    				game.makeMove(move);
+    			}
+    			
+    			
+    			double []scr = game.getScore();
+    			if (scr[0] == 1.0) {
+    				scores[0]++; // player 1
+    			} else if (scr[1]==1.0) {
+    				scores[1]++; // player 2
+    			} else
+    				scores[2]++; // draw
+    			
+    			//System.out.println(Arrays.toString(scr));
+//    			System.out.println(Arrays.toString(scores));
+            return move;
+        }
         return null;
     }
 
