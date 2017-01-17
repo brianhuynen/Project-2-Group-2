@@ -163,7 +163,7 @@ public class Pathfinding
 		int[] pos = node.getContent().getPosition();
 		//System.out.println("in successors method");
 		//up
-		if(pos[0]-1 > 1 && board[pos[0]-1][pos[1]].getContent() == null )
+		if(pos[0]-1 > 1 && board[pos[0]-1][pos[1]].getContent() == null && board[pos[0]-1][pos[1]].getCellState() != -1 )
 		{
 			//System.out.println("up");
 			ANode child = new ANode(board[pos[0]-1][pos[1]]);
@@ -171,7 +171,7 @@ public class Pathfinding
 			list.add(child);
 		}
 		//right
-		if(pos[1]+1 < 11 && board[pos[0]][pos[1]+1].getContent() == null)
+		if(pos[1]+1 < 11 && board[pos[0]][pos[1]+1].getContent() == null && board[pos[0]][pos[1]+1].getCellState() != -1)
 		{
 			//System.out.println("right");
 			ANode child = new ANode(board[pos[0]][pos[1]+1]);
@@ -179,7 +179,7 @@ public class Pathfinding
 			list.add(child);
 		}
 		//down
-		if(pos[0]+1 < 11 && board[pos[0]+1][pos[1]].getContent() == null)
+		if(pos[0]+1 < 11 && board[pos[0]+1][pos[1]].getContent() == null && board[pos[0]+1][pos[1]].getCellState() != -1)
 		{
 			//System.out.println("down");
 			ANode child = new ANode(board[pos[0]+1][pos[1]]);
@@ -187,7 +187,7 @@ public class Pathfinding
 			list.add(child);
 		}
 		//left
-		if(pos[1]-1 > 1 && board[pos[0]][pos[1]-1].getContent() == null)
+		if(pos[1]-1 > 1 && board[pos[0]][pos[1]-1].getContent() == null && board[pos[0]][pos[1]-1].getCellState() != -1)
 		{
 			//System.out.println("left");
 			ANode child = new ANode(board[pos[0]][pos[1]-1]);
