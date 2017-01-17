@@ -16,14 +16,14 @@ public class MCTS {
 	private FinalSelectionPolicy finalSelectionPolicy;
 
 	private HeuristicFunction heuristic;
-	 private Cell[][] board;
-	    private Player player;
-	    private Game game;
+	private Cell[][] board;
+	private Player player;
+	private Game game;
 	    
-	public MCTS(){
-//        this.board = game.board;
-//        this.player = player;
-//        this.game = game;
+	public MCTS(Game game, Player p){
+        this.board = game.board;
+        this.player = p;
+        this.game = game;
 		random = new Random();
 	}
 
@@ -48,7 +48,8 @@ public class MCTS {
 		long endTime = System.nanoTime();
 
 		if (this.trackTime) {
-			System.out.println("Making choice for player: " + rootNode.player);
+			
+			System.out.println("Making choice for player: " + rootNode.player.getPlayer_ID());
 			System.out.println("Thinking time per move in milliseconds: " + (endTime - startTime) / 1000000);
 		}
 
@@ -153,16 +154,17 @@ public class MCTS {
 
 		for (Node s : n.children) {
 			tempBest = s.games;
-			tempBest += s.opti[n.player] * optimisticBias;
-			tempBest += s.pess[n.player] * pessimisticBias;
+//			tempBest += s.opti[n.player.getPlayer_ID()-1] * optimisticBias;
+//			tempBest += s.pess[n.player.getPlayer_ID()-1] * pessimisticBias;
 			if (tempBest > bestValue) {
-				bestNodes.clear();
+				//bestNodes.clear();
 				bestNodes.add(s);
 				bestValue = tempBest;
 			} else if (tempBest == bestValue) {
 				bestNodes.add(s);
 			}
 		}
+		System.out.println(bestNodes.size());
 
 		Node finalNode = bestNodes.get(random.nextInt(bestNodes.size()));
 
@@ -180,9 +182,9 @@ public class MCTS {
 		ArrayList<Node> bestNodes = new ArrayList<Node>();
 
 		for (Node s : n.children) {
-			tempBest = s.score[n.player];
+			tempBest = s.score[n.player.getPlayer_ID()-1];
 			if (tempBest > bestValue) {
-				bestNodes.clear();
+				//bestNodes.clear();
 				bestNodes.add(s);
 				bestValue = tempBest;
 			} else if (tempBest == bestValue) {
@@ -212,7 +214,8 @@ public class MCTS {
 		// Start playing random moves until the game is over
 		while (!gm.gameOver()) {
 			moves = gm.getMoves(CallLocation.treePolicy);
-			if (gm.currentPlayer_ID >= 0) {
+			
+			if (gm.currentPlayer== player) {
 				// make random selection normally
 				mv = moves.get(random.nextInt(moves.size()));
 			} else {
@@ -273,8 +276,8 @@ public class MCTS {
 			// propagation mode is enabled.
 			if (s.pruned == false) {
 				double tempBest = s.upperConfidenceBound(explorationConstant)
-						+optimisticBias * s.opti[n.player]
-						+pessimisticBias * s.pess[n.player];
+						+optimisticBias * s.opti[n.player.getPlayer_ID()-1]
+						+pessimisticBias * s.pess[n.player.getPlayer_ID()-1];
 
 				if (heuristic != null){
 					tempBest += heuristic.h(g);
@@ -282,7 +285,7 @@ public class MCTS {
 				
 				if (tempBest > bestValue) {
 					// If we found a better node
-					bestNodes.clear();
+				//	bestNodes.clear();
 					bestNodes.add(s);
 					bestValue = tempBest;
 				} else if (tempBest == bestValue) {

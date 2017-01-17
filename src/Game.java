@@ -757,7 +757,7 @@ public class Game {
 	public void makeMove(Move m) {
 		Move move = (Move)m;
 		movePiece(move.piece.position[0], move.piece.position[1], move.newCoords[0], move.newCoords[1]);
-		
+		move.printMove();
 	}
 
 	public int getQuantityOfPlayers() {
@@ -773,15 +773,17 @@ public class Game {
 
 		// RETURN A LIST OF THE CURRENT PLAYER'S POSSIBLE MOVES
 		ArrayList<Move> listOfMoves = new ArrayList<Move>();
-		//ArrayList<Pieces> movables = findMovablePieces();
-		//int[] movementData = new int[3];
+		ArrayList<Move> movesAllowed = movesAvailable();
+		
 
 		// IN THE CASE OF PLAYOUT
 		if (location == CallLocation.playout) {
-			ArrayList<Move> movesAllowed = movesAvailable();
+			
 
 			listOfMoves.addAll(movesAllowed);
-
+		
+				System.out.println(movesAllowed.size());
+			
 				}
 
 			

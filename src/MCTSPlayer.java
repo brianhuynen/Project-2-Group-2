@@ -15,7 +15,7 @@ public class MCTSPlayer extends Player {
 	    public Move generateMovement(Game game){
 	       
 	        if (this.getAlgID() == 2){
-	            MCTS mcts= new MCTS();
+	            MCTS mcts= new MCTS(game, game.currentPlayer);
 	           
 	    		mcts.setExplorationConstant(0.4);
 	    		mcts.setTimeDisplay(true);

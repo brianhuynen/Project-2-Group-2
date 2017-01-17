@@ -505,7 +505,7 @@ if(playerTypeData[0] == "AIPlayer"){
 				// rand.generateMovementHeur();
 }
 if(playerTypeData[0] == "MCTS"){
-	 MCTS mcts= new MCTS();
+	 MCTS mcts= new MCTS(game, game.currentPlayer);
      
 		mcts.setExplorationConstant(0.4);
 		mcts.setTimeDisplay(true);
@@ -549,21 +549,21 @@ if(playerTypeData[0] == "MCTS"){
 					RandomAlg rand = new RandomAlg(game, game.currentPlayer);
 					rand.randomMove();
 					// rand.generateMovementHeur();
-	}
-	if(playerTypeData[0] == "MCTS"){
-		 MCTS mcts= new MCTS();
+				}
+				if(playerTypeData[0] == "MCTS"){
+					MCTS mcts= new MCTS(game,game.currentPlayer);
 	     
-			mcts.setExplorationConstant(0.4);
-			mcts.setTimeDisplay(true);
-			Move move;
-			mcts.setOptimisticBias(0.0d);
-			mcts.setPessimisticBias(0.0d);
-			mcts.setMoveSelectionPolicy(FinalSelectionPolicy.robustChild);
-			int []scores = new int[3];
-			while (!game.gameOver()){
-					move = mcts.runMCTS(game, 1000, false);
-					game.makeMove(move);
-			}
+					mcts.setExplorationConstant(0.4);
+					mcts.setTimeDisplay(true);
+					Move move;
+					mcts.setOptimisticBias(0.0d);
+					mcts.setPessimisticBias(0.0d);
+					mcts.setMoveSelectionPolicy(FinalSelectionPolicy.robustChild);
+					int []scores = new int[3];
+					while (!game.gameOver()){
+						move = mcts.runMCTS(game, 1000, false);
+						game.makeMove(move);
+					}
 				
 				
 				double []scr = game.getScore();
