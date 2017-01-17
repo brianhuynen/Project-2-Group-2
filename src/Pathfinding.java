@@ -149,28 +149,28 @@ public class Pathfinding
 		ArrayList<ANode> list = new ArrayList<ANode>();
 		int[] pos = node.getContent().getPosition();
 		//up
-		if(pos[0]-1 > 1 && board[pos[0]-1][pos[1]].getContent() == null )
+		if(pos[0]-1 > 1 && board[pos[0]-1][pos[1]].getContent() == null && board[pos[0]-1][pos[1]].getCellState() != -1 )
 		{
 			ANode child = new ANode(board[pos[0]-1][pos[1]]);
 			child.setParent(node);
 			list.add(child);
 		}
 		//right
-		if(pos[1]+1 < 11 && board[pos[0]][pos[1]+1].getContent() == null)
+		if(pos[1]+1 < 11 && board[pos[0]][pos[1]+1].getContent() == null && board[pos[0]][pos[1]+1].getCellState() != -1)
 		{
 			ANode child = new ANode(board[pos[0]][pos[1]+1]);
 			child.setParent(node);
 			list.add(child);
 		}
 		//down
-		if(pos[0]+1 < 11 && board[pos[0]+1][pos[1]].getContent() == null)
+		if(pos[0]+1 < 11 && board[pos[0]+1][pos[1]].getContent() == null && board[pos[0]+1][pos[1]].getCellState() != -1)
 		{
 			ANode child = new ANode(board[pos[0]+1][pos[1]]);
 			child.setParent(node);
 			list.add(child);
 		}
 		//left
-		if(pos[1]-1 > 1 && board[pos[0]][pos[1]-1].getContent() == null)
+		if(pos[1]-1 > 1 && board[pos[0]][pos[1]-1].getContent() == null && board[pos[0]][pos[1]-1].getCellState() != -1)
 		{
 			ANode child = new ANode(board[pos[0]][pos[1]-1]);
 			child.setParent(node);
