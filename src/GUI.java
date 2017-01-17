@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
@@ -366,8 +367,15 @@ public class GUI {
 //				int toY = Integer.parseInt(y2.getText());
 				
 				Pathfinding astar = new Pathfinding(game.board, game.currentPlayer.getPlayer_ID());
-				astar.aStar(game.board[4][7], game.board[10][6]);
+				ArrayList<Cell> path = astar.aStar(game.board[4][7], game.board[10][6]);
 				
+				for (int i = path.size()-1; i>1; i--)
+				{
+					int[] from = path.get(i).getPosition();
+					int[] to = path.get(i-1).getPosition();
+					System.out.println("from: " + from[1] + from[0] + " to: " + to[1] + to[0]);
+					game.movePiece(from[1], from[0], to[1], to[0]);
+				}
 				// for(int i = 0; i<1; i++) {
 				// RandomAlg rand = new RandomAlg(game, game.currentPlayer);
 				// rand.randomMove();
