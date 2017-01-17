@@ -1,14 +1,16 @@
 import java.util.ArrayList;
 
-public class ENode<Double> {
+public class ENode {
 
     double element;
     ENode parent;
     ArrayList<ENode> children;
+    boolean rootNode = false;
 
     public ENode(double e){ //Root node
         element = e;
         children = new ArrayList<ENode>();
+        rootNode = true;
     }
 
     public ENode(double e, ENode parent){ //Child node
@@ -19,6 +21,10 @@ public class ENode<Double> {
 
     public ArrayList<ENode> getChildren(){
         return children;
+    }
+
+    public boolean hasRoot(){
+        return rootNode;
     }
 
     public boolean isRoot(){
