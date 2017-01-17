@@ -17,10 +17,11 @@ public class Pathfinding
 	{
 		Stack<Cell> path = lookPath(start, goal);
 		System.out.println("lookPath finished working");
-		/*while(!path.isEmpty())
+		while(!path.isEmpty())
 		{
-			System.out.println(path.pop().getPosition() + " to "); 
-		}*/
+			int[] pos = path.pop().getPosition();
+			System.out.println(pos[0] + pos[1] + " to "); 
+		}
 	}
 	
 	/**
@@ -46,24 +47,24 @@ public class Pathfinding
 	
 		mainLoop: while( !openSet.isEmpty() )
 		{
-			System.out.println("open set is not empty");
+			//System.out.println("open set is not empty");
 			Cell current = null;
 			ANode node = new ANode(current);
 			for ( int i = 0; i < openSet.size(); i++ )
 			{
-				System.out.println("for loop for going through open set started iteration = " + i);
+				//System.out.println("for loop for going through open set started iteration = " + i);
 				if(node.getContent() == null)
 				{
 					node = openSet.get(i);
-					System.out.println("set node to be first one in the list");
+					//System.out.println("set node to be first one in the list");
 					openSet.remove(i);
 				}
 				else if(openSet.get(i).getContent().getFcost() < node.getContent().getFcost())
 				{
 					openSet.add(node);
-					System.out.println("added " + node.getContent().getPosition()[0] + node.getContent().getPosition()[1]);
+					//System.out.println("added " + node.getContent().getPosition()[0] + node.getContent().getPosition()[1]);
 					node = openSet.get(i);
-					System.out.println("set node to be the one in the open set with lowest f");
+					//System.out.println("set node to be the one in the open set with lowest f");
 					openSet.remove(i);
 				}
 			}
@@ -77,19 +78,23 @@ public class Pathfinding
 				if(successors.get(i).getContent() == goal)
 				{
 					System.out.println("found goal in successors");
+					System.out.println("start = " + start.getPosition()[0] + start.getPosition()[1]);
 					path = recreatePath(successors.get(i), start);
 					break mainLoop;
 				}
 				successors.get(i).getContent().setGcost(node.getContent().getGcost()+1);
 				successors.get(i).getContent().setHcost(calculateHcost(successors.get(i).getContent().getPosition(), goal.getPosition()));
 				successors.get(i).getContent().setFcost();
-				System.out.println("set f costs of successor = " + i);
+				System.out.println("set f costs of successor = " + i + " fcost = " + successors.get(i).getContent().getFcost()
+						+ " coordinates = " + successors.get(i).getContent().getPosition()[0] + 
+						successors.get(i).getContent().getPosition()[1]);
+				
 				for( int j = 0; j<openSet.size(); j++ )
 				{
 					if(openSet.get(j).getContent().getPosition() == successors.get(i).getContent().getPosition()
 							&& openSet.get(j).getContent().getFcost() < successors.get(i).getContent().getFcost())
 					{
-						System.out.println("skipping succesor n = " + j);
+						//System.out.println("skipping succesor n = " + j);
 						continue outerLoop;
 					}
 				}
@@ -98,12 +103,12 @@ public class Pathfinding
 					if(closedSet.get(j).getContent().getPosition() == successors.get(i).getContent().getPosition()
 							&& closedSet.get(j).getContent().getFcost() < successors.get(i).getContent().getFcost())
 					{
-						System.out.println("skipping succesor n = " + j);
+						//System.out.println("skipping succesor n = " + j);
 						continue outerLoop;
 					}
 				}
 				openSet.add(successors.get(i));
-				System.out.println("added " + successors.get(i).getContent().getPosition()[0] + successors.get(i).getContent().getPosition()[1]);
+				//System.out.println("added " + successors.get(i).getContent().getPosition()[0] + successors.get(i).getContent().getPosition()[1]);
 				System.out.println("forloop ending iteration = " + i);
 			}
 			
@@ -115,23 +120,36 @@ public class Pathfinding
 	
 	public Stack<Cell> recreatePath(ANode last, Cell first)
 	{
+		System.out.println("recreatepath start = " + first.getPosition()[0] + first.getPosition()[1]);
 		Stack<Cell> path = new Stack<Cell>();
 		path.push(last.getContent());
 		boolean done = false;
 		ANode node = last.getParent();
+		System.out.println("last coords = " + last.getContent().getPosition()[0] + last.getContent().getPosition()[1]);
 		while(!done)
 		{
 			if(node.getContent() != first)
 			{
 				path.push(node.getContent());
-				node = node.getParent();
+				System.out.println("node coords = " + node.getContent().getPosition()[0] + node.getContent().getPosition()[1]);
+				
+				ANode parent = node.getParent();
+				node = parent;
 			}
 			else
 			{
+				path.push(first);
 				done = true;
 			}
 		}
 		return path;
+	}
+	
+	public void calculateCost(ANode node)
+	{
+		node.getContent().setGcost(node.getParent().getContent().getGcost()+1);
+		//node.getContent().setHcost(hcost);
+		
 	}
 	
 	/**
@@ -144,11 +162,11 @@ public class Pathfinding
 	{
 		ArrayList<ANode> list = new ArrayList<ANode>();
 		int[] pos = node.getContent().getPosition();
-		System.out.println("in successors method");
+		//System.out.println("in successors method");
 		//up
 		if(pos[0]-1 > 1 && board[pos[0]-1][pos[1]].getContent() == null )
 		{
-			System.out.println("up");
+			//System.out.println("up");
 			ANode child = new ANode(board[pos[0]-1][pos[1]]);
 			child.setParent(node);
 			list.add(child);
@@ -156,7 +174,7 @@ public class Pathfinding
 		//right
 		if(pos[1]+1 < 11 && board[pos[0]][pos[1]+1].getContent() == null)
 		{
-			System.out.println("right");
+			//System.out.println("right");
 			ANode child = new ANode(board[pos[0]][pos[1]+1]);
 			child.setParent(node);
 			list.add(child);
@@ -164,7 +182,7 @@ public class Pathfinding
 		//down
 		if(pos[0]+1 < 11 && board[pos[0]+1][pos[1]].getContent() == null)
 		{
-			System.out.println("down");
+			//System.out.println("down");
 			ANode child = new ANode(board[pos[0]+1][pos[1]]);
 			child.setParent(node);
 			list.add(child);
@@ -172,7 +190,7 @@ public class Pathfinding
 		//left
 		if(pos[1]-1 > 1 && board[pos[0]][pos[1]-1].getContent() == null)
 		{
-			System.out.println("left");
+			//System.out.println("left");
 			ANode child = new ANode(board[pos[0]][pos[1]-1]);
 			child.setParent(node);
 			list.add(child);
@@ -187,12 +205,10 @@ public class Pathfinding
 	 */
 	public int calculateHcost(int[] start, int[] goal)
 	{
-		int h = 0;
 		int d = 1;
-		int dx = start[0] - goal[0];
-		int dy = start[1] - goal[1];
-		h = d * ( dx + dy );
-		return h;
+		int dx = Math.abs(start[0] - goal[0]);
+		int dy = Math.abs(start[1] - goal[1]);
+		return d * ( dx + dy );
 	}
 	
 }
