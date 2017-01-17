@@ -1,6 +1,11 @@
+
 import java.awt.*;
 import java.awt.event.ActionListener;
+
+import java.util.Arrays;
+
 import java.util.ArrayList;
+
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
@@ -507,11 +512,38 @@ public class GUI {
 		if ((playerTypeData[0] == playerTypeData[1])
 				&& ((playerTypeData[0] == "AIPlayer") || (playerTypeData[0] == "MCTS"))) {
 			while (!game.gameOver && game.findMovableCoords(game.currentPlayer).size() != 0 && game.gameActive) {
-
+if(playerTypeData[0] == "AIPlayer"){
 				RandomAlg rand = new RandomAlg(game, game.currentPlayer);
 				rand.randomMove();
 				// rand.generateMovementHeur();
-
+}
+if(playerTypeData[0] == "MCTS"){
+	 MCTS mcts= new MCTS(game, game.currentPlayer);
+     
+		mcts.setExplorationConstant(0.4);
+		mcts.setTimeDisplay(true);
+		Move move;
+		mcts.setOptimisticBias(0.0d);
+		mcts.setPessimisticBias(0.0d);
+		mcts.setMoveSelectionPolicy(FinalSelectionPolicy.robustChild);
+		int []scores = new int[3];
+		while (!game.gameOver()){
+				move = mcts.runMCTS(game, 1000, false);
+				game.makeMove(move);
+		}
+			
+			
+			double []scr = game.getScore();
+			if (scr[0] == 1.0) {
+				scores[0]++; // player 1
+			} else if (scr[1]==1.0) {
+				scores[1]++; // player 2
+			} else
+				scores[2]++; // draw
+			
+			System.out.println(Arrays.toString(scr));
+			System.out.println(Arrays.toString(scores));
+}
 				frame.repaint();
 				frame.paint(frame.getGraphics());
 				sleep(0);
@@ -526,8 +558,38 @@ public class GUI {
 		else if (playerTypeData[0] != playerTypeData[1]) {
 			while (!game.gameOver && game.findMovableCoords(game.currentPlayer).size() != 0
 					&& ((game.currentPlayer.getType() == "AIPlayer") || (game.currentPlayer.getType() == "MCTS"))) {
-				RandomAlg rand = new RandomAlg(game, game.currentPlayer);
-				rand.randomMove();
+				if(playerTypeData[0] == "AIPlayer"){
+					RandomAlg rand = new RandomAlg(game, game.currentPlayer);
+					rand.randomMove();
+					// rand.generateMovementHeur();
+				}
+				if(playerTypeData[0] == "MCTS"){
+					MCTS mcts= new MCTS(game,game.currentPlayer);
+	     
+					mcts.setExplorationConstant(0.4);
+					mcts.setTimeDisplay(true);
+					Move move;
+					mcts.setOptimisticBias(0.0d);
+					mcts.setPessimisticBias(0.0d);
+					mcts.setMoveSelectionPolicy(FinalSelectionPolicy.robustChild);
+					int []scores = new int[3];
+					while (!game.gameOver()){
+						move = mcts.runMCTS(game, 1000, false);
+						game.makeMove(move);
+					}
+				
+				
+				double []scr = game.getScore();
+				if (scr[0] == 1.0) {
+					scores[0]++; // player 1
+				} else if (scr[1]==1.0) {
+					scores[1]++; // player 2
+				} else
+					scores[2]++; // draw
+				
+				System.out.println(Arrays.toString(scr));
+				System.out.println(Arrays.toString(scores));
+	}
 				game.changeTurn();
 				frame.repaint();
 			}

@@ -6,12 +6,12 @@ import java.util.Set;
 public class Node {
 	public double[] score;
 	public double games;
-	public int[] move;
+	public Move move;
 	public ArrayList<Node> unvisitedChildren;
 	public ArrayList<Node> children;
 	public Set<Integer> rVisited;
 	public Node parent;
-	public int player;
+	public Player player;
 	public double[] pess;
 	public double[] opti;
 	public boolean pruned;
@@ -23,7 +23,7 @@ public class Node {
 	 */
 	public Node(Game g) {
 		children = new ArrayList<Node>();
-		player = g.currentPlayer_ID;
+		player = g.currentPlayer;
 		score = new double[2];
 		pess = new double[2];
 		opti = new double[2];
@@ -38,13 +38,13 @@ public class Node {
 	 * @param m
 	 * @param prnt
 	 */
-	public Node(Game g, int[] m, Node prnt) {
+	public Node(Game g, Move m, Node prnt) {
 		children = new ArrayList<Node>();
 		parent = prnt;
 		move = m;
-		Game tempGame = null;//g.DuplicateG();
+		Game tempGame = g.DuplicateG();
 		tempGame.makeMove(m);
-		player = tempGame.currentPlayer_ID;
+		player = tempGame.currentPlayer;
 		score = new double[ g.getQuantityOfPlayers()];
 		pess = new double[ g.getQuantityOfPlayers()];
 		opti = new double[ g.getQuantityOfPlayers()];
@@ -62,7 +62,7 @@ public class Node {
 	 * @return
 	 */
 	public double upperConfidenceBound(double c) {
-		return score[parent.player] / games  + c
+		return score[parent.player.getPlayer_ID()-1] / games  + c
 				* Math.sqrt(Math.log(parent.games + 1) / games);
 	}
 
@@ -85,7 +85,7 @@ public class Node {
 	 * @param currentBoard
 	 */
 	public void expandNode(Game currentGame){
-		ArrayList<int[]> legalMoves = currentGame.getMoves(CallLocation.treePolicy);
+		ArrayList<Move> legalMoves = currentGame.getMoves(CallLocation.treePolicy);
 		unvisitedChildren = new ArrayList<Node>();
 		for (int i = 0; i < legalMoves.size(); i++) {
 			Node tempState = new Node(currentGame, legalMoves.get(i), this);
@@ -113,7 +113,7 @@ public class Node {
 
 	private void backPropagateBoundsHelper() {
 		for (int i = 0; i < opti.length; i++) {
-			if (i == player) {
+			if (i == player.getPlayer_ID()-1) {
 				opti[i] = 0;
 				pess[i] = 0;
 			} else {
@@ -124,7 +124,7 @@ public class Node {
 
 		for (int i = 0; i < opti.length; i++) {
 			for (Node c : children) {
-				if (i == player) {
+				if (i == player.getPlayer_ID()-1) {
 					if (opti[i] < c.opti[i])
 						opti[i] = c.opti[i];
 					if (pess[i] < c.pess[i])
@@ -142,7 +142,7 @@ public class Node {
 		// if not all children have been explored
 		if (!unvisitedChildren.isEmpty()) {
 			for (int i = 0; i < opti.length; i++) {
-				if (i == player) {
+				if (i ==player.getPlayer_ID()-1) {
 					opti[i] = 1;
 				} else {
 					pess[i] = 0;
@@ -158,7 +158,7 @@ public class Node {
 
 	public void pruneBranches() {
 		for (Node s : children) {
-			if (pess[player] >= s.opti[player]) {
+			if (pess[player.getPlayer_ID()-1] >= s.opti[player.getPlayer_ID()-1]) {
 				s.pruned = true;
 			}
 		}

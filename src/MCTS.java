@@ -1,3 +1,4 @@
+
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Map;
@@ -15,8 +16,14 @@ public class MCTS {
 	private FinalSelectionPolicy finalSelectionPolicy;
 
 	private HeuristicFunction heuristic;
-	
-	public MCTS() {
+	private Cell[][] board;
+	private Player player;
+	private Game game;
+	    
+	public MCTS(Game game, Player p){
+        this.board = game.board;
+        this.player = p;
+        this.game = game;
 		random = new Random();
 	}
 
@@ -28,12 +35,12 @@ public class MCTS {
 	 * @param bounds enable or disable score bounds.
 	 * @return
 	 */
-	public int[] runMCTS(Game startingGame, int runs, boolean bounds) {
+	public Move runMCTS(Game startingGame, int runs, boolean bounds) {
 		scoreBounds = bounds;
 		rootNode = new Node(startingGame);
 
 		long startTime = System.nanoTime();
-
+        System.out.println("running...");
 		for (int i = 0; i < runs; i++) {
 		 select(startingGame.DuplicateG(), rootNode);
 		}
@@ -41,7 +48,8 @@ public class MCTS {
 		long endTime = System.nanoTime();
 
 		if (this.trackTime) {
-			System.out.println("Making choice for player: " + rootNode.player);
+			
+			System.out.println("Making choice for player: " + rootNode.player.getPlayer_ID());
 			System.out.println("Thinking time per move in milliseconds: " + (endTime - startTime) / 1000000);
 		}
 
@@ -57,19 +65,19 @@ public class MCTS {
 	 * @param node
 	 *            Node from which to start selection
 	 * @param brd
-	 * 			  Board state to work from.
+	 * 			  Game state to work from.
 	 */
 	private void select(Game currentGame, Node currentNode){
 		// Begin tree policy. Traverse down the tree and expand. Return
 		// the new node or the deepest node it could reach. Return too
 		// a board matching the returned node.
-		Map.Entry<Game, Node> boardNodePair = treePolicy(currentGame, currentNode);
+		Map.Entry<Game, Node> gameNodePair = treePolicy(currentGame, currentNode);
 		
 		// Run a random playout until the end of the game.
-		double[] score = playout(boardNodePair.getValue(), boardNodePair.getKey());
+		double[] score = playout(gameNodePair.getValue(), gameNodePair.getKey());
 		
 		// Backpropagate results of playout.
-		Node n = boardNodePair.getValue();
+		Node n = gameNodePair.getValue();
 		n.backPropagateScore(score);
 		if (scoreBounds) {
 			n.backPropagateBounds(score);
@@ -116,7 +124,7 @@ public class MCTS {
 	 *            this is the node whose children are considered
 	 * @return the best Move the algorithm can find
 	 */
-	private int[] finalMoveSelection(Node n) {
+	private Move finalMoveSelection(Node n) {
 		Node r = null;
 		
 		switch (finalSelectionPolicy) {
@@ -146,16 +154,17 @@ public class MCTS {
 
 		for (Node s : n.children) {
 			tempBest = s.games;
-			tempBest += s.opti[n.player] * optimisticBias;
-			tempBest += s.pess[n.player] * pessimisticBias;
+//			tempBest += s.opti[n.player.getPlayer_ID()-1] * optimisticBias;
+//			tempBest += s.pess[n.player.getPlayer_ID()-1] * pessimisticBias;
 			if (tempBest > bestValue) {
-				bestNodes.clear();
+				//bestNodes.clear();
 				bestNodes.add(s);
 				bestValue = tempBest;
 			} else if (tempBest == bestValue) {
 				bestNodes.add(s);
 			}
 		}
+		System.out.println(bestNodes.size());
 
 		Node finalNode = bestNodes.get(random.nextInt(bestNodes.size()));
 
@@ -173,9 +182,9 @@ public class MCTS {
 		ArrayList<Node> bestNodes = new ArrayList<Node>();
 
 		for (Node s : n.children) {
-			tempBest = s.score[n.player];
+			tempBest = s.score[n.player.getPlayer_ID()-1];
 			if (tempBest > bestValue) {
-				bestNodes.clear();
+				//bestNodes.clear();
 				bestNodes.add(s);
 				bestValue = tempBest;
 			} else if (tempBest == bestValue) {
@@ -198,14 +207,15 @@ public class MCTS {
 	 * @return score outcome after playout
 	 */
 	private double[] playout(Node state, Game game) {
-		ArrayList<int[]> moves;
-		int[] mv;
+		ArrayList<Move> moves= new ArrayList<Move>();
+		Move mv;
 		Game gm = game.DuplicateG();
 
 		// Start playing random moves until the game is over
 		while (!gm.gameOver()) {
 			moves = gm.getMoves(CallLocation.treePolicy);
-			if (gm.currentPlayer_ID >= 0) {
+			
+			if (gm.currentPlayer== player) {
 				// make random selection normally
 				mv = moves.get(random.nextInt(moves.size()));
 			} else {
@@ -225,7 +235,7 @@ public class MCTS {
 		return gm.getScore();
 	}
 
-	private int[] getRandomMove(Game game, ArrayList<int[]> moves) {
+	private Move getRandomMove(Game game, ArrayList<Move> moves) {
 		double []weights = game.getMoveWeights();
 		
 		double totalWeight = 0.0d;
@@ -266,8 +276,8 @@ public class MCTS {
 			// propagation mode is enabled.
 			if (s.pruned == false) {
 				double tempBest = s.upperConfidenceBound(explorationConstant)
-						+optimisticBias * s.opti[n.player]
-						+pessimisticBias * s.pess[n.player];
+						+optimisticBias * s.opti[n.player.getPlayer_ID()-1]
+						+pessimisticBias * s.pess[n.player.getPlayer_ID()-1];
 
 				if (heuristic != null){
 					tempBest += heuristic.h(g);
@@ -275,7 +285,7 @@ public class MCTS {
 				
 				if (tempBest > bestValue) {
 					// If we found a better node
-					bestNodes.clear();
+				//	bestNodes.clear();
 					bestNodes.add(s);
 					bestValue = tempBest;
 				} else if (tempBest == bestValue) {
