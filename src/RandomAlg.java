@@ -15,6 +15,7 @@ public class RandomAlg {
         this.board = game.board;
         this.player = player;
         this.game = game;
+        game.pathfinder = new Pathfinding(board, player.getPlayer_ID());
     }
     /**
      * Chooses a random move
@@ -51,7 +52,7 @@ public class RandomAlg {
 //	        	return null;
 //	        }
 //        }
-		while(oppositePlayer().piecesCoord.size() > 10)
+		while(oppositePlayer().piecesCoord.size() > 15)
 		{
 			if(moves.size() != 0)
 			{
@@ -68,13 +69,13 @@ public class RandomAlg {
         bruteforce();
 		Move move = null;
 
-        System.out.println(game.path.size());
+//        System.out.println(game.path.size());
 
 		if(game.path.size() > 1)
 		{
-			int[] origin = game.path.remove();
-			int[] destination = game.path.getFirst();
-			move = new Move(game.board[origin[0]][origin[1]].getContent(), destination);
+			Cell origin = game.path.remove(game.path.size()-1);
+			Cell destination = game.path.get(game.path.size()-1);
+			move = new Move(origin.getContent(), destination.getPosition());
 		}
 		else
 		{
@@ -99,6 +100,8 @@ public class RandomAlg {
     public void randomMove()
     {
     	Move move = generateMovementHeur();
+        System.out.println(player.getPlayer_ID() + ": moving from (" + move.piece.position[0] + "," + move.piece.position[1]
+                + ") to (" + move.newCoords[0] + "," + move.newCoords[1] + ")");
         game.movePiece(move.piece.position[0], move.piece.position[1], move.newCoords[0], move.newCoords[1]);
 
     }
@@ -333,7 +336,7 @@ public class RandomAlg {
                         (player == game.player_2 && oppositePlayer().piecesCoord.get(i).getPosition()[1] <= 2))
                 {
                     bposition = oppositePlayer().piecesCoord.get(i).position;
-                    System.out.println("Bomb at (" + bposition[0] + "," + bposition[1] + ")");
+                    System.out.println(player.getPlayer_ID() + ": Bomb at (" + bposition[0] + "," + bposition[1] + ")");
                     break;
                 }
             }
@@ -342,7 +345,7 @@ public class RandomAlg {
     	for (int i = 0; i < player.piecesCoord.size(); i++) {
             if (player.piecesCoord.get(i).getRank() == 3) {
                 mposition = player.piecesCoord.get(i).position;
-                System.out.println("Miner at (" + mposition[0] + "," + mposition[1] + ")");
+                System.out.println(player.getPlayer_ID() + ": Miner at (" + mposition[0] + "," + mposition[1] + ")");
                 break;
             }
         }
@@ -350,8 +353,9 @@ public class RandomAlg {
     	if ( bposition != null && mposition != null)
     	{
     		//move miners to the bomb
-            game.path.clear();
-    		//game.findPath(mposition[0], mposition[1], bposition[0], bposition[1]);
+//            System.out.println("("+mposition[0] +","+ mposition[1]+") -> ("+bposition[0]+","+bposition[1]+")");
+//            game.path.clear();
+    		game.findPath(mposition[0], mposition[1], bposition[0], bposition[1]);
     	}
 
 //    	makeFinalMove(bposition);
