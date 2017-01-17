@@ -1,11 +1,11 @@
 
 import java.awt.*;
 import java.awt.event.ActionListener;
-<<<<<<< HEAD
+
 import java.util.Arrays;
-=======
+
 import java.util.ArrayList;
->>>>>>> branch 'carolley' of https://github.com/brianhuynen/Project-2-Group-2.git
+
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
