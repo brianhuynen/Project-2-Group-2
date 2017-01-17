@@ -5,20 +5,21 @@ import java.util.ArrayList;
  */
 public class Expectimax {
     //Additional source: https://courses.cs.washington.edu/courses/cse473/11au/slides/cse473au11-adversarial-search.pdf
-
-    public ArrayList<Node> children;
-    public ArrayList<Double> values, weights;
+    private ENode rootNode;
+    private ArrayList<ENode> children;
+    private ArrayList<Double> values, weights;
 
     public Expectimax()
     {
-        children = new ArrayList<Node>();
-        Node rootNode = buildTree();
+        children = new ArrayList<ENode>();
+        buildTree(rootNode);
         findValues(rootNode);
     }
 
-    public Node buildTree(){
-        //TODO Build tree.
-        return null;
+    public void buildTree(ENode rootNode){
+        if(rootNode == null){
+            rootNode = new ENode(0);
+        }
     }
 
     /**
@@ -34,7 +35,7 @@ public class Expectimax {
 
     //TODO determine return statement.
     //Source: https://web.uvic.ca/~maryam/AISpring94/Slides/06_ExpectimaxSearch.pdf)
-    public void findValues(Node n){
+    public void findValues(ENode n){
         /**if(!n.isExternal()){
          *      if(n.isMaxNode()){
          *          return maxValue(n);
@@ -48,7 +49,7 @@ public class Expectimax {
     }
 
     //TODO idem.
-    public void maxValue(Node n){
+    public void maxValue(ENode n){
         Node nextNode;
         /**
          * for each node p in next Layer
@@ -57,7 +58,7 @@ public class Expectimax {
          */
     }
     //TODO idem.
-    public void expValue(Node n){
+    public void expValue(ENode n){
         /**
          * for each node p in next Layer
          *      values.add(findValues(p);
