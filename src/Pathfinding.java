@@ -50,7 +50,7 @@ public class Pathfinding
 			ANode node = new ANode(current);
 			for ( int i = 0; i < openSet.size(); i++ )
 			{
-				System.out.println("for loop for going through open set started iteration = " + i);
+				//System.out.println("for loop for going through open set started iteration = " + i);
 				if(node.getContent() == null)
 				{
 					node = openSet.get(i);
@@ -82,7 +82,8 @@ public class Pathfinding
 				successors.get(i).getContent().setGcost(node.getContent().getGcost()+1);
 				successors.get(i).getContent().setHcost(calculateHcost(successors.get(i).getContent().getPosition(), goal.getPosition()));
 				successors.get(i).getContent().setFcost();
-				System.out.println("set f costs of successor = " + i);
+				System.out.println("set f costs of successor = " + i + "fcost = " + successors.get(i).getContent().getFcost());
+				
 				for( int j = 0; j<openSet.size(); j++ )
 				{
 					if(openSet.get(j).getContent().getPosition() == successors.get(i).getContent().getPosition()
