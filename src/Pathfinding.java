@@ -66,7 +66,7 @@ public class Pathfinding
 			}
 			
 			
-			ArrayList<ANode> successors = generateSuccessors(node, goal.getPosition());
+			ArrayList<ANode> successors = generateSuccessors(node, goal.getPosition(), closedSet.size());
 			System.out.println("successors generated #" + successors.size());
 			outerLoop: for( int i = 0; i < successors.size(); i++ )
 			{
@@ -180,14 +180,19 @@ public class Pathfinding
 	 * @param node the chosen cell
 	 * @return a list of the nodes
 	 */
-	public ArrayList<ANode> generateSuccessors(ANode node, int[] goal)
+	public ArrayList<ANode> generateSuccessors(ANode node, int[] goal, int i)
 	{
 		ArrayList<ANode> list = new ArrayList<ANode>();
 		int[] pos = node.getContent().getPosition();
+		
 		//up
 		if( pos == goal ||( pos[0]-1 > 1 && board[pos[0]-1][pos[1]].getContent() == null 
 				&& board[pos[0]-1][pos[1]].getCellState() != -1 ))
 		{
+			if(i==6)
+			{
+				System.out.println("successor move up to " + pos[0] + pos[1]);
+			}
 			ANode child = new ANode(board[pos[0]-1][pos[1]]);
 			child.setParent(node);
 			list.add(child);
@@ -196,6 +201,10 @@ public class Pathfinding
 		if( pos == goal ||  (pos[1]+1 < 11 && board[pos[0]][pos[1]+1].getContent() == null
 				&& board[pos[0]][pos[1]+1].getCellState() != -1))
 		{
+			if(i==6)
+			{
+				System.out.println("successor move right");
+			}
 			ANode child = new ANode(board[pos[0]][pos[1]+1]);
 			child.setParent(node);
 			list.add(child);
@@ -204,6 +213,10 @@ public class Pathfinding
 		if( pos == goal || (pos[0]+1 < 11 && board[pos[0]+1][pos[1]].getContent() == null
 				&& board[pos[0]+1][pos[1]].getCellState() != -1))
 		{
+			if(i==6)
+			{
+				System.out.println("successor move down");
+			}
 			ANode child = new ANode(board[pos[0]+1][pos[1]]);
 			child.setParent(node);
 			list.add(child);
@@ -212,6 +225,10 @@ public class Pathfinding
 		if( pos == goal || (pos[1]-1 > 1 && board[pos[0]][pos[1]-1].getContent() == null
 				&& board[pos[0]][pos[1]-1].getCellState() != -1))
 		{
+			if(i==6)
+			{
+				System.out.println("successor move left");
+			}
 			ANode child = new ANode(board[pos[0]][pos[1]-1]);
 			child.setParent(node);
 			list.add(child);
