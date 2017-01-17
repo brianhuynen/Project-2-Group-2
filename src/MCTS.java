@@ -1,3 +1,4 @@
+
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Map;
@@ -15,8 +16,14 @@ public class MCTS {
 	private FinalSelectionPolicy finalSelectionPolicy;
 
 	private HeuristicFunction heuristic;
-	
-	public MCTS() {
+	 private Cell[][] board;
+	    private Player player;
+	    private Game game;
+	    
+	public MCTS(){
+//        this.board = game.board;
+//        this.player = player;
+//        this.game = game;
 		random = new Random();
 	}
 
@@ -33,7 +40,7 @@ public class MCTS {
 		rootNode = new Node(startingGame);
 
 		long startTime = System.nanoTime();
-
+        System.out.println("running...");
 		for (int i = 0; i < runs; i++) {
 		 select(startingGame.DuplicateG(), rootNode);
 		}
@@ -63,13 +70,13 @@ public class MCTS {
 		// Begin tree policy. Traverse down the tree and expand. Return
 		// the new node or the deepest node it could reach. Return too
 		// a board matching the returned node.
-		Map.Entry<Game, Node> boardNodePair = treePolicy(currentGame, currentNode);
+		Map.Entry<Game, Node> gameNodePair = treePolicy(currentGame, currentNode);
 		
 		// Run a random playout until the end of the game.
-		double[] score = playout(boardNodePair.getValue(), boardNodePair.getKey());
+		double[] score = playout(gameNodePair.getValue(), gameNodePair.getKey());
 		
 		// Backpropagate results of playout.
-		Node n = boardNodePair.getValue();
+		Node n = gameNodePair.getValue();
 		n.backPropagateScore(score);
 		if (scoreBounds) {
 			n.backPropagateBounds(score);
@@ -198,7 +205,7 @@ public class MCTS {
 	 * @return score outcome after playout
 	 */
 	private double[] playout(Node state, Game game) {
-		ArrayList<Move> moves;
+		ArrayList<Move> moves= new ArrayList<Move>();
 		Move mv;
 		Game gm = game.DuplicateG();
 

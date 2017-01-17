@@ -1,4 +1,6 @@
+
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class Pathfinding 
 {
@@ -11,77 +13,125 @@ public class Pathfinding
 		this.playerID = playerID;
 	}
 	
+	public void aStar(Cell start, Cell goal)
+	{
+		Stack<Cell> path = lookPath(start, goal);
+		System.out.println("lookPath finished working");
+		/*while(!path.isEmpty())
+		{
+			System.out.println(path.pop().getPosition() + " to "); 
+		}*/
+	}
+	
 	/**
 	 * the main part of the A* algorithm
 	 * @param start starting cell
 	 * @param goal goal cell
 	 * @return a list ??????
 	 */
-	public ArrayList<Cell> aStar(Cell start, Cell goal)
+	public Stack<Cell> lookPath(Cell start, Cell goal)
 	{
-		
-		ArrayList<Cell> closedSet = new ArrayList<Cell>();
-		ArrayList<Cell> openSet = new ArrayList<Cell>();
+		//open set = nodes to be explored
+		//closed set = nodes already explored
+		ArrayList<ANode> closedSet = new ArrayList<ANode>();
+		ArrayList<ANode> openSet = new ArrayList<ANode>();
+		//setting the costs of the starting cell and adding it to the open set
 		start.setGcost(0);
 		start.setHcost(calculateHcost(start.getPosition(), goal.getPosition()));
 		start.setFcost();
-		openSet.add(start);
-		ArrayList<Cell> path = new ArrayList<Cell>();
-		path.add(start);
-		
-		while( !openSet.isEmpty() )
+		ANode first = new ANode(start);
+		openSet.add(first);
+		System.out.println("added " + first.getContent().getPosition()[0] + first.getContent().getPosition()[1]);
+		Stack<Cell> path = null;
+	
+		mainLoop: while( !openSet.isEmpty() )
 		{
-			Cell node = null;
+			System.out.println("open set is not empty");
+			Cell current = null;
+			ANode node = new ANode(current);
 			for ( int i = 0; i < openSet.size(); i++ )
 			{
-				if(node == null)
+				System.out.println("for loop for going through open set started iteration = " + i);
+				if(node.getContent() == null)
 				{
 					node = openSet.get(i);
+					System.out.println("set node to be first one in the list");
 					openSet.remove(i);
 				}
-				else if(openSet.get(i).getFcost() < node.getFcost())
+				else if(openSet.get(i).getContent().getFcost() < node.getContent().getFcost())
 				{
 					openSet.add(node);
+					System.out.println("added " + node.getContent().getPosition()[0] + node.getContent().getPosition()[1]);
 					node = openSet.get(i);
+					System.out.println("set node to be the one in the open set with lowest f");
 					openSet.remove(i);
 				}
 			}
 			
-			ArrayList<Cell> successors = generateSuccessors(node, goal.getPosition());
+			
+			ArrayList<ANode> successors = generateSuccessors(node, goal.getPosition());
 			
 			outerLoop: for( int i = 0; i < successors.size(); i++ )
 			{
-				if(successors.get(i) == goal)
+				System.out.println("for loop for going through successors started iteration = " + i);
+				if(successors.get(i).getContent() == goal)
 				{
-					path.add(successors.get(i));
-					return path;
+					System.out.println("found goal in successors");
+					path = recreatePath(successors.get(i), start);
+					break mainLoop;
 				}
-				successors.get(i).setGcost(node.getGcost()+1);
-				successors.get(i).setHcost(calculateHcost(successors.get(i).getPosition(), goal.getPosition()));
-				successors.get(i).setFcost();
-				
+				successors.get(i).getContent().setGcost(node.getContent().getGcost()+1);
+				successors.get(i).getContent().setHcost(calculateHcost(successors.get(i).getContent().getPosition(), goal.getPosition()));
+				successors.get(i).getContent().setFcost();
+				System.out.println("set f costs of successor = " + i);
 				for( int j = 0; j<openSet.size(); j++ )
 				{
-					if(openSet.get(j).getPosition() == successors.get(i).getPosition()
-							&& openSet.get(j).getFcost() < successors.get(i).getFcost())
+					if(openSet.get(j).getContent().getPosition() == successors.get(i).getContent().getPosition()
+							&& openSet.get(j).getContent().getFcost() < successors.get(i).getContent().getFcost())
 					{
+						System.out.println("skipping succesor n = " + j);
 						continue outerLoop;
 					}
 				}
 				for ( int j = 0; j<closedSet.size(); j++ )
 				{
-					if(closedSet.get(j).getPosition() == successors.get(i).getPosition()
-							&& closedSet.get(j).getFcost() < successors.get(i).getFcost())
+					if(closedSet.get(j).getContent().getPosition() == successors.get(i).getContent().getPosition()
+							&& closedSet.get(j).getContent().getFcost() < successors.get(i).getContent().getFcost())
 					{
+						System.out.println("skipping succesor n = " + j);
 						continue outerLoop;
 					}
 				}
 				openSet.add(successors.get(i));
+				System.out.println("added " + successors.get(i).getContent().getPosition()[0] + successors.get(i).getContent().getPosition()[1]);
+				System.out.println("forloop ending iteration = " + i);
 			}
+			
 			closedSet.add(node);
+			System.out.println("added explored node to closed set");
 		}
-		
-		return null;
+		return path;
+	}
+	
+	public Stack<Cell> recreatePath(ANode last, Cell first)
+	{
+		Stack<Cell> path = new Stack<Cell>();
+		path.push(last.getContent());
+		boolean done = false;
+		ANode node = last.getParent();
+		while(!done)
+		{
+			if(node.getContent() != first)
+			{
+				path.push(node.getContent());
+				node = node.getParent();
+			}
+			else
+			{
+				done = true;
+			}
+		}
+		return path;
 	}
 	
 	/**
@@ -90,30 +140,42 @@ public class Pathfinding
 	 * @param node the chosen cell
 	 * @return a list of the nodes
 	 */
-	public ArrayList<Cell> generateSuccessors(Cell node, int[] goal)
+	public ArrayList<ANode> generateSuccessors(ANode node, int[] goal)
 	{
-		ArrayList<Cell> list = new ArrayList<Cell>();
-		int[] pos = node.getPosition();
-		
+		ArrayList<ANode> list = new ArrayList<ANode>();
+		int[] pos = node.getContent().getPosition();
+		System.out.println("in successors method");
 		//up
-		if(board[pos[0]-1][pos[1]].getContent() == null)
+		if(pos[0]-1 > 1 && board[pos[0]-1][pos[1]].getContent() == null )
 		{
-			list.add(board[pos[0]-1][pos[1]]);
+			System.out.println("up");
+			ANode child = new ANode(board[pos[0]-1][pos[1]]);
+			child.setParent(node);
+			list.add(child);
 		}
 		//right
-		if(board[pos[0]][pos[1]+1].getContent() == null)
+		if(pos[1]+1 < 11 && board[pos[0]][pos[1]+1].getContent() == null)
 		{
-			list.add(board[pos[0]][pos[1]+1]);
+			System.out.println("right");
+			ANode child = new ANode(board[pos[0]][pos[1]+1]);
+			child.setParent(node);
+			list.add(child);
 		}
 		//down
-		if(board[pos[0]+1][pos[1]].getContent() == null)
+		if(pos[0]+1 < 11 && board[pos[0]+1][pos[1]].getContent() == null)
 		{
-			list.add(board[pos[0]+1][pos[1]]);
+			System.out.println("down");
+			ANode child = new ANode(board[pos[0]+1][pos[1]]);
+			child.setParent(node);
+			list.add(child);
 		}
 		//left
-		if(board[pos[0]][pos[1]-1].getContent() == null)
+		if(pos[1]-1 > 1 && board[pos[0]][pos[1]-1].getContent() == null)
 		{
-			list.add(board[pos[0]][pos[1]-1]);
+			System.out.println("left");
+			ANode child = new ANode(board[pos[0]][pos[1]-1]);
+			child.setParent(node);
+			list.add(child);
 		}
 		
 		return list;

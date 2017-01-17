@@ -1,3 +1,4 @@
+
 public class Field {
 	Cell [][] field;
 	
@@ -14,10 +15,12 @@ public class Field {
 					Cell cell = new Cell(null, -1);
 					field[i][j]= cell;
 					cell.setPosition(i, j);
+					System.out.println("position set to "+ i + j);
 				}
 				else{
 					Cell cell = new Cell(null,0);
 					field[i][j]= cell;
+					cell.setPosition(i, j);
 				}
 			}
 		}

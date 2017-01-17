@@ -1,3 +1,4 @@
+
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -10,6 +11,7 @@ import java.util.Random;
 
 
 public class Game {
+	public boolean flagCaptured;
 	/*	How coordinates work on the board:
 
 		x = board.length
@@ -98,7 +100,7 @@ public class Game {
 		//player = SetPlayers(playerTypeData);
 		//player_1 = player[0];
 		//player_2 = player[1];
-		
+
 		Field field = new Field();
 		Cell [][] board = field.getBoard();
 		g.field=field;
@@ -119,10 +121,13 @@ public class Game {
 		else if(playerTypeData[0] == "AIPlayer"){
 			player[0] = new AIPlayer(1, Color.BLUE, 1); //ID, Piece Colour, Algorithm ID
 		}
-		//TODO Michael, your stuff here :D
+
+
 		else if(playerTypeData[0] == "MCTS"){
 			player[0] = new AIPlayer(1, Color.BLUE, 2); //ID, Piece Colour, Algorithm ID
         }
+
+
 
 		if(playerTypeData[1] == "HumanPlayer"){
 			player[1] = new HumanPlayer(2, Color.RED);
@@ -130,10 +135,13 @@ public class Game {
 		else if(playerTypeData[1] == "AIPlayer"){
 			player[1] = new AIPlayer(2, Color.RED, 1);
 		}
-        //TODO Michael, your stuff here :D
+
+
 		else if(playerTypeData[1] == "MCTS"){
-			player[1] = new AIPlayer(2, Color.BLUE, 2); //ID, Piece Colour, Algorithm ID
+			player[1] = new AIPlayer(2, Color.RED, 2); //ID, Piece Colour, Algorithm ID
         }
+
+
 		return player;
 	}
 	
@@ -337,6 +345,8 @@ public class Game {
 	
 	/**
 	 * Moves a random piece
+	 *
+	 *
 	 */
 	public void ranMovePiece(){
 		//finds coordinates of movable pieces
@@ -440,6 +450,7 @@ public class Game {
 //							") and rank " + defense.getRank() + "(" + defense.getPlayer_ID() +
 //							") on (" + defense.getPosition()[0] + "," + defense.getPosition()[1] + ")");
 		if(defense.getRank()==0){
+			flagCaptured = true;
 			endgame();
 			//findScore();
 		}
@@ -762,7 +773,7 @@ public class Game {
 
 		// RETURN A LIST OF THE CURRENT PLAYER'S POSSIBLE MOVES
 		ArrayList<Move> listOfMoves = new ArrayList<Move>();
-		ArrayList<Pieces> movables = findMovablePieces();
+		//ArrayList<Pieces> movables = findMovablePieces();
 		//int[] movementData = new int[3];
 
 		// IN THE CASE OF PLAYOUT

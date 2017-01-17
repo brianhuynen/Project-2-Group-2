@@ -1,4 +1,5 @@
 
+
 public class Heuristic implements HeuristicFunction{
 
 
