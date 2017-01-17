@@ -786,14 +786,11 @@ public class Game {
 			
 				}
 
-			
-		
-
 		// IN THE CASE OF TREEPOLICY
-		else {
+		else
+		{
 
 		}
-
 		return listOfMoves;
 	}
 	 

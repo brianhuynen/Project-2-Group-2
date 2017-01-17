@@ -187,7 +187,7 @@ public class Pathfinding
 		int[] pos = node.getContent().getPosition();
 		
 		//up
-		if( pos == goal ||( pos[0]-1 > 1 && board[pos[0]-1][pos[1]].getContent() == null 
+		if( (pos[0]-1 == goal[0] && pos[1] == goal[1]) ||( pos[0]-1 > 1 && board[pos[0]-1][pos[1]].getContent() == null
 				&& board[pos[0]-1][pos[1]].getCellState() != -1 ))
 		{
 			if(i==6)
@@ -199,7 +199,7 @@ public class Pathfinding
 			list.add(child);
 		}
 		//right
-		if( pos == goal ||  (pos[1]+1 < 11 && board[pos[0]][pos[1]+1].getContent() == null
+		if( (pos[0] == goal[0] && pos[1]+1 == goal[1]) ||  (pos[1]+1 < 11 && board[pos[0]][pos[1]+1].getContent() == null
 				&& board[pos[0]][pos[1]+1].getCellState() != -1))
 		{
 			if(i==6)
@@ -211,7 +211,7 @@ public class Pathfinding
 			list.add(child);
 		}
 		//down
-		if( pos == goal || (pos[0]+1 < 11 && board[pos[0]+1][pos[1]].getContent() == null
+		if( (pos[0] +1 == goal[0] && pos[1] == goal[1]) || (pos[0]+1 < 11 && board[pos[0]+1][pos[1]].getContent() == null
 				&& board[pos[0]+1][pos[1]].getCellState() != -1))
 		{
 			if(i==6)
@@ -223,7 +223,7 @@ public class Pathfinding
 			list.add(child);
 		}
 		//left
-		if( pos == goal || (pos[1]-1 > 1 && board[pos[0]][pos[1]-1].getContent() == null
+		if( (pos[0] == goal[0] && pos[1]-1 == goal[1]) || (pos[1]-1 > 1 && board[pos[0]][pos[1]-1].getContent() == null
 				&& board[pos[0]][pos[1]-1].getCellState() != -1))
 		{
 			if(i==6)
