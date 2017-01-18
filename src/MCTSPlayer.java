@@ -15,7 +15,7 @@ public class MCTSPlayer extends Player {
 	    public Move generateMovement(Game game){
 	       
 	        if (this.getAlgID() == 2){
-	            MCTS mcts= new MCTS(game, game.currentPlayer);
+	            MCTS mcts= new MCTS();
 	           
 	    		mcts.setExplorationConstant(0.4);
 	    		mcts.setTimeDisplay(true);
@@ -25,7 +25,7 @@ public class MCTSPlayer extends Player {
 	    		mcts.setMoveSelectionPolicy(FinalSelectionPolicy.robustChild);
 	    		int []scores = new int[3];
 
-	    				move = mcts.runMCTS(game, 100, false);
+	    				mcts.runMCTS(game, 100, false);
 	    				
 	    			
 	    			
