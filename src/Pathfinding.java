@@ -15,9 +15,10 @@ public class Pathfinding
 	
 	public ArrayList<Cell> aStar(Cell start, Cell goal)
 	{
-		ArrayList<Cell> path = lookPath(start, goal);
-		System.out.println("lookPath finished working start = " + start.getPosition()[0] + start.getPosition()[1]
-				+ " goal = " + goal.getPosition()[0] + goal.getPosition()[1]);
+        System.out.println("(" + start.getPosition()[0] + "," + start.getPosition()[1] + ") -> (" + goal.getPosition()[0] + "," + goal.getPosition()[1] + ")");
+        ArrayList<Cell> path = lookPath(start, goal);
+//		System.out.println("lookPath finished working start = " + start.getPosition()[0] + start.getPosition()[1]
+//				+ " goal = " + goal.getPosition()[0] + goal.getPosition()[1]);
 		for(int i = 0; i<path.size(); i++)
 		{
 			System.out.println("new coords = " + path.get(i).getPosition()[0] + path.get(i).getPosition()[1]);
@@ -68,13 +69,13 @@ public class Pathfinding
 			
 			
 			ArrayList<ANode> successors = generateSuccessors(node, goal.getPosition(), closedSet.size());
-			System.out.println("successors generated #" + successors.size());
+//			System.out.println("successors generated #" + successors.size());
 			outerLoop: for( int i = 0; i < successors.size(); i++ )
 			{
 //				System.out.println("for loop for going through successors started iteration = " + i);
 				if(successors.get(i).getContent() == goal)
 				{
-					System.out.println("found goal in successors");
+//					System.out.println("found goal in successors");
 //					System.out.println("start = " + start.getPosition()[0] + start.getPosition()[1]);
 					path = recreatePath(successors.get(i), start);
 					break mainLoop;
@@ -88,8 +89,8 @@ public class Pathfinding
 				
 				if (closedSet.size() == 6 )
 				{
-					System.out.println("successor of 59 is " + successors.get(i).getContent().getPosition()[0] + 
-						successors.get(i).getContent().getPosition()[1]);
+//					System.out.println("successor of 59 is " + successors.get(i).getContent().getPosition()[0] +
+//						successors.get(i).getContent().getPosition()[1]);
 				}
 				
 				for( int j = 0; j<openSet.size(); j++ )
@@ -123,27 +124,27 @@ public class Pathfinding
 					}
 				}
 				openSet.add(successors.get(i));
-				System.out.println("forloop ending iteration = " + i);
+//				System.out.println("forloop ending iteration = " + i);
 			}
 			
 			closedSet.add(node);
-			System.out.println("added explored node to closed set = " + closedSet.size());
-			if(openSet.isEmpty())
-			{
-				System.out.println("open set is empty");
-			}
+//			System.out.println("added explored node to closed set = " + closedSet.size());
+//			if(openSet.isEmpty())
+//			{
+//				System.out.println("open set is empty");
+//			}
 		}
 		
-		if(path.isEmpty())
-		{
-			System.out.println("path is empty");
-		}
-		
-		for (int i = 0; i<closedSet.size(); i++)
-		{
-			System.out.println("closed set index " + i + " = " + closedSet.get(i).getContent().getPosition()[0]
-					+ closedSet.get(i).getContent().getPosition()[1]);
-		}
+//		if(path.isEmpty())
+//		{
+//			System.out.println("path is empty");
+//		}
+//
+//		for (int i = 0; i<closedSet.size(); i++)
+//		{
+//			System.out.println("closed set index " + i + " = " + closedSet.get(i).getContent().getPosition()[0]
+//					+ closedSet.get(i).getContent().getPosition()[1]);
+//		}
 		
 		return path;
 	}
@@ -192,7 +193,7 @@ public class Pathfinding
 		{
 			if(i==6)
 			{
-				System.out.println("successor move up to " + pos[0] + pos[1]);
+//				System.out.println("successor move up to " + pos[0] + pos[1]);
 			}
 			ANode child = new ANode(board[pos[0]-1][pos[1]]);
 			child.setParent(node);
@@ -204,7 +205,7 @@ public class Pathfinding
 		{
 			if(i==6)
 			{
-				System.out.println("successor move right");
+//				System.out.println("successor move right");
 			}
 			ANode child = new ANode(board[pos[0]][pos[1]+1]);
 			child.setParent(node);
@@ -216,7 +217,7 @@ public class Pathfinding
 		{
 			if(i==6)
 			{
-				System.out.println("successor move down");
+//				System.out.println("successor move down");
 			}
 			ANode child = new ANode(board[pos[0]+1][pos[1]]);
 			child.setParent(node);
@@ -228,7 +229,7 @@ public class Pathfinding
 		{
 			if(i==6)
 			{
-				System.out.println("successor move left");
+//				System.out.println("successor move left");
 			}
 			ANode child = new ANode(board[pos[0]][pos[1]-1]);
 			child.setParent(node);

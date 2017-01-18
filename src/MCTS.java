@@ -1,6 +1,7 @@
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Random;
 
@@ -18,12 +19,11 @@ public class MCTS {
 	private HeuristicFunction heuristic;
 	private Cell[][] board;
 	private Player player;
-	private Game game;
-	    
-	public MCTS(Game game, Player p){
-        this.board = game.board;
-        this.player = p;
-        this.game = game;
+	private Player opp;
+	//Player[] players = new Player[2];
+
+	public MCTS(){
+		
 		random = new Random();
 	}
 
@@ -38,10 +38,18 @@ public class MCTS {
 	public Move runMCTS(Game startingGame, int runs, boolean bounds) {
 		scoreBounds = bounds;
 		rootNode = new Node(startingGame);
-
+		//players = startingGame.player;
+		int count = 0;
+		startingGame.printBoard();
+		player = startingGame.currentPlayer;
+		opp=startingGame.oppositePlayer();
 		long startTime = System.nanoTime();
         System.out.println("running...");
 		for (int i = 0; i < runs; i++) {
+			
+			
+			count++;
+		//System.out.println(count);
 		 select(startingGame.DuplicateG(), rootNode);
 		}
 
@@ -49,7 +57,7 @@ public class MCTS {
 
 		if (this.trackTime) {
 			
-			System.out.println("Making choice for player: " + rootNode.player.getPlayer_ID());
+			System.out.println("Making choice for player: " + rootNode.player);
 			System.out.println("Thinking time per move in milliseconds: " + (endTime - startTime) / 1000000);
 		}
 
@@ -64,7 +72,7 @@ public class MCTS {
 	 * 
 	 * @param node
 	 *            Node from which to start selection
-	 * @param brd
+	 * @param game
 	 * 			  Game state to work from.
 	 */
 	private void select(Game currentGame, Node currentNode){
@@ -78,6 +86,7 @@ public class MCTS {
 		
 		// Backpropagate results of playout.
 		Node n = gameNodePair.getValue();
+	
 		n.backPropagateScore(score);
 		if (scoreBounds) {
 			n.backPropagateBounds(score);
@@ -109,6 +118,7 @@ public class MCTS {
 					Node finalNode = bestNodes.get(random.nextInt(bestNodes.size()));
 					node = finalNode;
 					g.makeMove(finalNode.move);
+			
 				}
 		}
 		
@@ -128,6 +138,7 @@ public class MCTS {
 		Node r = null;
 		
 		switch (finalSelectionPolicy) {
+		
 		case maxChild:
 			r = maxChild(n);
 			break;
@@ -154,17 +165,17 @@ public class MCTS {
 
 		for (Node s : n.children) {
 			tempBest = s.games;
-//			tempBest += s.opti[n.player.getPlayer_ID()-1] * optimisticBias;
-//			tempBest += s.pess[n.player.getPlayer_ID()-1] * pessimisticBias;
+//			tempBest += s.opti[n.player] * optimisticBias;
+//			tempBest += s.pess[n.player] * pessimisticBias;
 			if (tempBest > bestValue) {
-				//bestNodes.clear();
+				bestNodes.clear();
 				bestNodes.add(s);
 				bestValue = tempBest;
 			} else if (tempBest == bestValue) {
 				bestNodes.add(s);
 			}
 		}
-		System.out.println(bestNodes.size());
+		System.out.println( bestNodes.size());
 
 		Node finalNode = bestNodes.get(random.nextInt(bestNodes.size()));
 
@@ -182,16 +193,16 @@ public class MCTS {
 		ArrayList<Node> bestNodes = new ArrayList<Node>();
 
 		for (Node s : n.children) {
-			tempBest = s.score[n.player.getPlayer_ID()-1];
+			tempBest = s.score[n.player];
 			if (tempBest > bestValue) {
-				//bestNodes.clear();
+				bestNodes.clear();
 				bestNodes.add(s);
 				bestValue = tempBest;
 			} else if (tempBest == bestValue) {
 				bestNodes.add(s);
 			}
 		}
-
+		System.out.println( bestNodes.size());
 		Node finalNode = bestNodes.get(random.nextInt(bestNodes.size()));
 
 		return finalNode;
@@ -215,8 +226,9 @@ public class MCTS {
 		while (!gm.gameOver()) {
 			moves = gm.getMoves(CallLocation.treePolicy);
 			
-			if (gm.currentPlayer== player) {
+			if (gm.currentPlayer.getPlayer_ID()-1 <=0) {
 				// make random selection normally
+				System.out.println( moves.size());
 				mv = moves.get(random.nextInt(moves.size()));
 			} else {
 				/*
@@ -276,8 +288,8 @@ public class MCTS {
 			// propagation mode is enabled.
 			if (s.pruned == false) {
 				double tempBest = s.upperConfidenceBound(explorationConstant)
-						+optimisticBias * s.opti[n.player.getPlayer_ID()-1]
-						+pessimisticBias * s.pess[n.player.getPlayer_ID()-1];
+						+optimisticBias * s.opti[n.player]
+						+pessimisticBias * s.pess[n.player];
 
 				if (heuristic != null){
 					tempBest += heuristic.h(g);
@@ -285,7 +297,7 @@ public class MCTS {
 				
 				if (tempBest > bestValue) {
 					// If we found a better node
-				//	bestNodes.clear();
+					bestNodes.clear();
 					bestNodes.add(s);
 					bestValue = tempBest;
 				} else if (tempBest == bestValue) {

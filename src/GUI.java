@@ -4,10 +4,12 @@ import java.awt.event.ActionListener;
 
 import java.util.Arrays;
 
+import java.util.Random;
 import java.util.ArrayList;
 
 import java.awt.event.ActionEvent;
 import javax.swing.*;
+
 
 public class GUI {
 
@@ -371,18 +373,19 @@ public class GUI {
 //				int toX = Integer.parseInt(x2.getText());
 //				int toY = Integer.parseInt(y2.getText());
 				
-				Pathfinding astar = new Pathfinding(game.board, game.currentPlayer.getPlayer_ID());
-//				ArrayList<Cell> path = astar.aStar(game.board[4][7], game.board[10][6]);
-                ArrayList<Cell> path = astar.aStar(game.board[7][4], game.board[5][10]);
-				
-				for (int i = path.size()-1; i>0; i--)
-				{
-					int[] from = path.get(i).getPosition();
-					int[] to = path.get(i-1).getPosition();
-					System.out.println("from: " + "(" + i + ")" + from[0] + from[1] + " to: " + "(" + (i-1) + ")" + to[0] + to[1]);
-					game.movePiece(from[0], from[1], to[0], to[1]);
-					frame.repaint();
-				}
+//				Pathfinding astar = new Pathfinding(game.board, game.currentPlayer.getPlayer_ID());
+////				ArrayList<Cell> path = astar.aStar(game.board[4][7], game.board[10][6]);
+//                ArrayList<Cell> path = astar.aStar(game.board[7][4], game.board[5][10]);
+//
+//				for (int i = path.size()-1; i>0; i--)
+//				{
+//					int[] from = path.get(i).getPosition();
+//					int[] to = path.get(i-1).getPosition();
+//					System.out.println("from: " + "(" + i + ")" + from[0] + from[1] + " to: " + "(" + (i-1) + ")" + to[0] + to[1]);
+//					game.movePiece(from[0], from[1], to[0], to[1]);
+//					frame.repaint();
+//				}
+
 				// for(int i = 0; i<1; i++) {
 				// RandomAlg rand = new RandomAlg(game, game.currentPlayer);
 				// rand.randomMove();
@@ -512,26 +515,65 @@ public class GUI {
 		if ((playerTypeData[0] == playerTypeData[1])
 				&& ((playerTypeData[0] == "AIPlayer") || (playerTypeData[0] == "MCTS"))) {
 			while (!game.gameOver && game.findMovableCoords(game.currentPlayer).size() != 0 && game.gameActive) {
+
 if(playerTypeData[0] == "AIPlayer"){
 				RandomAlg rand = new RandomAlg(game, game.currentPlayer);
 				rand.randomMove();
 				// rand.generateMovementHeur();
 }
 if(playerTypeData[0] == "MCTS"){
-	 MCTS mcts= new MCTS(game, game.currentPlayer);
-     
-		mcts.setExplorationConstant(0.4);
-		mcts.setTimeDisplay(true);
-		Move move;
-		mcts.setOptimisticBias(0.0d);
-		mcts.setPessimisticBias(0.0d);
-		mcts.setMoveSelectionPolicy(FinalSelectionPolicy.robustChild);
-		int []scores = new int[3];
-		while (!game.gameOver()){
-				move = mcts.runMCTS(game, 1000, false);
-				game.makeMove(move);
-		}
-			
+	ArrayList<Move> list = game.getMoves(CallLocation.playout);
+	game.makeMove(list.get((int)new Random().nextInt(list.size())));
+//	 MCTS mcts= new MCTS();
+//
+//		mcts.setExplorationConstant(0.4);
+//		mcts.setTimeDisplay(true);
+//		Move move;
+//		//mcts.setOptimisticBias(0.0d);
+//		//mcts.setPessimisticBias(0.0d);
+//	//	mcts.setMoveSelectionPolicy(FinalSelectionPolicy.robustChild);
+//		int []scores = new int[3];
+//		int count = 0;
+//		//while (!game.gameOver()){
+//			count ++;
+//			System.out.println(count +" times ");
+//			move=mcts.runMCTS(game, 1000, false);
+//			game.makeMove(move);
+//		//}
+//			
+//				double []scr = game.getScore();
+//				if (scr[0] == 1.0) {
+//					scores[0]++; // player 1
+//				} else if (scr[1]==1.0) {
+//					scores[1]++; // player 2
+//				} else
+//					scores[2]++; // draw
+//		
+//		System.out.println(Arrays.toString(scr));
+//		System.out.println(Arrays.toString(scores));	
+//			
+}
+
+                if(playerTypeData[0] == "AIPlayer"){
+				    RandomAlg rand = new RandomAlg(game, game.currentPlayer);
+				    rand.randomMove();
+				    // rand.generateMovementHeur();
+                }
+        if(playerTypeData[0] == "MCTS"){
+            MCTS mcts= new MCTS();
+
+            mcts.setExplorationConstant(0.4);
+            mcts.setTimeDisplay(true);
+            Move move;
+            mcts.setOptimisticBias(0.0d);
+            mcts.setPessimisticBias(0.0d);
+            mcts.setMoveSelectionPolicy(FinalSelectionPolicy.robustChild);
+            int []scores = new int[3];
+            while (!game.gameOver()){
+                    move = mcts.runMCTS(game, 1000, false);
+                    game.makeMove(move);
+            }
+
 			
 			double []scr = game.getScore();
 			if (scr[0] == 1.0) {
@@ -543,17 +585,16 @@ if(playerTypeData[0] == "MCTS"){
 			
 			System.out.println(Arrays.toString(scr));
 			System.out.println(Arrays.toString(scores));
-}
+
 				frame.repaint();
 				frame.paint(frame.getGraphics());
-				sleep(0);
+				sleep(1000);
 				game.changeTurn();
 
 				// gameLoop();
-
-			}
+        //}
 			JOptionPane.showMessageDialog(frame, "END");
-		}
+    }
 
 		else if (playerTypeData[0] != playerTypeData[1]) {
 			while (!game.gameOver && game.findMovableCoords(game.currentPlayer).size() != 0
@@ -562,36 +603,67 @@ if(playerTypeData[0] == "MCTS"){
 					RandomAlg rand = new RandomAlg(game, game.currentPlayer);
 					rand.randomMove();
 					// rand.generateMovementHeur();
+                    frame.repaint();
+                    frame.paint(frame.getGraphics());
+                    sleep(0);
+                    game.changeTurn();
 				}
 				if(playerTypeData[0] == "MCTS"){
-					MCTS mcts= new MCTS(game,game.currentPlayer);
-	     
-					mcts.setExplorationConstant(0.4);
-					mcts.setTimeDisplay(true);
-					Move move;
-					mcts.setOptimisticBias(0.0d);
-					mcts.setPessimisticBias(0.0d);
-					mcts.setMoveSelectionPolicy(FinalSelectionPolicy.robustChild);
-					int []scores = new int[3];
-					while (!game.gameOver()){
-						move = mcts.runMCTS(game, 1000, false);
-						game.makeMove(move);
-					}
+//					MCTS mcts= new MCTS(game,game.currentPlayer);
+//	     
+//					mcts.setExplorationConstant(0.4);
+//					mcts.setTimeDisplay(true);
+//					Move move;
+//					mcts.setOptimisticBias(0.0d);
+//					mcts.setPessimisticBias(0.0d);
+//					mcts.setMoveSelectionPolicy(FinalSelectionPolicy.robustChild);
+//					int []scores = new int[3];
+//					while (!game.gameOver()){
+//						move = mcts.runMCTS(game, 100, false);
+//						game.makeMove(move);
+					// LIST OF MOVES FOR CURRENT PLAYER (TO CHECK IF A USER IS ALLOWED A MOVE DURING GUI, CHECK IF THIS LIST CONTAINS THAT MOVE)
+//					ArrayList<Move> list = game.getMoves(CallLocation.playout);
+//					game.makeMove(list.get((int)new Random().nextInt(list.size())));
+//					}
 				
-				
-				double []scr = game.getScore();
-				if (scr[0] == 1.0) {
-					scores[0]++; // player 1
-				} else if (scr[1]==1.0) {
-					scores[1]++; // player 2
-				} else
-					scores[2]++; // draw
-				
-				System.out.println(Arrays.toString(scr));
-				System.out.println(Arrays.toString(scores));
+
+//				
+//				double []scr = game.getScore();
+//				if (scr[0] == 1.0) {
+//					scores[0]++; // player 1
+//				} else if (scr[1]==1.0) {
+//					scores[1]++; // player 2
+//				} else
+//					scores[2]++; // draw
+//				
+//				System.out.println(Arrays.toString(scr));
+//				System.out.println(Arrays.toString(scores));
 	}
 				game.changeTurn();
 				frame.repaint();
+
+			}
+//                    double []scr = game.getScore();
+//                    if (scr[0] == 1.0) {
+//                        scores[0]++; // player 1
+//                    } else if (scr[1]==1.0) {
+//                        scores[1]++; // player 2
+//                    } else
+//                        scores[2]++; // draw
+//
+//                    System.out.println(Arrays.toString(scr));
+//                    System.out.println(Arrays.toString(scores));
+
+                    frame.repaint();
+                    frame.paint(frame.getGraphics());
+                    sleep(0);
+                    game.changeTurn();
+	            }
+//                frame.repaint();
+//                frame.paint(frame.getGraphics());
+//                sleep(0);
+//                game.changeTurn();
+
 			}
 		}
 	}
