@@ -103,9 +103,9 @@ public class Game {
 		//player_1 = player[0];
 		//player_2 = player[1];
 
-		Field field = new Field();
+		
 		Cell [][] board = field.getBoard();
-		g.field=field;
+
 		g.board=board;
 		g.gameOver = false;
 		return g;
@@ -282,9 +282,11 @@ public class Game {
 	 * @return true if the move was valid. false if move was invalid
 	 */
 	public boolean validMove(int x1, int y1, int x2, int y2){
+		
 		if(board[x1][y1].getContent().getPlayer_ID() != currentPlayer.getPlayer_ID()){
 			//return error
-			return false;
+		
+				return false;
 		}
 		int spaces;
 		int a = 1;
@@ -758,7 +760,7 @@ public class Game {
 	public void makeMove(Move m) {
 		Move move = (Move)m;
 		movePiece(move.piece.position[0], move.piece.position[1], move.newCoords[0], move.newCoords[1]);
-		move.printMove();
+		//move.printMove();
 	}
 
 	public int getQuantityOfPlayers() {
@@ -788,10 +790,17 @@ public class Game {
 				}
 
 		// IN THE CASE OF TREEPOLICY
+
+//		else {
+//
+//		}
+
+
 		else
 		{
 
 		}
+
 		return listOfMoves;
 	}
 	 
@@ -831,8 +840,9 @@ public class Game {
         }
         if(list.size()==0){
         	endgame();
+        	
         }
-        //System.out.println("listsize movables = " + list.size() + " ");
+     System.out.println("listsize movables = " + list.size() + " ");
         return list;
     }
     
@@ -991,10 +1001,13 @@ public class Game {
 			}
 			
 		}
+		System.out.println(moves.size() +" possible moves for player "+ currentPlayer_ID);
 		return moves;
     }
 	public double[] getMoveWeights() {
-		// TODO Auto-generated method stub
+//		double []gscore;
+//		gscore = new double[getQuantityOfPlayers()];
+		
 		return null;
 	}
 /**This method checks two game over conditions:
@@ -1002,6 +1015,13 @@ public class Game {
  * If the player does not own a flag;
  * @return
  */
+	public Player oppositePlayer(){
+    	if(currentPlayer == player_1){
+    		return player_2;
+		} else {
+    		return player_1;
+		}
+	}
 	public boolean gameOver() {
         if(findMovableCoords(currentPlayer).size() != 0){
             for(Pieces piece: currentPlayer.piecesCoord) {
@@ -1010,6 +1030,8 @@ public class Game {
                 }
             }
         }
+        winner = oppositePlayer().getPlayer_ID()-1;
+     
 		return true;
 	}
 /**
@@ -1018,7 +1040,7 @@ public class Game {
  */
 	public double[] getScore() {
 		double []score;
-		score = new double[2];
+		score = new double[getQuantityOfPlayers()];
 		if (!draw) {
 			score[winner] = 1.0d;
 		} else {
