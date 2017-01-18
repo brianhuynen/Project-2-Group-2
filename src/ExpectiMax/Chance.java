@@ -1,3 +1,4 @@
+package ExpectiMax;
 
 public class Chance 
 {

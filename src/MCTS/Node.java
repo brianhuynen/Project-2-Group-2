@@ -1,7 +1,11 @@
+package MCTS;
 
 
 import java.util.ArrayList;
 import java.util.Set;
+
+import main.Game;
+import main.Move;
 
 public class Node {
 	public double[] score;

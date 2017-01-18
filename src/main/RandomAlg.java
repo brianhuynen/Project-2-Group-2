@@ -1,6 +1,9 @@
+package main;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import astar.Pathfinding;
 
 /**
  * Created by esther on 11/23/16.
@@ -342,17 +345,17 @@ public class RandomAlg {
             }
         }
 
-    	for (int i = 0; i < player.piecesCoord.size(); i++) {
+    	outerLoop: for (int i = 0; i < player.piecesCoord.size(); i++) {
             if (player.piecesCoord.get(i).getRank() == 3) {
                 mposition = player.piecesCoord.get(i).position;
                 System.out.println(player.getPlayer_ID() + ": Miner at (" + mposition[0] + "," + mposition[1] + ")");
-                break;
+                break outerLoop;
             }
         }
 
     	if ( bposition != null && mposition != null)
     	{
-    		//move miners to the bomb.
+    		//move miners to the bomb
 //            System.out.println("("+mposition[0] +","+ mposition[1]+") -> ("+bposition[0]+","+bposition[1]+")");
 //            game.path.clear();
     		game.findPath(mposition[0], mposition[1], bposition[0], bposition[1]);

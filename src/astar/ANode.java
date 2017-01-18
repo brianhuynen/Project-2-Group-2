@@ -1,3 +1,5 @@
+package astar;
+import main.Cell;
 
 public class ANode 
 {

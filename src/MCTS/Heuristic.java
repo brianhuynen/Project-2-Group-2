@@ -1,4 +1,5 @@
-
+package MCTS;
+import main.Game;
 
 public class Heuristic implements HeuristicFunction{
 

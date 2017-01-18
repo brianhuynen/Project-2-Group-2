@@ -1,9 +1,13 @@
+package main;
 
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+
+import MCTS.CallLocation;
+import astar.Pathfinding;
 
 
 
@@ -27,7 +31,7 @@ public class Game {
 	int turnCount = 0;
 	Cell[][] board;
 	Field field;
-	Player currentPlayer;
+	public Player currentPlayer;
 	boolean success = false;
 	int currentPlayer_ID;
 	Player player_1;

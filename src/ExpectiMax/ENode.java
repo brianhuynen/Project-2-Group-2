@@ -1,3 +1,4 @@
+package ExpectiMax;
 import java.util.ArrayList;
 
 public class ENode {

@@ -1,6 +1,9 @@
+package astar;
 
 import java.util.ArrayList;
 import java.util.Stack;
+
+import main.Cell;
 
 public class Pathfinding 
 {

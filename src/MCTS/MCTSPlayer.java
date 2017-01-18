@@ -1,6 +1,11 @@
+package MCTS;
 
 import java.awt.Color;
 import java.util.Arrays;
+
+import main.Game;
+import main.Move;
+import main.Player;
 
 
 public class MCTSPlayer extends Player {

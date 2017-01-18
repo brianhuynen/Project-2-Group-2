@@ -1,4 +1,4 @@
-
+package main;
 public class Field {
 	Cell [][] field;
 	
