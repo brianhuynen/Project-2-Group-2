@@ -554,7 +554,7 @@ public class GUI {
         }
 			JOptionPane.showMessageDialog(frame, "END");
     }
-
+    //test
 		else if (playerTypeData[0] != playerTypeData[1]) {
 			while (!game.gameOver && game.findMovableCoords(game.currentPlayer).size() != 0
 					&& ((game.currentPlayer.getType() == "AIPlayer") || (game.currentPlayer.getType() == "MCTS"))) {
