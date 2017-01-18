@@ -328,7 +328,7 @@ public class RandomAlg {
 //				System.out.println("Bomb at (" + bposition[0] + "," + bposition[1] + ")");
 //			}
 //    	}
-        for (int i = 0; i < oppositePlayer().piecesCoord.size(); i++)
+        outerLoop: for (int i = 0; i < oppositePlayer().piecesCoord.size(); i++)
         {
             if (oppositePlayer().piecesCoord.get(i).getRank() == 11)
             {
@@ -337,7 +337,7 @@ public class RandomAlg {
                 {
                     bposition = oppositePlayer().piecesCoord.get(i).position;
                     System.out.println(player.getPlayer_ID() + ": Bomb at (" + bposition[0] + "," + bposition[1] + ")");
-                    break;
+                    break outerLoop;
                 }
             }
         }
