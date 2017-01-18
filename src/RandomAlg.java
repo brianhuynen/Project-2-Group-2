@@ -352,7 +352,7 @@ public class RandomAlg {
 
     	if ( bposition != null && mposition != null)
     	{
-    		//move miners to the bomb
+    		//move miners to the bomb.
 //            System.out.println("("+mposition[0] +","+ mposition[1]+") -> ("+bposition[0]+","+bposition[1]+")");
 //            game.path.clear();
     		game.findPath(mposition[0], mposition[1], bposition[0], bposition[1]);
