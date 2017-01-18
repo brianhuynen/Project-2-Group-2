@@ -39,8 +39,10 @@ public class Game {
 	boolean gameOver;
 	public boolean gameActive = false;
 	RandomAlg rand;
-	LinkedList<int[]> path= new LinkedList<int[]>();
-	
+	Pathfinding pathfinder;
+//	LinkedList<int[]> path= new LinkedList<int[]>();
+    ArrayList<Cell> path = new ArrayList<Cell>();
+
 	int winner;
 	boolean draw;
 	boolean gameWon;
@@ -594,7 +596,7 @@ public class Game {
 //		player_2.printPiecesCoord();
 //		printBoard();
 		turnCount++;
-		System.out.println("number of turns " + turnCount+ ";  player : "+ currentPlayer_ID);
+//		System.out.println("number of turns " + turnCount+ ";  player : "+ currentPlayer_ID);
 		if(getCurrentPlayer() == player_1){
 			currentPlayer_ID = 2;
 			currentPlayer = player_2;
@@ -748,12 +750,11 @@ public class Game {
 		}
 	}
 
-
-	public void printPath(){
-        System.out.println();
-        for (int[] coord: path){
-            System.out.print("("+coord[0]+","+coord[1]+") ->");
-        }
+	public void findPath(int fromX, int fromY, int toX, int toY){
+	    pathfinder = new Pathfinding(board, currentPlayer_ID);
+        System.out.println(currentPlayer.getPlayer_ID() + ": Trying to find a path from (" + fromX + "," + fromY + ") to (" + toX + "," + toY + ")...");
+        path = pathfinder.aStar(board[fromX][fromY], board[toX][toY]);
+        System.out.println(currentPlayer.getPlayer_ID() + ": " + path.size());
     }
 
 	public void makeMove(Move m) {
@@ -788,13 +789,17 @@ public class Game {
 			
 				}
 
-			
-		
-
 		// IN THE CASE OF TREEPOLICY
+
 //		else {
 //
 //		}
+
+
+		else
+		{
+
+		}
 
 		return listOfMoves;
 	}
