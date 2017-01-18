@@ -18,16 +18,17 @@ public class Expectimax {
      * @param root root of the tree
      * @param depth depth until which we want to build the tree
      * @param game game containing board 
-     * @param firstPlayer which player 
+     * @param firstPlayer which player makes the first move
+     * @param max which player is the max node
      */
-    public Expectimax(ExpectiNode root, int depth, Game game, int firstPlayer)
+    public Expectimax(ExpectiNode root, int depth, Game game, int firstPlayer, int max)
     {
     	this.root = root;
     	this.game = game;
-    	buildTree(depth);
+    	buildTree(depth, max);
     }
     
-    public void buildTree(int depth)
+    public void buildTree(int depth, int max)
     {
     	
     }
