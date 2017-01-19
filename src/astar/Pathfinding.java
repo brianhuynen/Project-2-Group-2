@@ -18,14 +18,14 @@ public class Pathfinding
 	
 	public ArrayList<Cell> aStar(Cell start, Cell goal)
 	{
-        System.out.println("(" + start.getPosition()[0] + "," + start.getPosition()[1] + ") -> (" + goal.getPosition()[0] + "," + goal.getPosition()[1] + ")");
+//        System.out.println("(" + start.getPosition()[0] + "," + start.getPosition()[1] + ") -> (" + goal.getPosition()[0] + "," + goal.getPosition()[1] + ")");
         ArrayList<Cell> path = lookPath(start, goal);
 //		System.out.println("lookPath finished working start = " + start.getPosition()[0] + start.getPosition()[1]
 //				+ " goal = " + goal.getPosition()[0] + goal.getPosition()[1]);
-		for(int i = 0; i<path.size(); i++)
-		{
-			System.out.println("new coords = " + path.get(i).getPosition()[0] + path.get(i).getPosition()[1]);
-		}
+//		for(int i = 0; i<path.size(); i++)
+//		{
+//			System.out.println("new coords = " + path.get(i).getPosition()[0] + path.get(i).getPosition()[1]);
+//		}
 		
 		return path;
 	}
@@ -170,7 +170,7 @@ public class Pathfinding
 			else if(node.getContent() != first)
 			{
 				path.add(node.getContent());
-//				System.out.println("node coords = " + node.getContent().getPosition()[0] + node.getContent().getPosition()[1]);
+				System.out.println("node coords = " + node.getContent().getPosition()[0] + node.getContent().getPosition()[1]);
 				ANode parent = node.getParent();
 				node = parent;
 			}

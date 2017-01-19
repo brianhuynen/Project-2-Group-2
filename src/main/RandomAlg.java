@@ -316,48 +316,117 @@ public class RandomAlg {
     	}
     	return bomb;
     }
+
+    public ArrayList<Pieces> getBombs(Player player)
+    {
+        ArrayList<Pieces> bombs = new ArrayList<Pieces>();
+        for (Pieces p: player.piecesCoord)
+        {
+            if(p.getRank() == 11)
+            {
+                if((player == game.player_1) && (p.getPosition()[1] <= 2)|| //Basically searches for the bombs in the first and second row.
+                        ((player == game.player_2) && (p.getPosition()[1] >= 9))) //Basically searches for the bombs in the second to last and last row.
+                {
+                    bombs.add(p);
+                }
+            }
+        }
+        return bombs;
+    }
+
+    public ArrayList<Pieces> getMiners(Player player){
+        ArrayList<Pieces> miners = new ArrayList<Pieces>();
+        for (Pieces p: player.piecesCoord)
+        {
+            if(p.getRank() == 3)
+            {
+                miners.add(p);
+            }
+        }
+        return miners;
+    }
+
+    public boolean doesExist(Pieces piece, Player player)
+    {
+        if(piece.getRank() == 3)
+        {
+            for(Pieces p: getBombs(player))
+            {
+                if (p == piece)
+                {
+                    return true;
+                }
+            }
+        }
+        else if(piece.getRank() == 11)
+        {
+            for(Pieces p: getMiners(player))
+            {
+                if(p == piece){
+                    return true;
+                }
+            }
+        }
+        else
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public String printPiece(Pieces p)
+    {
+        return "(" + p.getRank() + ")(" + p.getPosition()[0] + "," + p.getPosition()[1] + ")";
+    }
     
     /**
      * bruteforce algorithm to run after player has 15 pieces or less
      */
+
+    Pieces bomb, miner;
+    ArrayList<Pieces> bombs = getBombs(oppositePlayer()), miners = getMiners(player);
+
     public void bruteforce()
     {
-    	int[] bposition = null;
-    	int[] mposition = null;
-//    	for(int i = 0; i < player.knownPieces.size(); i++) {
-//    		if (player.knownPieces.get(i).getRank()==11)
-//    		{
-//    			bposition = player.knownPieces.get(i).position;
-//				System.out.println("Bomb at (" + bposition[0] + "," + bposition[1] + ")");
-//			}
-//    	}
-        outerLoop: for (int i = 0; i < oppositePlayer().piecesCoord.size(); i++)
+        Random rand = new Random();
+
+//        System.out.println(bomb == null);
+//        System.out.println(miner == null);
+//        if(bomb != null && miner != null)
+//        {
+//            System.out.println(doesExist(bomb, oppositePlayer()));
+//            System.out.println(doesExist(miner, player));
+//        }
+
+    	if(bomb == null)
+    	{
+    	    int b = rand.nextInt(bombs.size());
+    	    bomb = bombs.remove(b);
+        }
+        else if(!doesExist(bomb, oppositePlayer()))
         {
-            if (oppositePlayer().piecesCoord.get(i).getRank() == 11)
-            {
-                if ((player == game.player_1 && oppositePlayer().piecesCoord.get(i).getPosition()[1] >= 9) ||
-                        (player == game.player_2 && oppositePlayer().piecesCoord.get(i).getPosition()[1] <= 2))
-                {
-                    bposition = oppositePlayer().piecesCoord.get(i).position;
-                    System.out.println(player.getPlayer_ID() + ": Bomb at (" + bposition[0] + "," + bposition[1] + ")");
-                    break outerLoop;
-                }
-            }
+    	    bomb = null;
+        }
+        if(miner == null)
+        {
+            int m = rand.nextInt(miners.size());
+            miner = miners.remove(m);
+        }
+        else if(!doesExist(miner, player))
+        {
+            miner = null;
         }
 
-    	outerLoop: for (int i = 0; i < player.piecesCoord.size(); i++) {
-            if (player.piecesCoord.get(i).getRank() == 3) {
-                mposition = player.piecesCoord.get(i).position;
-                System.out.println(player.getPlayer_ID() + ": Miner at (" + mposition[0] + "," + mposition[1] + ")");
-                break outerLoop;
-            }
-        }
+        System.out.println(printPiece(bomb));
+        System.out.println(printPiece(miner));
 
-    	if ( bposition != null && mposition != null)
+    	if ( bomb != null && miner != null)
     	{
     		//move miners to the bomb
 //            System.out.println("("+mposition[0] +","+ mposition[1]+") -> ("+bposition[0]+","+bposition[1]+")");
 //            game.path.clear();
+            int[] bposition = bomb.getPosition();
+            int[] mposition = miner.getPosition();
     		game.findPath(mposition[0], mposition[1], bposition[0], bposition[1]);
     	}
 
