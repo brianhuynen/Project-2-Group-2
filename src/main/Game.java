@@ -756,9 +756,9 @@ public class Game {
 
 	public void findPath(int fromX, int fromY, int toX, int toY){
 	    pathfinder = new Pathfinding(board, currentPlayer_ID);
-        System.out.println(currentPlayer.getPlayer_ID() + ": Trying to find a path from (" + fromX + "," + fromY + ") to (" + toX + "," + toY + ")...");
+//        System.out.println(currentPlayer.getPlayer_ID() + ": Trying to find a path from (" + fromX + "," + fromY + ") to (" + toX + "," + toY + ")...");
         path = pathfinder.aStar(board[fromX][fromY], board[toX][toY]);
-        System.out.println(currentPlayer.getPlayer_ID() + ": " + path.size());
+//        System.out.println(currentPlayer.getPlayer_ID() + ": " + path.size());
     }
 
 	public void makeMove(Move m) {
