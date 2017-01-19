@@ -710,10 +710,19 @@ public class Game {
 //        System.out.println(currentPlayer.getPlayer_ID() + ": " + path.size());
     }
 
-	public void makeMove(Move m) {
-		Move move = (Move)m;
+	public void makeMove(Move move) {
 		movePiece(move.piece.position[0], move.piece.position[1], move.newCoords[0], move.newCoords[1]);
 		//move.printMove();
+	}
+	
+	public void makeMove2(Move2 move) {
+		movePiece(move.from[0], move.from[1], move.to[0], move.to[1]);
+		//move.printMove();
+	}
+	
+	public void reverseMove2(Move2 move)
+	{
+		movePiece(move.to[0], move.to[1], move.from[0], move.from[1]);
 	}
 
 	public int getQuantityOfPlayers() {
@@ -799,7 +808,7 @@ public class Game {
         return list;
     }
     
-
+    
 
 
 	/**
@@ -957,12 +966,114 @@ public class Game {
 		System.out.println(moves.size() +" possible moves for player "+ currentPlayer_ID);
 		return moves;
     }
+    
+    
+    
 	public double[] getMoveWeights() {
 //		double []gscore;
 //		gscore = new double[getQuantityOfPlayers()];
 		
 		return null;
 	}
+	
+	
+	public void handleBattleEM(Pieces defense, Pieces attack)
+	{
+		if(defense.getRank()==0){
+			flagCaptured = true;
+			endgame();
+			//findScore();
+		}
+		if((attack.getRank() == 1 && defense.getRank() == 10) ||
+			(attack.getRank() == 3 && defense.getRank() == 11)) {
+			//attack wins
+			won = attack;
+			lost = defense;
+			if(!attack.known){
+				makeKnown(attack);
+			}
+			if(defense.known){
+				unknow(defense);
+			}
+			if(currentPlayer == player_1){
+				player_1.offBoard += defense.getRank();
+			}
+			if(currentPlayer == player_2){
+				player_2.offBoard += defense.getRank();
+			}
+			removeOtherPiece(x2,y2);
+			board[x1][y1].setCellState(0);
+			board[x1][y1].setContent(null);
+			attack.setPosition(x2,y2);
+			board[x2][y2].setContent(attack);
+			//findScore();
+//			System.out.println("Dismantle/ Spy Win");
+		}//attack wins
+		else if (attack.getRank() > defense.getRank()) {
+				if (!attack.known) {
+					makeKnown(attack);
+				}
+				if (currentPlayer == player_1) {
+					if (defense.known) {
+						unknow(defense);
+					}
+					player_1.offBoard ++;
+				} else {
+					player_2.offBoard ++;
+				}
+				won = attack;
+				lost = defense;
+				removeOtherPiece(x2,y2);
+				board[x1][y1].setCellState(0);
+				board[x1][y1].setContent(null);
+				attack.setPosition(x2,y2);
+				board[x2][y2].setContent(attack);
+				//findScore();
+//				System.out.println("Win");
+			}
+
+			//draw
+			else if (attack.getRank() == defense.getRank()) {
+				if (currentPlayer == player_1) {
+					player_1.offBoard ++;
+					player_2.offBoard ++;
+				} else {
+					player_1.offBoard ++;
+					player_2.offBoard ++;
+				}
+				removePiece(x1, y1);
+				board[x1][y1].setCellState(0);
+				board[x1][y1].setContent(null);
+				removeOtherPiece(x2, y2);
+				board[x2][y2].setCellState(0);
+				board[x2][y2].setContent(null);
+				if (attack.known) {
+					unknow(attack);
+				}
+				if (defense.known) {
+					unknow(defense);
+				}
+				//findScore();
+//				System.out.println("Draw");
+			}
+			//defense wins
+			else if (attack.getRank() < defense.getRank()) {
+				won = defense;
+				lost = attack;
+				if (!defense.known) {
+					makeKnown(defense);
+				}
+				if (attack.known) {
+					unknow(attack);
+				}
+				if (currentPlayer == player_1) {
+					player_2.offBoard ++;
+				} else {
+					player_1.offBoard ++;
+				}
+	}
+	
+	
 /**This method checks two game over conditions:
  * If the player cannot move, or;
  * If the player does not own a flag;

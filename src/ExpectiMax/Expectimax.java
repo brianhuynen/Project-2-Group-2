@@ -39,9 +39,14 @@ public class Expectimax {
     	buildTree(depth, max);
     }
     
-    public void buildTree(int depth, int max)
+    public void buildTree(int depth, int max, Game game)
     {
-    	
+    	game = game.duplicateG();
+    	ExpectiNode root = new ExpectiNode(0, 1);
+    	for( int i = 0; i<depth; i++)
+    	{
+    		buildLayer(root);
+    	}
     }
 
     /**
@@ -52,6 +57,11 @@ public class Expectimax {
      */
     public Move buildLayer(ExpectiNode root)
     {
+    	
+    	maxNodes.clear();
+    	minNodes.clear();
+    	chances1.clear();
+    	chances2.clear();
     	
     	generateMaxNodes(root, maxPlayer);
     	/*
@@ -85,10 +95,11 @@ public class Expectimax {
     public void generateMaxNodes(ExpectiNode parent, Player player)
     {
     	int score = 0;
-    	ArrayList<int[]> movables = game.findMovableCoords(player);
+    	ArrayList<Move> movables = game.movesAvailable();
     	for(int i = 0; i<movables.size(); i++)
     	{
     		MaxNode max = new MaxNode(parent, score, player.player_ID, movables.get(i));
+    		maxNodes.add(max);
     	}
     }
     
@@ -100,7 +111,13 @@ public class Expectimax {
      */
     public void generateMinNodes(ExpectiNode parent, Player player)
     {
-    	
+    	int score = 0;
+    	ArrayList<Move> movables = game.movesAvailable();
+    	for(int i = 0; i<movables.size(); i++)
+    	{
+    		MinNode min = new MinNode(parent, score, player.player_ID, movables.get(i));
+    		minNodes.add(min);
+    	}
     }
     
     /**
@@ -108,9 +125,20 @@ public class Expectimax {
      * @param parent the parent node from which we generate the nodes
      * @param n player id
      */
-    public void generateChanceNodes(ExpectiNode parent, int n)
+    public void generateChanceNodes(ArrayList<ExpectiNode> parents, Player player)
     {
-    	
+    	//checking which
+    	if( parents.get(0) instanceof MaxNode )
+    	{
+    		for( int i=0; i<parents.size(); i++ )
+    		{
+    			if()
+    		}
+    	}
+    	else if( parents.get(0) instanceof MinNode )
+    	{
+    		
+    	}
     }
     
 //    public Expectimax()
