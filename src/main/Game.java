@@ -93,7 +93,7 @@ public class Game {
 	 * 
 	 * @return copy of the game for mcts
 	 */
-	public Game DuplicateG(){
+	public Game duplicateG(){
 
 		Game g= new Game(player);
 		g.winner = winner;
@@ -102,13 +102,8 @@ public class Game {
 		g.draw = draw;
 		g.freecells = freecells;
 		g.gameWon = gameWon;
-		g.turnCount = turnCount;
-		//player = SetPlayers(playerTypeData);
-		//player_1 = player[0];
-		//player_2 = player[1];
-
-		
-		Cell [][] board = field.getBoard();
+		g.turnCount = turnCount;		
+		Cell[][] board = field.getBoard();
 
 		g.board=board;
 		g.gameOver = false;
