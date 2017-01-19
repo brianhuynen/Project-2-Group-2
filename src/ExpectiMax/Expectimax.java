@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import MCTS.Node;
 import main.Game;
+import main.Move;
 
 /**
  * Created by esther on 1/16/17.
@@ -33,6 +34,38 @@ public class Expectimax {
     	
     }
 
+    /**
+     * creating one layer of the tree + choosing the best max node
+     * first max nodes, then chance nodes if needed, then min nodes, then chance nodes if needed
+     * @param root last action on previous layer
+     * @return best move
+     */
+    public Move buildLayer(ExpectiNode root)
+    {
+    	return null;
+    }
+    
+    /**
+     * builds max node list after a specific move, from available moves
+     * @param root last action
+     * @return list of max nodes
+     */
+    public ArrayList<MaxNode> generateMaxNodes(ExpectiNode root)
+    {
+    	return null;
+    }
+    
+    /**
+     * builds min node list after a specific move/board situation 
+     * @param root
+     * @param playerID
+     * @return
+     */
+    public ArrayList<MinNode> generateMinNodes(ExpectiNode root, int playerID)
+    {
+    	return null;
+    }
+    
     
 //    public Expectimax()
 //    {
