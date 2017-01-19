@@ -32,7 +32,7 @@ public class Expectimax {
     public Expectimax(ExpectiNode root, int depth, Game game, int firstPlayer, int max)
     {
     	this.root = root;
-    	this.game = game;
+    	this.game = game.DuplicateG();
     	
     	buildTree(depth, max);
     }
@@ -53,7 +53,7 @@ public class Expectimax {
     	
     	generateMaxNodes(root);
     	/*
-    	 * if(one of the mxx nodes creates battle)
+    	 * if(one of the max nodes creates battle)
     	 * {
     	 * 		generateChanceNodes()
     	 * 		generateMinNodes()

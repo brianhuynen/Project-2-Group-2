@@ -56,7 +56,7 @@ public class MCTS {
 			
 			count++;
 		//System.out.println(count);
-		 select(startingGame.DuplicateG(), rootNode);
+		 select(startingGame.duplicateG(), rootNode);
 		}
 
 		long endTime = System.nanoTime();
@@ -226,7 +226,7 @@ public class MCTS {
 	private double[] playout(Node state, Game game) {
 		ArrayList<Move> moves= new ArrayList<Move>();
 		Move mv;
-		Game gm = game.DuplicateG();
+		Game gm = game.duplicateG();
 
 		// Start playing random moves until the game is over
 		while (!gm.gameOver()) {
