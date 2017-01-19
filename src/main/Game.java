@@ -346,55 +346,7 @@ public class Game {
 
 	}
 	
-	/**
-	 * Moves a random piece
-	 *
-	 *
-	 */
-	public void ranMovePiece(){
-		//finds coordinates of movable pieces
-		ArrayList<int[]> movables = findMovableCoords(currentPlayer);
-		int[] movementData = new int[3];
-
-		Random rand = new Random();
-		int i = rand.nextInt(movables.size());
-
-		int[] coord = movables.get(i);
-
-		ArrayList<Integer> directions = new ArrayList<Integer>();
-		if (board[coord[0]+1][coord[1]].getCellState() == 0 || (board[coord[0]+1][coord[1]].getCellState() == 1 && board[coord[0]+1][coord[1]].getContent().getPlayer_ID() != board[coord[0]][coord[1]].getContent().getPlayer_ID())){
-			directions.add(1);
-		}
-		if (board[coord[0]-1][coord[1]].getCellState() == 0 || (board[coord[0]-1][coord[1]].getCellState() == 1 && board[coord[0]-1][coord[1]].getContent().getPlayer_ID() != board[coord[0]][coord[1]].getContent().getPlayer_ID())){
-			directions.add(2);
-		}
-		if (board[coord[0]][coord[1]+1].getCellState() == 0 || (board[coord[0]][coord[1]+1].getCellState() == 1 && board[coord[0]][coord[1]+1].getContent().getPlayer_ID() != board[coord[0]][coord[1]].getContent().getPlayer_ID())){
-			directions.add(3);
-		}
-		if (board[coord[0]][coord[1]-1].getCellState() == 0 || (board[coord[0]][coord[1]-1].getCellState() == 1 && board[coord[0]][coord[1]-1].getContent().getPlayer_ID() != board[coord[0]][coord[1]].getContent().getPlayer_ID())){
-			directions.add(4);
-		}
-		int j;
-		if(directions.size() ==1){
-			j = 0;
-		}
-		else {
-			j = rand.nextInt(directions.size());
-		}
-		//1 = right, 2 = left, 3 = down, 4 = up
-		if (directions.get(j) == 1){
-			movePiece(coord[0], coord[1], (coord[0]+1), coord[1]);
-		}
-		if (directions.get(j) == 2){
-			movePiece(coord[0], coord[1], (coord[0]-1), coord[1]);
-		}
-		if (directions.get(j) == 3){
-			movePiece(coord[0], coord[1], coord[0], (coord[1]+1));
-		}
-		if (directions.get(j) == 4){
-			movePiece(coord[0], coord[1], coord[0], (coord[1]-1));
-		}
-	}
+	
 	/**
 	 * Finds all the coordinates of pieces which are able to move to another cell
 	 * @param p player whose movable pieces coordinates who you want to find out
@@ -432,6 +384,8 @@ public class Game {
 		return list;
 	}
 
+	
+	
 	public void repaint(){
 		GUI.frame.repaint();
 	}

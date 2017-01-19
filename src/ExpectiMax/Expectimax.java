@@ -6,6 +6,7 @@ import MCTS.Node;
 import main.Cell;
 import main.Game;
 import main.Move;
+import main.Player;
 
 /**
  * Created by esther on 1/16/17.
@@ -14,6 +15,7 @@ public class Expectimax {
     //Additional source: https://courses.cs.washington.edu/courses/cse473/11au/slides/cse473au11-adversarial-search.pdf
     public ExpectiNode root;
     public Game game;
+    public Player maxPlayer;
     public Cell[][] board;
     public ArrayList<MaxNode> maxNodes;
     public ArrayList<MinNode> minNodes;
@@ -29,11 +31,11 @@ public class Expectimax {
      * @param firstPlayer which player makes the first move
      * @param max which player is the max node
      */
-    public Expectimax(ExpectiNode root, int depth, Game game, int firstPlayer, int max)
+    public Expectimax(ExpectiNode root, int depth, Game game, Player maxPlayer, int max)
     {
     	this.root = root;
-    	this.game = game.DuplicateG();
-    	
+    	this.game = game.duplicateG();
+    	this.maxPlayer = maxPlayer;
     	buildTree(depth, max);
     }
     
@@ -51,7 +53,7 @@ public class Expectimax {
     public Move buildLayer(ExpectiNode root)
     {
     	
-    	generateMaxNodes(root);
+    	generateMaxNodes(root, maxPlayer);
     	/*
     	 * if(one of the max nodes creates battle)
     	 * {
@@ -80,9 +82,14 @@ public class Expectimax {
      * @param root last action
      * @return list of max nodes
      */
-    public void generateMaxNodes(ExpectiNode parent)
+    public void generateMaxNodes(ExpectiNode parent, Player player)
     {
-    	
+    	int score = 0;
+    	ArrayList<int[]> movables = game.findMovableCoords(player);
+    	for(int i = 0; i<movables.size(); i++)
+    	{
+    		MaxNode max = new MaxNode(parent, score, player.player_ID, movables.get(i));
+    	}
     }
     
     /**
@@ -91,7 +98,7 @@ public class Expectimax {
      * @param playerID
      * @return
      */
-    public void generateMinNodes(ExpectiNode parent, int playerID)
+    public void generateMinNodes(ExpectiNode parent, Player player)
     {
     	
     }
