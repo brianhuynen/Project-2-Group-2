@@ -28,6 +28,15 @@ public class ExpectiNode
 		this.playerID = playerID;
 	}
 	
+	public void assignMove(Move move)
+	{
+		this.move = move;
+	}
+	
+	public Move getMove()
+	{
+		return move;
+	}
 }
 
 

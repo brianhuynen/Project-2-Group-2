@@ -3,6 +3,7 @@ package ExpectiMax;
 import java.util.ArrayList;
 
 import MCTS.Node;
+import main.Cell;
 import main.Game;
 import main.Move;
 
@@ -13,6 +14,12 @@ public class Expectimax {
     //Additional source: https://courses.cs.washington.edu/courses/cse473/11au/slides/cse473au11-adversarial-search.pdf
     public ExpectiNode root;
     public Game game;
+    public Cell[][] board;
+    public ArrayList<MaxNode> maxNodes;
+    public ArrayList<MinNode> minNodes;
+    public ArrayList<ChanceNode> chances1;
+    public ArrayList<ChanceNode> chances2;
+    
     
     /**
      * 
@@ -26,6 +33,7 @@ public class Expectimax {
     {
     	this.root = root;
     	this.game = game;
+    	
     	buildTree(depth, max);
     }
     
@@ -42,6 +50,28 @@ public class Expectimax {
      */
     public Move buildLayer(ExpectiNode root)
     {
+    	
+    	generateMaxNodes(root);
+    	/*
+    	 * if(one of the mxx nodes creates battle)
+    	 * {
+    	 * 		generateChanceNodes()
+    	 * 		generateMinNodes()
+    	 * 		if(one of the min nodes creates battle)
+    	 * 		{	
+    	 * 			generateChanceNodes()
+    	 * 			pick best node ->go back to parent max node and return move
+    	 * 		}
+    	 * 		pick best node -> go back to parent max node and return move
+    	 * }
+    	 * generateMinNodes()
+    	 * if(one of the min nodes creates battle)
+    	 * {
+    	 * 		generate chance nodes
+    	 * 		pick best node -> go back to parent max node and return move
+    	 * }
+    	 * pick best node -> go back to parent max node and return move
+    	 */
     	return null;
     }
     
@@ -50,9 +80,9 @@ public class Expectimax {
      * @param root last action
      * @return list of max nodes
      */
-    public ArrayList<MaxNode> generateMaxNodes(ExpectiNode root)
+    public void generateMaxNodes(ExpectiNode parent)
     {
-    	return null;
+    	
     }
     
     /**
@@ -61,11 +91,20 @@ public class Expectimax {
      * @param playerID
      * @return
      */
-    public ArrayList<MinNode> generateMinNodes(ExpectiNode root, int playerID)
+    public void generateMinNodes(ExpectiNode parent, int playerID)
     {
-    	return null;
+    	
     }
     
+    /**
+     * generates chance nodes if there is a conflict
+     * @param parent the parent node from which we generate the nodes
+     * @param n player id
+     */
+    public void generateChanceNodes(ExpectiNode parent, int n)
+    {
+    	
+    }
     
 //    public Expectimax()
 //    {
