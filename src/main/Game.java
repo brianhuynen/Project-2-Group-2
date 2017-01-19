@@ -34,8 +34,8 @@ public class Game {
 	public Player currentPlayer;
 	boolean success = false;
 	int currentPlayer_ID;
-	Player player_1;
-	Player player_2;
+	public Player player_1;
+	public Player player_2;
 	boolean battled = false;
 	Pieces won;
 	Pieces lost;
