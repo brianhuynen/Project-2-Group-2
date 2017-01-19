@@ -29,14 +29,14 @@ public class Game {
 		y
 	 */
 	int turnCount = 0;
-	Cell[][] board;
+	public Cell[][] board;
 	Field field;
 	public Player currentPlayer;
 	boolean success = false;
 	int currentPlayer_ID;
 	public Player player_1;
 	public Player player_2;
-	boolean battled = false;
+	public boolean battled = false;
 	Pieces won;
 	Pieces lost;
 	Player[] player = new Player[2];
@@ -976,101 +976,42 @@ public class Game {
 		return null;
 	}
 	
-	
-	public void handleBattleEM(Pieces defense, Pieces attack)
+	/**
+	 * 0 = captured flag
+	 * 1 = win for defense/loss for attack
+	 * 2 = loss for defense/win for attack
+	 * 3 = draw
+	 * @param defense
+	 * @param attack
+	 * @return 0 for captured flag; 1 for win for defense; 2 for win for attack; 3 for draw
+	 */
+	public int handleBattleEM(int attack, int defense)
 	{
-		if(defense.getRank()==0){
-			flagCaptured = true;
-			endgame();
-			//findScore();
+		int result = 10;
+		if(defense==0){
+			result = 0;
 		}
-		if((attack.getRank() == 1 && defense.getRank() == 10) ||
-			(attack.getRank() == 3 && defense.getRank() == 11)) {
-			//attack wins
-			won = attack;
-			lost = defense;
-			if(!attack.known){
-				makeKnown(attack);
-			}
-			if(defense.known){
-				unknow(defense);
-			}
-			if(currentPlayer == player_1){
-				player_1.offBoard += defense.getRank();
-			}
-			if(currentPlayer == player_2){
-				player_2.offBoard += defense.getRank();
-			}
-			removeOtherPiece(x2,y2);
-			board[x1][y1].setCellState(0);
-			board[x1][y1].setContent(null);
-			attack.setPosition(x2,y2);
-			board[x2][y2].setContent(attack);
-			//findScore();
-//			System.out.println("Dismantle/ Spy Win");
-		}//attack wins
-		else if (attack.getRank() > defense.getRank()) {
-				if (!attack.known) {
-					makeKnown(attack);
-				}
-				if (currentPlayer == player_1) {
-					if (defense.known) {
-						unknow(defense);
-					}
-					player_1.offBoard ++;
-				} else {
-					player_2.offBoard ++;
-				}
-				won = attack;
-				lost = defense;
-				removeOtherPiece(x2,y2);
-				board[x1][y1].setCellState(0);
-				board[x1][y1].setContent(null);
-				attack.setPosition(x2,y2);
-				board[x2][y2].setContent(attack);
-				//findScore();
-//				System.out.println("Win");
-			}
+		/**
+		 *attack wins
+		 */
+		if((attack == 1 && defense== 10) ||
+			(attack == 3 && defense == 11)) {
+			result = 2;
+		}
+		else if (attack > defense) 
+		{
+			result = 2;
+		}
 
-			//draw
-			else if (attack.getRank() == defense.getRank()) {
-				if (currentPlayer == player_1) {
-					player_1.offBoard ++;
-					player_2.offBoard ++;
-				} else {
-					player_1.offBoard ++;
-					player_2.offBoard ++;
-				}
-				removePiece(x1, y1);
-				board[x1][y1].setCellState(0);
-				board[x1][y1].setContent(null);
-				removeOtherPiece(x2, y2);
-				board[x2][y2].setCellState(0);
-				board[x2][y2].setContent(null);
-				if (attack.known) {
-					unknow(attack);
-				}
-				if (defense.known) {
-					unknow(defense);
-				}
-				//findScore();
-//				System.out.println("Draw");
-			}
+		else if (attack == defense) 
+		{
+			result = 3;
+		}
 			//defense wins
-			else if (attack.getRank() < defense.getRank()) {
-				won = defense;
-				lost = attack;
-				if (!defense.known) {
-					makeKnown(defense);
-				}
-				if (attack.known) {
-					unknow(attack);
-				}
-				if (currentPlayer == player_1) {
-					player_2.offBoard ++;
-				} else {
-					player_1.offBoard ++;
-				}
+		else if (attack < defense) {
+			result = 1;
+		}
+		return result;
 	}
 	
 	

@@ -1,6 +1,6 @@
 package ExpectiMax;
 
-import main.Move;
+import main.Move2;
 
 public class MinNode extends ExpectiNode
 {
@@ -10,7 +10,7 @@ public class MinNode extends ExpectiNode
 		super(score, playerID);
 	}
 	
-	public MinNode(ExpectiNode parent, int score, int playerID, Move move) 
+	public MinNode(ExpectiNode parent, int score, int playerID, Move2 move) 
 	{
 		super(parent, score, playerID, move);
 	}

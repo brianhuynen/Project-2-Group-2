@@ -3,7 +3,7 @@ package ExpectiMax;
 import java.util.ArrayList;
 
 import main.Game;
-import main.Move;
+import main.Move2;
 import main.Pieces;
 import main.Player;
 
@@ -13,7 +13,7 @@ public class ExpectiNode
 	public ArrayList<ExpectiNode> children;
 	public int score;
 	public int playerID;
-	public Move move;
+	public Move2 move;
 	public Game game;
 
 	public ExpectiNode(int score, int playerID) {
@@ -23,23 +23,22 @@ public class ExpectiNode
 		this.playerID = playerID;
 	}
 
-	public ExpectiNode(ExpectiNode parent, int score, int playerID, Move move) {
+	public ExpectiNode(ExpectiNode parent, int score, int playerID, Move2 move) {
 		this.parent = parent;
 		children = new ArrayList<ExpectiNode>();
 		this.score = score;
 		this.playerID = playerID;
 	}
 
-	public int assignMove(Move move) {
+	public void assignMove(Move2 move) {
 		this.move = move;
-		return 0;
 	}
 
-	public Move getMove() {
+	public Move2 getMove() {
 		return move;
 	}
 
-	public int assignScore(int player_ID)
+	public void assignScore(int player_ID)
 	{
 		int sumRank1 = 0;
 		int sumRank2 = 0;
@@ -54,27 +53,30 @@ public class ExpectiNode
 
 		if (player_ID == 1)
 		{
-			if ((sumRank1 / sumRank2) > 0.5)
-			{
-				return 1;
-			}
-			if ((sumRank1 / sumRank2) < 0.5)
-			{
-				return 2;
-			}
+			score = sumRank1/sumRank2;
+			
+//			if ((sumRank1 / sumRank2) > 0.5)
+//			{
+//				return 1;
+//			}
+//			if ((sumRank1 / sumRank2) < 0.5)
+//			{
+//				return 2;
+//			}
 		}
 
 		if (player_ID == 2)
 		{
-			if ((sumRank2 / sumRank1) > 0.5)
-			{
-				return 2;
-			}
-			if ((sumRank2 / sumRank1) < 0.5)
-			{
-				return 1;
-			}
+			score = sumRank2/sumRank1;
+//			if ((sumRank2 / sumRank1) > 0.5)
+//			{
+//				return 2;
+//			}
+//			if ((sumRank2 / sumRank1) < 0.5)
+//			{
+//				return 1;
+//			}
 		}
-		return 0;
+//		return 0;
 	}
 }
