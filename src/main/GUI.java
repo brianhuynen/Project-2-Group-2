@@ -13,6 +13,7 @@ import javax.swing.*;
 
 import MCTS.FinalSelectionPolicy;
 import MCTS.MCTS;
+import astar.Pathfinding;
 
 
 public class GUI {
@@ -377,18 +378,18 @@ public class GUI {
 //				int toX = Integer.parseInt(x2.getText());
 //				int toY = Integer.parseInt(y2.getText());
 				
-//				Pathfinding astar = new Pathfinding(game.board, game.currentPlayer.getPlayer_ID());
-////				ArrayList<Cell> path = astar.aStar(game.board[4][7], game.board[10][6]);
-//                ArrayList<Cell> path = astar.aStar(game.board[7][4], game.board[5][10]);
+				Pathfinding astar = new Pathfinding(game.board, game.currentPlayer.getPlayer_ID());
+//				ArrayList<Cell> path = astar.aStar(game.board[7][4], game.board[6][10]);
+                ArrayList<Cell> path = astar.aStar(game.board[2][1], game.board[6][10]);
 //
-//				for (int i = path.size()-1; i>0; i--)
-//				{
-//					int[] from = path.get(i).getPosition();
-//					int[] to = path.get(i-1).getPosition();
-//					System.out.println("from: " + "(" + i + ")" + from[0] + from[1] + " to: " + "(" + (i-1) + ")" + to[0] + to[1]);
-//					game.movePiece(from[0], from[1], to[0], to[1]);
-//					frame.repaint();
-//				}
+				for (int i = path.size()-1; i>0; i--)
+				{
+					int[] from = path.get(i).getPosition();
+					int[] to = path.get(i-1).getPosition();
+					System.out.println("from: " + "(" + i + ")" + from[0] + from[1] + " to: " + "(" + (i-1) + ")" + to[0] + to[1]);
+					game.movePiece(from[0], from[1], to[0], to[1]);
+					frame.repaint();
+				}
 
 				// for(int i = 0; i<1; i++) {
 				// RandomAlg rand = new RandomAlg(game, game.currentPlayer);
@@ -529,6 +530,8 @@ public class GUI {
 //                    RandomAlg rand = new RandomAlg(game, game.currentPlayer);
 //                    rand.randomMove();
 
+                System.out.println(game.currentPlayer_ID);
+
                     if(game.currentPlayer_ID == 1){
                         rand1.randomMove();
                     }
@@ -538,7 +541,7 @@ public class GUI {
 
                     frame.repaint();
                     frame.paint(frame.getGraphics());
-                    sleep(5000);
+                    sleep(2000);
                     game.changeTurn();
                     // rand.generateMovementHeur();
             }

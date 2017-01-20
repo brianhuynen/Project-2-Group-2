@@ -13,11 +13,14 @@ public class RandomAlg {
     private Cell[][] board;
     private Player player;
     private Game game;
+    private ArrayList<Pieces> bombs, miners;
+    public  Pieces bomb, miner;
 
     public RandomAlg(Game game, Player player){
         this.board = game.board;
         this.player = player;
         this.game = game;
+        miners = getMiners(player);
         game.pathfinder = new Pathfinding(board, player.getPlayer_ID());
     }
     /**
@@ -43,18 +46,11 @@ public class RandomAlg {
     public Move generateMovementHeur(){
         //finds coordinates of movable pieces
         ArrayList<Move> moves = movesAvailable(board);
+        //Gets the bombs of the opposing player
+        bombs = getBombs(oppositePlayer());
 
         Random rand = new Random();
-//		while(!knowBomb()){
-//			if(moves.size() != 0){
-//		        int i = rand.nextInt(moves.size());
-//		        return moves.get(i);
-//	        }
-//	        else{
-//	        	game.endgame();
-//	        	return null;
-//	        }
-//        }
+
 		while(oppositePlayer().piecesCoord.size() > 15)
 		{
 			if(moves.size() != 0)
@@ -69,7 +65,35 @@ public class RandomAlg {
 	        }
 		}
 
-        bruteforce();
+        System.out.println(bomb == null);
+        System.out.println(miner == null);
+
+		if(bomb == null && miner == null)
+		{
+            identifyBombAndMiner();
+        }
+
+        if(isDefeated(miner))
+        {
+//            System.out.println(player.getPlayer_ID() +  ": Miner was captured before reaching its goal.");
+            miner = null;
+            identifyBombAndMiner();
+        }
+        else if(isDefeated(bomb))
+        {
+//            System.out.println(oppositePlayer().getPlayer_ID() + ": Bomb captured.");
+            bomb = null;
+            identifyBombAndMiner();
+        }
+
+//        System.out.println("Miner at (" + miner.getPosition()[0] + "," + miner.getPosition()[1] + ")");
+        System.out.println("Bomb at (" +  bomb.getPosition()[0] + "," + bomb.getPosition()[1] +  ")");
+
+        int[] bposition = bomb.getPosition();
+        int[] mposition = miner.getPosition();
+        game.path.clear();
+        game.findPath(mposition[0], mposition[1], bposition[0], bposition[1]);
+
 		Move move = null;
 
 //        System.out.println(game.path.size());
@@ -80,21 +104,63 @@ public class RandomAlg {
 			Cell destination = game.path.get(game.path.size()-1);
 			move = new Move(origin.getContent(), destination.getPosition());
 		}
-		else
+		else if(isDefeated(bomb))
 		{
-			int i = rand.nextInt(moves.size());
-			return moves.get(i);
+            move = lastMove(miner);
+            bomb = null;
 		}
+		else
+        {
+            int i = rand.nextInt(moves.size());
+            move = moves.get(i);
+        }
 
         return move;
     }
 
+    public Move lastMove(Pieces p)
+    {
+        System.out.println("Calculating last move");
+        Move mv;
+        int[] pos = new int[2];
+        if(player.getPlayer_ID() == 1)
+        {
+            if(p.getPosition()[1] == 9)
+            {
+                 pos[0] = p.getPosition()[0];
+                 pos[1] = p.getPosition()[1]+1;
+            }
+            else if(p.getPosition()[1] == 10)
+            {
+                pos[0] = p.getPosition()[0]+1;
+                pos[1] = p.getPosition()[1];
+            }
+        }
+        if(player.getPlayer_ID() == 2) {
+            if (p.getPosition()[1] == 2) {
+                pos[0] = p.getPosition()[0];
+                pos[1] = p.getPosition()[1] - 1;
+            } else if (p.getPosition()[1] == 1) {
+                pos[0] = p.getPosition()[0] + 1;
+                pos[1] = p.getPosition()[1];
+            }
+        }
+        mv = new Move(p, pos);
+        return mv;
+    }
+
+    public boolean isDefeated(Pieces piece)
+    {
+        return !(game.board[piece.getPosition()[0]][piece.getPosition()[1]].getContent() == piece);
+    }
+
     public Player oppositePlayer(){
-    	if(player == game.player_1){
-    		return game.player_2;
-		} else {
-    		return game.player_1;
-		}
+//    	if(player == game.player_1){
+//    		return game.player_2;
+//		} else {
+//    		return game.player_1;
+//		}
+        return game.oppositePlayer();
 	}
     
     /**
@@ -106,7 +172,6 @@ public class RandomAlg {
         System.out.println(player.getPlayer_ID() + ": moving from (" + move.piece.position[0] + "," + move.piece.position[1]
                 + ") to (" + move.newCoords[0] + "," + move.newCoords[1] + ")");
         game.movePiece(move.piece.position[0], move.piece.position[1], move.newCoords[0], move.newCoords[1]);
-
     }
 
     /**
@@ -305,18 +370,6 @@ public class RandomAlg {
 		return moves;
     }
 
-    public boolean knowBomb()
-    {
-    	boolean bomb = false;
-    	for(int i = 0; i < player.knownPieces.size(); i++) {
-    		if (player.knownPieces.get(i).getRank()==11)
-    		{
-    			bomb = true;
-    		}
-    	}
-    	return bomb;
-    }
-
     public ArrayList<Pieces> getBombs(Player player)
     {
         ArrayList<Pieces> bombs = new ArrayList<Pieces>();
@@ -345,137 +398,27 @@ public class RandomAlg {
         }
         return miners;
     }
-
-    public boolean doesExist(Pieces piece, Player player)
-    {
-        if(piece.getRank() == 3)
-        {
-            for(Pieces p: getBombs(player))
-            {
-                if (p == piece)
-                {
-                    return true;
-                }
-            }
-        }
-        else if(piece.getRank() == 11)
-        {
-            for(Pieces p: getMiners(player))
-            {
-                if(p == piece){
-                    return true;
-                }
-            }
-        }
-        else
-        {
-            return false;
-        }
-        return true;
-    }
-
-    public String printPiece(Pieces p)
-    {
-        return "(" + p.getRank() + ")(" + p.getPosition()[0] + "," + p.getPosition()[1] + ")";
-    }
     
     /**
-     * bruteforce algorithm to run after player has 15 pieces or less
+     * identifyBombAndMiner algorithm to run after player has 15 pieces or less
      */
 
-    Pieces bomb, miner;
-    ArrayList<Pieces> bombs = getBombs(oppositePlayer()), miners = getMiners(player);
-
-    public void bruteforce()
+    public void identifyBombAndMiner()
     {
         Random rand = new Random();
-
-//        System.out.println(bomb == null);
-//        System.out.println(miner == null);
-//        if(bomb != null && miner != null)
-//        {
-//            System.out.println(doesExist(bomb, oppositePlayer()));
-//            System.out.println(doesExist(miner, player));
-//        }
 
     	if(bomb == null)
     	{
     	    int b = rand.nextInt(bombs.size());
     	    bomb = bombs.remove(b);
         }
-        else if(!doesExist(bomb, oppositePlayer()))
-        {
-    	    bomb = null;
-        }
         if(miner == null)
         {
             int m = rand.nextInt(miners.size());
             miner = miners.remove(m);
         }
-        else if(!doesExist(miner, player))
-        {
-            miner = null;
-        }
-
-        System.out.println(printPiece(bomb));
-        System.out.println(printPiece(miner));
-
-    	if ( bomb != null && miner != null)
-    	{
-    		//move miners to the bomb
-//            System.out.println("("+mposition[0] +","+ mposition[1]+") -> ("+bposition[0]+","+bposition[1]+")");
-//            game.path.clear();
-            int[] bposition = bomb.getPosition();
-            int[] mposition = miner.getPosition();
-    		game.findPath(mposition[0], mposition[1], bposition[0], bposition[1]);
-    	}
-
-//    	makeFinalMove(bposition);
 
     }
-
-    public void makeFinalMove(int[] currentPosition)
-	{
-		int x = currentPosition[0];
-		int y = currentPosition[1];
-
-    	if (player.getPlayer_ID() == game.player_1.getPlayer_ID())
-    	{
-    		if(y == 9)
-			{
-				game.movePiece(x, y, x,y+1);
-			}
-			else if(y == 10)
-			{
-				if(board[x-1][y].getCellState() == 1)
-				{
-					game.movePiece(x, y, x - 1, y);
-				}
-				else if(board[x+1][y].getCellState() == 1)
-				{
-					game.movePiece(x, y, x + 1, y);
-				}
-			}
-		}
-		else if (player.getPlayer_ID() == game.player_2.getPlayer_ID())
-		{
-			if(y == 2)
-			{
-				game.movePiece(x, y, x, y-1);
-			}
-			else if(y == 1)
-			{
-				if(board[x-1][y].getCellState() == 0)
-				{
-					game.movePiece(x, y, x - 1, y);
-				}
-				else if(board[x+1][y].getCellState() == 1)
-				{
-					game.movePiece(x, y, x + 1, y);
-				}
-			}
-		}
-	}
     
 	public Cell[][] getBoard()
 	{
