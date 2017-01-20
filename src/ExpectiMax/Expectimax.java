@@ -101,7 +101,7 @@ public class Expectimax {
     {
     	//idk if score should be 0, maybe should be assigned from the method
     	int score = 0;
-    	ArrayList<Move> movables = game.movesAvailable();
+    	ArrayList<Move2> movables = game.movesAvailable2();
     	for(int i = 0; i<movables.size(); i++)
     	{
     		MaxNode max = new MaxNode(parent, score, player.player_ID, movables.get(i));
@@ -120,7 +120,7 @@ public class Expectimax {
     	//idk if score should be 0, maybe should be assigned from the method
 
     	int score = 0;
-    	ArrayList<Move> movables = game.movesAvailable();
+    	ArrayList<Move2> movables = game.movesAvailable2();
     	for(int i = 0; i<movables.size(); i++)
     	{
     		MinNode min = new MinNode(parent, score, player.player_ID, movables.get(i));

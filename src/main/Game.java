@@ -746,21 +746,10 @@ public class Game {
 			
 
 			listOfMoves.addAll(movesAllowed);
-		
-				System.out.println(movesAllowed.size());
-			
-				}
-
-		// IN THE CASE OF TREEPOLICY
-
-//		else {
-//
-//		}
-
-
+			System.out.println(movesAllowed.size());
+		}
 		else
 		{
-
 		}
 
 		return listOfMoves;
@@ -808,6 +797,129 @@ public class Game {
         return list;
     }
     
+    /**
+     * Makes a list of all available moves
+     * @param board
+     * @return list of all available moves
+     */
+    public ArrayList<Move2> movesAvailable2(){
+		ArrayList<Move2> moves = new ArrayList<Move2>();
+		ArrayList<Pieces> movables = findMovablePieces();
+		
+		for (int i=0; i<movables.size(); i++){
+			Pieces piece = movables.get(i);
+			int x =piece.getPosition()[0];
+			int y = piece.getPosition()[1];
+			
+			if(board[x][y].getCellState()!= 2){
+				if(board[x+1][y].getCellState() == 0){
+					Move2 move = new Move2(x,y,x+1,y);
+					moves.add(move);
+				}
+				else if(board[x+1][y].getCellState() == 1 
+						&& board[x+1][y].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+					int[] newCoords = new int[2];
+					newCoords[0] = x+1; newCoords[1]= y;
+					Move2 move = new Move2(x,y,x+1,y);
+					moves.add(move);
+				}
+				
+				if(board[x-1][y].getCellState() == 0){
+					Move2 move = new Move2(x,y,x-1,y);
+					moves.add(move);
+				}
+				else if(board[x-1][y].getCellState() == 1 
+						&& board[x-1][y].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+					
+					Move2 move = new Move2(x,y,x-1,y);
+					moves.add(move);
+				}
+				if(board[x][y+1].getCellState() == 0){
+					Move2 move = new Move2(x,y,x,y+1);
+					moves.add(move);
+				}
+				else if(board[x][y+1].getCellState() == 1 
+						&& board[x][y+1].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+					Move2 move = new Move2(x,y,x,y+1);
+					moves.add(move);
+				}
+				if(board[x][y-1].getCellState() == 0){
+					Move2 move = new Move2(x,y,x,y-1);
+					moves.add(move);
+				}
+				else if(board[x][y-1].getCellState() == 1 
+						&& board[x][y-1].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+					Move2 move = new Move2(x,y,x,y-1);
+					moves.add(move);
+				}
+			}
+			else{
+				for(int j = x+1;  j<board.length; j++){
+					if(board[j][y].getCellState() == -1){
+						j = 20;
+					}
+					else if(board[j][y].getCellState() == 0){
+						Move2 move = new Move2(x,y,j,y);
+						moves.add(move);
+					}
+					else if(board[j][y].getCellState() == 1 
+							&& board[j][y].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+						Move2 move = new Move2(x,y,j,y);
+						moves.add(move);
+						j = 20;
+					}
+				}
+				for(int j = x-1;  j>0; j--){
+					if(board[j][y].getCellState() == -1){
+						j = -20;
+					}
+					else if(board[j][y].getCellState() == 0){
+						Move2 move = new Move2(x,y,j,y);
+						moves.add(move);
+					}
+					else if(board[j][y].getCellState() == 1 
+							&& board[j][y].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+						Move2 move = new Move2(x,y,j,y);
+						moves.add(move);
+						j = -20;
+					}
+				}
+				
+				for(int j = y+1;  j<board.length; j++){
+					if(board[x][j].getCellState() == -1){
+						j = 20;
+					}
+					else if(board[x][j].getCellState() == 0){
+						Move2 move = new Move2(x,y,x,j);
+						moves.add(move);
+					}
+					else if(board[x][j].getCellState() == 1 
+							&& board[x][j].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+						Move2 move = new Move2(x,y,x,j);
+						moves.add(move);
+						j = 20;
+					}
+				}
+				for(int j = y-1;  j>0; j--){
+					if(board[x][j].getCellState() == -1){
+						j = -20;
+					}
+					else if(board[x][j].getCellState() == 0){
+						Move2 move = new Move2(x,y,x,j);
+						moves.add(move);
+					}
+					else if(board[x][j].getCellState() == 1 
+							&& board[x][j].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+						Move2 move = new Move2(x,y,x,j);
+						moves.add(move);
+						j = -20;
+					}
+				}
+			}
+		}
+		//System.out.println(moves.size() +" possible moves for player "+ currentPlayer_ID);
+		return moves;
+    }
     
 
 
@@ -958,8 +1070,6 @@ public class Game {
 						j = -20;
 					}
 				}
-				
-				
 			}
 			
 		}
