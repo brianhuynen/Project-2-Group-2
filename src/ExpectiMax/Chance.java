@@ -22,5 +22,11 @@ public class Chance
 		coords[0] = x;
 		coords[1] = y;
 	}
+
+	public void changePosition(int x, int y)
+	{
+		coords[0] = x;
+		coords[1] = y;
+	}
 	
 }

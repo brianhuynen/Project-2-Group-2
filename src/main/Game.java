@@ -29,14 +29,14 @@ public class Game {
 		y
 	 */
 	int turnCount = 0;
-	Cell[][] board;
+	public Cell[][] board;
 	Field field;
 	public Player currentPlayer;
 	boolean success = false;
 	int currentPlayer_ID;
-	Player player_1;
-	Player player_2;
-	boolean battled = false;
+	public Player player_1;
+	public Player player_2;
+	public boolean battled = false;
 	Pieces won;
 	Pieces lost;
 	Player[] player = new Player[2];
@@ -709,10 +709,19 @@ public class Game {
         path = pathfinder.aStar(board[fromX][fromY], board[toX][toY]);
     }
 
-	public void makeMove(Move m) {
-		Move move = (Move)m;
+	public void makeMove(Move move) {
 		movePiece(move.piece.position[0], move.piece.position[1], move.newCoords[0], move.newCoords[1]);
 		//move.printMove();
+	}
+	
+	public void makeMove2(Move2 move) {
+		movePiece(move.from[0], move.from[1], move.to[0], move.to[1]);
+		//move.printMove();
+	}
+	
+	public void reverseMove2(Move2 move)
+	{
+		movePiece(move.to[0], move.to[1], move.from[0], move.from[1]);
 	}
 
 	public int getQuantityOfPlayers() {
@@ -736,21 +745,10 @@ public class Game {
 			
 
 			listOfMoves.addAll(movesAllowed);
-		
-				System.out.println(movesAllowed.size());
-			
-				}
-
-		// IN THE CASE OF TREEPOLICY
-
-//		else {
-//
-//		}
-
-
+			System.out.println(movesAllowed.size());
+		}
 		else
 		{
-
 		}
 
 		return listOfMoves;
@@ -798,7 +796,130 @@ public class Game {
         return list;
     }
     
-
+    /**
+     * Makes a list of all available moves
+     * @param board
+     * @return list of all available moves
+     */
+    public ArrayList<Move2> movesAvailable2(){
+		ArrayList<Move2> moves = new ArrayList<Move2>();
+		ArrayList<Pieces> movables = findMovablePieces();
+		
+		for (int i=0; i<movables.size(); i++){
+			Pieces piece = movables.get(i);
+			int x =piece.getPosition()[0];
+			int y = piece.getPosition()[1];
+			
+			if(board[x][y].getCellState()!= 2){
+				if(board[x+1][y].getCellState() == 0){
+					Move2 move = new Move2(x,y,x+1,y);
+					moves.add(move);
+				}
+				else if(board[x+1][y].getCellState() == 1 
+						&& board[x+1][y].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+					int[] newCoords = new int[2];
+					newCoords[0] = x+1; newCoords[1]= y;
+					Move2 move = new Move2(x,y,x+1,y);
+					moves.add(move);
+				}
+				
+				if(board[x-1][y].getCellState() == 0){
+					Move2 move = new Move2(x,y,x-1,y);
+					moves.add(move);
+				}
+				else if(board[x-1][y].getCellState() == 1 
+						&& board[x-1][y].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+					
+					Move2 move = new Move2(x,y,x-1,y);
+					moves.add(move);
+				}
+				if(board[x][y+1].getCellState() == 0){
+					Move2 move = new Move2(x,y,x,y+1);
+					moves.add(move);
+				}
+				else if(board[x][y+1].getCellState() == 1 
+						&& board[x][y+1].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+					Move2 move = new Move2(x,y,x,y+1);
+					moves.add(move);
+				}
+				if(board[x][y-1].getCellState() == 0){
+					Move2 move = new Move2(x,y,x,y-1);
+					moves.add(move);
+				}
+				else if(board[x][y-1].getCellState() == 1 
+						&& board[x][y-1].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+					Move2 move = new Move2(x,y,x,y-1);
+					moves.add(move);
+				}
+			}
+			else{
+				for(int j = x+1;  j<board.length; j++){
+					if(board[j][y].getCellState() == -1){
+						j = 20;
+					}
+					else if(board[j][y].getCellState() == 0){
+						Move2 move = new Move2(x,y,j,y);
+						moves.add(move);
+					}
+					else if(board[j][y].getCellState() == 1 
+							&& board[j][y].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+						Move2 move = new Move2(x,y,j,y);
+						moves.add(move);
+						j = 20;
+					}
+				}
+				for(int j = x-1;  j>0; j--){
+					if(board[j][y].getCellState() == -1){
+						j = -20;
+					}
+					else if(board[j][y].getCellState() == 0){
+						Move2 move = new Move2(x,y,j,y);
+						moves.add(move);
+					}
+					else if(board[j][y].getCellState() == 1 
+							&& board[j][y].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+						Move2 move = new Move2(x,y,j,y);
+						moves.add(move);
+						j = -20;
+					}
+				}
+				
+				for(int j = y+1;  j<board.length; j++){
+					if(board[x][j].getCellState() == -1){
+						j = 20;
+					}
+					else if(board[x][j].getCellState() == 0){
+						Move2 move = new Move2(x,y,x,j);
+						moves.add(move);
+					}
+					else if(board[x][j].getCellState() == 1 
+							&& board[x][j].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+						Move2 move = new Move2(x,y,x,j);
+						moves.add(move);
+						j = 20;
+					}
+				}
+				for(int j = y-1;  j>0; j--){
+					if(board[x][j].getCellState() == -1){
+						j = -20;
+					}
+					else if(board[x][j].getCellState() == 0){
+						Move2 move = new Move2(x,y,x,j);
+						moves.add(move);
+					}
+					else if(board[x][j].getCellState() == 1 
+							&& board[x][j].getContent().getPlayer_ID() != piece.getPlayer_ID()){
+						Move2 move = new Move2(x,y,x,j);
+						moves.add(move);
+						j = -20;
+					}
+				}
+			}
+		}
+		//System.out.println(moves.size() +" possible moves for player "+ currentPlayer_ID);
+		return moves;
+    }
+    
 
 
 	/**
@@ -948,20 +1069,61 @@ public class Game {
 						j = -20;
 					}
 				}
-				
-				
 			}
 			
 		}
 		System.out.println(moves.size() +" possible moves for player "+ currentPlayer_ID);
 		return moves;
     }
+    
+    
+    
 	public double[] getMoveWeights() {
 //		double []gscore;
 //		gscore = new double[getQuantityOfPlayers()];
 		
 		return null;
 	}
+	
+	/**
+	 * 0 = captured flag
+	 * 1 = win for defense/loss for attack
+	 * 2 = loss for defense/win for attack
+	 * 3 = draw
+	 * @param defense
+	 * @param attack
+	 * @return 0 for captured flag; 1 for win for defense; 2 for win for attack; 3 for draw
+	 */
+	public int handleBattleEM(int attack, int defense)
+	{
+		int result = 10;
+		if(defense==0){
+			result = 0;
+		}
+		/**
+		 *attack wins
+		 */
+		if((attack == 1 && defense== 10) ||
+			(attack == 3 && defense == 11)) {
+			result = 2;
+		}
+		else if (attack > defense) 
+		{
+			result = 2;
+		}
+
+		else if (attack == defense) 
+		{
+			result = 3;
+		}
+			//defense wins
+		else if (attack < defense) {
+			result = 1;
+		}
+		return result;
+	}
+	
+	
 /**This method checks two game over conditions:
  * If the player cannot move, or;
  * If the player does not own a flag;

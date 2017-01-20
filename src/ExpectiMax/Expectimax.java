@@ -6,6 +6,7 @@ import MCTS.Node;
 import main.Cell;
 import main.Game;
 import main.Move;
+import main.Move2;
 import main.Player;
 
 /**
@@ -17,6 +18,8 @@ public class Expectimax {
     public Game game;
     public Player maxPlayer;
     public Cell[][] board;
+    public Probabilities probsP1;
+    public Probabilities probsP2;
     public ArrayList<MaxNode> maxNodes;
     public ArrayList<MinNode> minNodes;
     public ArrayList<ChanceNode> chances1;
@@ -33,15 +36,22 @@ public class Expectimax {
      */
     public Expectimax(ExpectiNode root, int depth, Game game, Player maxPlayer, int max)
     {
+    	probsP1 = new Probabilities(1);
+    	probsP2 = new Probabilities(2);
     	this.root = root;
-    	this.game = game.duplicateG();
+    	//this.game = game.duplicateG();
     	this.maxPlayer = maxPlayer;
-    	buildTree(depth, max);
+    	buildTree(depth, max, game);
     }
     
-    public void buildTree(int depth, int max)
+    public void buildTree(int depth, int max, Game game)
     {
-    	
+    	game = game.duplicateG();
+    	ExpectiNode root = new ExpectiNode(0, 1);
+    	for( int i = 0; i<depth; i++)
+    	{
+    		buildLayer(root);
+    	}
     }
 
     /**
@@ -52,6 +62,11 @@ public class Expectimax {
      */
     public Move buildLayer(ExpectiNode root)
     {
+    	
+    	maxNodes.clear();
+    	minNodes.clear();
+    	chances1.clear();
+    	chances2.clear();
     	
     	generateMaxNodes(root, maxPlayer);
     	/*
@@ -84,11 +99,13 @@ public class Expectimax {
      */
     public void generateMaxNodes(ExpectiNode parent, Player player)
     {
+    	//idk if score should be 0, maybe should be assigned from the method
     	int score = 0;
-    	ArrayList<int[]> movables = game.findMovableCoords(player);
+    	ArrayList<Move2> movables = game.movesAvailable2();
     	for(int i = 0; i<movables.size(); i++)
     	{
     		MaxNode max = new MaxNode(parent, score, player.player_ID, movables.get(i));
+    		maxNodes.add(max);
     	}
     }
     
@@ -100,7 +117,15 @@ public class Expectimax {
      */
     public void generateMinNodes(ExpectiNode parent, Player player)
     {
-    	
+    	//idk if score should be 0, maybe should be assigned from the method
+
+    	int score = 0;
+    	ArrayList<Move2> movables = game.movesAvailable2();
+    	for(int i = 0; i<movables.size(); i++)
+    	{
+    		MinNode min = new MinNode(parent, score, player.player_ID, movables.get(i));
+    		minNodes.add(min);
+    	}
     }
     
     /**
@@ -108,9 +133,43 @@ public class Expectimax {
      * @param parent the parent node from which we generate the nodes
      * @param n player id
      */
-    public void generateChanceNodes(ExpectiNode parent, int n)
+    public void generateChanceNodes(ArrayList<ExpectiNode> parents, Player player)
     {
-    	
+    	//checking which
+    	if( parents.get(0) instanceof MaxNode )
+    	{
+    		for( int i=0; i<parents.size(); i++ )
+    		{
+    			Move2 move = parents.get(i).move;
+    			game.movePiece(move.from[0], move.from[1], move.to[0], move.to[1]);
+    			/**
+    			 * run through the probabilities for your player 
+    			 * get the ones with move.to coordinates
+    			 * create a chance node for each of them with the rank of the piece
+    			 */
+    			if( game.battled == true)
+    			{
+    				//kudeto e 0 tr da se naznachi shansa ot node-cheto v koeto sme
+    				game.handleBattleEM(game.board[move.from[0]][move.from[1]].getContent().getRank(), 
+    						0);
+    			}
+    			
+    		}
+    	}
+    	else if( parents.get(0) instanceof MinNode )
+    	{
+    		//sushtoto kato gore purvo
+    		/**
+			 * run through the probabilities for oponnent player 
+			 * get the ones with move.to coordinates
+			 * create a chance node for each of them with the rank of the piece
+			 */
+    		/*
+    		 * if ( battle )
+    		 * {
+    		 * 		check origin 
+    		 */
+    	}
     }
     
 //    public Expectimax()
