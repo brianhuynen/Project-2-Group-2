@@ -18,12 +18,12 @@ public class Expectimax {
     public Game game;
     public Player maxPlayer;
     public Cell[][] board;
-    public Probabilities probsP1;
+    public Probabilities probs;
     public Probabilities probsP2;
-    public ArrayList<MaxNode> maxNodes;
-    public ArrayList<MinNode> minNodes;
-    public ArrayList<ChanceNode> chances1;
-    public ArrayList<ChanceNode> chances2;
+    public ArrayList<ExpectiNode> maxNodes;
+    public ArrayList<ExpectiNode> minNodes;
+    public ArrayList<ChanceNode> chancenodes1;
+    public ArrayList<ChanceNode> chancenodes2;
     
     
     /**
@@ -36,8 +36,10 @@ public class Expectimax {
      */
     public Expectimax(ExpectiNode root, int depth, Game game, Player maxPlayer, int max)
     {
-    	probsP1 = new Probabilities(1);
-    	probsP2 = new Probabilities(2);
+    	if(maxPlayer.player_ID == 1)
+    		probs = new Probabilities(2);
+    	else
+    		probs = new Probabilities(1);
     	this.root = root;
     	//this.game = game.duplicateG();
     	this.maxPlayer = maxPlayer;
@@ -60,36 +62,80 @@ public class Expectimax {
      * @param root last action on previous layer
      * @return best move
      */
-    public Move buildLayer(ExpectiNode root)
+    public Move2 buildLayer(ExpectiNode root)
     {
-    	
+    	Move2 move  = null;
+    	double score = 0;
+    	//clearing the lists before we make a new layer
     	maxNodes.clear();
     	minNodes.clear();
-    	chances1.clear();
-    	chances2.clear();
+    	chancenodes1.clear();
+    	chancenodes2.clear();
     	
+    	//generating max nodes from the acailable moves
     	generateMaxNodes(root, maxPlayer);
-    	/*
-    	 * if(one of the max nodes creates battle)
-    	 * {
-    	 * 		generateChanceNodes()
-    	 * 		generateMinNodes()
-    	 * 		if(one of the min nodes creates battle)
-    	 * 		{	
-    	 * 			generateChanceNodes()
-    	 * 			pick best node ->go back to parent max node and return move
-    	 * 		}
-    	 * 		pick best node -> go back to parent max node and return move
-    	 * }
-    	 * generateMinNodes()
-    	 * if(one of the min nodes creates battle)
-    	 * {
-    	 * 		generate chance nodes
-    	 * 		pick best node -> go back to parent max node and return move
-    	 * }
-    	 * pick best node -> go back to parent max node and return move
-    	 */
-    	return null;
+    	//generating chance nodes from the max nodes
+    	generateChanceNodes(maxNodes, maxPlayer);
+    	
+    	//generating min nodes from max nodes/chance nodes
+    	for(int i = 0; i < maxNodes.size(); i++)
+    	{
+    		if( !maxNodes.get(i).chanceGenerated )
+    		{
+    			generateMinNodes(maxNodes.get(i), maxPlayer);
+    		}
+    	}
+    	if(!chancenodes1.isEmpty())
+		{
+			for(int i = 0; i<chancenodes1.size(); i++)
+			{
+				generateMinNodes(chancenodes1.get(i), maxPlayer);
+			}
+		}
+    	//generating chance nodes from the min nodes
+    	generateChanceNodes(minNodes, maxPlayer);
+    	
+    	for(int i = 0; i<minNodes.size(); i++)
+    	{
+    		if(!minNodes.get(i).chanceGenerated)
+    		{
+	    		if(move == null)
+	    		{
+	    			move = minNodes.get(i).move;
+	    			score = minNodes.get(i).score;
+	    		}
+	    		else if(minNodes.get(i).score > score)
+	    		{
+	    			move = minNodes.get(i).move;
+	    			score = minNodes.get(i).score;
+	    		}
+    		}
+    	}
+    	if(!chancenodes2.isEmpty())
+    	{
+    		for(int i = 0; i < chancenodes2.size(); i++)
+    		{
+    			if(move == null)
+	    		{
+	    			move = chancenodes2.get(i).move;
+	    			score = chancenodes2.get(i).score;
+	    		}
+	    		else if(minNodes.get(i).score > score)
+	    		{
+	    			move = chancenodes2.get(i).move;
+	    			score = chancenodes2.get(i).score;
+	    		}
+    		}
+    	}
+    	for(int i = 0; i<maxNodes.size(); i++ )	
+    	{
+    		if(maxNodes.get(i).score == 15 )
+    		{
+    			move = maxNodes.get(i).move;
+    			score = maxNodes.get(i).score;
+    		}
+    	}
+    	return move;
     }
     
     /**
@@ -104,8 +150,12 @@ public class Expectimax {
     	ArrayList<Move2> movables = game.movesAvailable2();
     	for(int i = 0; i<movables.size(); i++)
     	{
-    		MaxNode max = new MaxNode(parent, score, player.player_ID, movables.get(i));
-    		maxNodes.add(max);
+    		if(board[movables.get(i).from[0]][movables.get(i).from[1]].getContent().getPlayer_ID() == maxPlayer.player_ID)
+    		{
+	    		MaxNode max = new MaxNode(parent, score, player.player_ID, movables.get(i));
+	    		max.assignScore(player.player_ID);
+	    		maxNodes.add(max);
+    		}
     	}
     }
     
@@ -123,8 +173,19 @@ public class Expectimax {
     	ArrayList<Move2> movables = game.movesAvailable2();
     	for(int i = 0; i<movables.size(); i++)
     	{
-    		MinNode min = new MinNode(parent, score, player.player_ID, movables.get(i));
-    		minNodes.add(min);
+    		int id;
+    		if(player.player_ID == 1)
+    		{
+    			id =2;
+    		} else {
+    			id = 1;
+    		}
+    		if(board[movables.get(i).from[0]][movables.get(i).from[1]].getContent().getPlayer_ID() == id)
+    		{
+    			MinNode min = new MinNode(parent, score, player.player_ID, movables.get(i));
+    			min.assignScore(player.player_ID);
+    			minNodes.add(min);
+    		}
     	}
     }
     
@@ -147,28 +208,144 @@ public class Expectimax {
     			 * get the ones with move.to coordinates
     			 * create a chance node for each of them with the rank of the piece
     			 */
-    			if( game.battled == true)
+    			if(game.battled == true)
     			{
+    				ArrayList<Chance> chances = new ArrayList<Chance>();
+    				for(int j = 0; j < probs.probs.size(); j++)
+    				{
+    					if( probs.probs.get(j).coords == move.to)
+    					{
+    						chances.add(probs.probs.get(j));
+    					}
+    				}
+    				for(int j = 0; i < chances.size(); j++)
+    				{
+    					ChanceNode chanceN = new ChanceNode(parents.get(i), 0.5, player.getPlayer_ID(), move, chances.get(i).piece);
+    					
+    					int handle = game.handleBattleEM(game.board[move.from[0]][move.from[1]].getContent().getRank(), chanceN.piece);
+    					if( handle == 0 )
+    					{
+    						chanceN.score = 15;
+    						chanceN.parent.score = 15;
+    						//game over our player wins yay
+    					}
+    					else if (handle == 1 )
+    					{
+    						//our player loses the battle
+    						chanceN.assignSum(-game.board[move.from[0]][move.from[1]].getContent().getRank(), player.player_ID);
+    						chanceN.assignScore(player.player_ID);
+    					}
+    					else if (handle == 2)
+    					{
+    						//our player wins the battle
+    						int id;
+    						if(player.player_ID == 1)
+    						{
+    							id = 2;
+    						} else
+    						{
+    							id = 1;
+    						}
+    						chanceN.assignSum(-chanceN.piece, id);
+    						chanceN.assignScore(player.player_ID);
+    					}
+    					else if (handle == 3)
+    					{
+    						int id;
+    						if(player.player_ID == 1)
+    						{
+    							id = 2;
+    						} else
+    						{
+    							id = 1;
+    						}
+    						chanceN.assignSum(-game.board[move.from[0]][move.from[1]].getContent().getRank(), player.player_ID);
+    						chanceN.assignSum(-chanceN.piece, id);
+    						chanceN.assignScore(player.player_ID);
+    					}
+    					chancenodes1.add(chanceN);
+    				}
     				//kudeto e 0 tr da se naznachi shansa ot node-cheto v koeto sme
-    				game.handleBattleEM(game.board[move.from[0]][move.from[1]].getContent().getRank(), 
-    						0);
+    				
+    				parents.get(i).chanceGenerated = true;
     			}
-    			
+    			game.reverseMove2(parents.get(i).getMove());
     		}
     	}
     	else if( parents.get(0) instanceof MinNode )
     	{
-    		//sushtoto kato gore purvo
-    		/**
-			 * run through the probabilities for oponnent player 
-			 * get the ones with move.to coordinates
-			 * create a chance node for each of them with the rank of the piece
-			 */
-    		/*
-    		 * if ( battle )
-    		 * {
-    		 * 		check origin 
-    		 */
+    		for( int i=0; i<parents.size(); i++ )
+    		{
+    			Move2 move = parents.get(i).move;
+    			game.movePiece(move.from[0], move.from[1], move.to[0], move.to[1]);
+    			/**
+    			 * run through the probabilities for your player 
+    			 * get the ones with move.from coordinates
+    			 * create a chance node for each of them with the rank of the piece
+    			 */
+    			if(game.battled == true)
+    			{
+    				ArrayList<Chance> chances = new ArrayList<Chance>();
+    				for(int j = 0; j < probs.probs.size(); j++)
+    				{
+    					if( probs.probs.get(j).coords == move.from)
+    					{
+    						chances.add(probs.probs.get(j));
+    					}
+    				}
+    				for(int j = 0; i < chances.size(); j++)
+    				{
+    					ChanceNode chanceN = new ChanceNode(parents.get(i), 0.5, player.getPlayer_ID(), move, chances.get(i).piece);
+    					
+    					int handle = game.handleBattleEM(chanceN.piece, game.board[move.to[0]][move.to[1]].getContent().getRank());
+    					if( handle == 0 )
+    					{
+    						chanceN.score = 0;
+    						chanceN.parent.score = 0;
+    						//game over our player loses :(((((((((((
+    					}
+    					else if (handle == 1 )
+    					{
+    						//our player wins the battle
+    						int id;
+    						if(player.player_ID == 1)
+    						{
+    							id = 2;
+    						} else
+    						{
+    							id = 1;
+    						}
+    						chanceN.assignSum(-chanceN.piece, id);
+    						chanceN.assignScore(player.player_ID);
+    						
+    					}
+    					else if (handle == 2)
+    					{
+    						//our player loses the battle
+    						chanceN.assignSum(-game.board[move.from[0]][move.from[1]].getContent().getRank(), player.player_ID);
+    						chanceN.assignScore(player.player_ID);
+    					}
+    					else if (handle == 3)
+    					{
+    						int id;
+    						if(player.player_ID == 1)
+    						{
+    							id = 2;
+    						} else
+    						{
+    							id = 1;
+    						}
+    						chanceN.assignSum(-game.board[move.from[0]][move.from[1]].getContent().getRank(), player.player_ID);
+    						chanceN.assignSum(-chanceN.piece, id);
+    						chanceN.assignScore(player.player_ID);
+    					}
+    					chancenodes2.add(chanceN);
+    				}
+        			parents.get(i).chanceGenerated = true;
+    			}
+
+    			game.reverseMove2(parents.get(i).getMove());
+    		}
     	}
     }
     

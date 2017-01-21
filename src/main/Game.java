@@ -1120,6 +1120,7 @@ public class Game {
 		else if (attack < defense) {
 			result = 1;
 		}
+		battled=false;
 		return result;
 	}
 	

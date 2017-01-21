@@ -541,7 +541,7 @@ public class GUI {
 
                     frame.repaint();
                     frame.paint(frame.getGraphics());
-                    sleep(2000);
+                    sleep(200);
                     game.changeTurn();
                     // rand.generateMovementHeur();
             }

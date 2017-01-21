@@ -9,8 +9,9 @@ public class ChanceNode extends ExpectiNode
 	public int piece;
 	
 	
-	public ChanceNode(ExpectiNode parent, int score, int playerID, Move2 move)
+	public ChanceNode(ExpectiNode parent, double score, int playerID, Move2 move, int piece)
 	{
 		super(parent, score, playerID, move);
+		this.piece = piece;
 	}
 }

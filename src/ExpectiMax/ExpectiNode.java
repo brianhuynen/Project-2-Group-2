@@ -11,19 +11,22 @@ public class ExpectiNode
 {
 	public ExpectiNode parent;
 	public ArrayList<ExpectiNode> children;
-	public int score;
+	public double score;
 	public int playerID;
 	public Move2 move;
 	public Game game;
+	public boolean chanceGenerated;
+	public int sumRank1;
+	public int sumRank2;
 
-	public ExpectiNode(int score, int playerID) {
+	public ExpectiNode(double score, int playerID) {
 		parent = null;
 		children = new ArrayList<ExpectiNode>();
 		this.score = score;
 		this.playerID = playerID;
 	}
 
-	public ExpectiNode(ExpectiNode parent, int score, int playerID, Move2 move) {
+	public ExpectiNode(ExpectiNode parent, double score, int playerID, Move2 move) {
 		this.parent = parent;
 		children = new ArrayList<ExpectiNode>();
 		this.score = score;
@@ -40,8 +43,6 @@ public class ExpectiNode
 
 	public void assignScore(int player_ID)
 	{
-		int sumRank1 = 0;
-		int sumRank2 = 0;
 
 		for (int i = 0; i < game.player_1.piecesCoord.size(); i++) {
 			sumRank1 += game.player_1.piecesCoord.get(i).getRank();
@@ -54,29 +55,26 @@ public class ExpectiNode
 		if (player_ID == 1)
 		{
 			score = sumRank1/sumRank2;
-			
-//			if ((sumRank1 / sumRank2) > 0.5)
-//			{
-//				return 1;
-//			}
-//			if ((sumRank1 / sumRank2) < 0.5)
-//			{
-//				return 2;
-//			}
 		}
 
 		if (player_ID == 2)
 		{
 			score = sumRank2/sumRank1;
-//			if ((sumRank2 / sumRank1) > 0.5)
-//			{
-//				return 2;
-//			}
-//			if ((sumRank2 / sumRank1) < 0.5)
-//			{
-//				return 1;
-//			}
 		}
-//		return 0;
+		
+		sumRank1=0;
+		sumRank2=0;
+	}
+	
+	public void assignSum(int rank, int playerID)
+	{
+		if(playerID == 1)
+		{
+			sumRank1+=rank;
+		}
+		else if(playerID == 2)
+		{
+			sumRank2+=rank;
+		}
 	}
 }
