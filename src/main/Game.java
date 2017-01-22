@@ -122,8 +122,9 @@ public class Game {
 		else if(playerTypeData[0] == "AIPlayer"){
 			player[0] = new AIPlayer(1, Color.BLUE, 1); //ID, Piece Colour, Algorithm ID
 		}
-
-
+        else if(playerTypeData[0] == "RandAIPlayer"){
+		    player[0] = new AIPlayer(1, Color.BLUE, 3);
+        }
 		else if(playerTypeData[0] == "MCTS"){
 			player[0] = new AIPlayer(1, Color.BLUE, 2); //ID, Piece Colour, Algorithm ID
         }
@@ -136,13 +137,12 @@ public class Game {
 		else if(playerTypeData[1] == "AIPlayer"){
 			player[1] = new AIPlayer(2, Color.RED, 1);
 		}
-
-
+        else if(playerTypeData[1] == "RandAIPlayer"){
+            player[1] = new AIPlayer(2, Color.RED, 3);
+        }
 		else if(playerTypeData[1] == "MCTS"){
 			player[1] = new AIPlayer(2, Color.RED, 2); //ID, Piece Colour, Algorithm ID
         }
-
-
 		return player;
 	}
 	
@@ -924,7 +924,6 @@ public class Game {
 
 	/**
      * Makes a list of all available moves
-     * @param board
      * @return list of all available moves
      */
     public ArrayList<Move> movesAvailable(){
@@ -1120,7 +1119,6 @@ public class Game {
 		else if (attack < defense) {
 			result = 1;
 		}
-		battled=false;
 		return result;
 	}
 	

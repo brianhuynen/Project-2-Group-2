@@ -65,28 +65,33 @@ public class RandomAlg {
 	        }
 		}
 
-        System.out.println(bomb == null);
-        System.out.println(miner == null);
+//        System.out.println(bomb == null);
+//        System.out.println(miner == null);
 
 		if(bomb == null && miner == null)
 		{
             identifyBombAndMiner();
         }
-
-        if(isDefeated(miner))
-        {
-//            System.out.println(player.getPlayer_ID() +  ": Miner was captured before reaching its goal.");
+        else if(isDefeated(miner)) {
+            System.out.println(player.getPlayer_ID() + ": Miner was captured before reaching its goal.");
             miner = null;
-            identifyBombAndMiner();
+            if (miners.size() > 0)
+            {
+                identifyBombAndMiner();
+            }
         }
         else if(isDefeated(bomb))
         {
-//            System.out.println(oppositePlayer().getPlayer_ID() + ": Bomb captured.");
+            System.out.println(oppositePlayer().getPlayer_ID() + ": Bomb captured.");
             bomb = null;
-            identifyBombAndMiner();
+            if(bombs.size() > 0)
+            {
+                identifyBombAndMiner();
+            }
+            return lastMove(miner);
         }
 
-//        System.out.println("Miner at (" + miner.getPosition()[0] + "," + miner.getPosition()[1] + ")");
+        System.out.println("Miner at (" + miner.getPosition()[0] + "," + miner.getPosition()[1] + ")");
         System.out.println("Bomb at (" +  bomb.getPosition()[0] + "," + bomb.getPosition()[1] +  ")");
 
         int[] bposition = bomb.getPosition();
@@ -96,21 +101,15 @@ public class RandomAlg {
 
 		Move move = null;
 
-//        System.out.println(game.path.size());
-
 		if(game.path.size() > 1)
 		{
 			Cell origin = game.path.remove(game.path.size()-1);
 			Cell destination = game.path.get(game.path.size()-1);
 			move = new Move(origin.getContent(), destination.getPosition());
 		}
-		else if(isDefeated(bomb))
-		{
-            move = lastMove(miner);
-            bomb = null;
-		}
 		else
         {
+            System.out.println("Path too short - make random move.");
             int i = rand.nextInt(moves.size());
             move = moves.get(i);
         }
@@ -128,19 +127,32 @@ public class RandomAlg {
             if(p.getPosition()[1] == 9)
             {
                  pos[0] = p.getPosition()[0];
-                 pos[1] = p.getPosition()[1]+1;
+                 pos[1] = p.getPosition()[1] + 1;
             }
-            else if(p.getPosition()[1] == 10)
+            else if(p.getPosition()[1] == 10 && p.getPosition()[0] > 7)
             {
-                pos[0] = p.getPosition()[0]+1;
+                pos[0] = p.getPosition()[0] - 1;
+                pos[1] = p.getPosition()[1];
+            }
+            else if(p.getPosition()[1] == 10 && p.getPosition()[0] < 7)
+            {
+                pos[0] = p.getPosition()[0] + 1;
                 pos[1] = p.getPosition()[1];
             }
         }
         if(player.getPlayer_ID() == 2) {
-            if (p.getPosition()[1] == 2) {
+            if (p.getPosition()[1] == 2)
+            {
                 pos[0] = p.getPosition()[0];
                 pos[1] = p.getPosition()[1] - 1;
-            } else if (p.getPosition()[1] == 1) {
+            }
+            else if (p.getPosition()[1] == 1 && p.getPosition()[0] > 7)
+            {
+                pos[0] = p.getPosition()[0] - 1;
+                pos[1] = p.getPosition()[1];
+            }
+            else if (p.getPosition()[1] == 1 && p.getPosition()[0] < 7)
+            {
                 pos[0] = p.getPosition()[0] + 1;
                 pos[1] = p.getPosition()[1];
             }
@@ -405,15 +417,20 @@ public class RandomAlg {
 
     public void identifyBombAndMiner()
     {
+
         Random rand = new Random();
 
     	if(bomb == null)
     	{
+            System.out.println("Choosing new bomb...");
+            bombs = getBombs(oppositePlayer());
     	    int b = rand.nextInt(bombs.size());
     	    bomb = bombs.remove(b);
         }
         if(miner == null)
         {
+            System.out.println("Choosing new miner...");
+            miners = getMiners(player);
             int m = rand.nextInt(miners.size());
             miner = miners.remove(m);
         }

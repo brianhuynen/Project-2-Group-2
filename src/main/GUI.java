@@ -64,9 +64,9 @@ public class GUI {
 		JButton startGame = new JButton("Start Game");
 		JLabel player1 = new JLabel("player 1");
 		JLabel player2 = new JLabel("player 2");
-		String[] players1 = { "HumanPlayer", "AIPlayer", "MCTS" };
+		String[] players1 = { "HumanPlayer", "AIPlayer", "RandAIPlayer", "MCTS" };
 		final JComboBox<String> cb1 = new JComboBox<String>(players1);
-		String[] players2 = { "HumanPlayer", "AIPlayer", "MCTS" };
+		String[] players2 = { "HumanPlayer", "AIPlayer", "RandAIPlayer", "MCTS" };
 		final JComboBox<String> cb2 = new JComboBox<String>(players2);
 
 		startGame.addActionListener(new ActionListener() {
@@ -82,13 +82,8 @@ public class GUI {
 
 				game = new Game(playerTypeData);
 
-				// System.out.println(playerTypeData[0] + " " +
-				// playerTypeData[1]);
-				if ((playerTypeData[1] == "AIPlayer" && playerTypeData[0] == "AIPlayer")
-						|| (playerTypeData[1] == "MCTS" && playerTypeData[0] == "MCTS")
-						|| (playerTypeData[1] == "AIPlayer" && playerTypeData[0] == "MCTS")
-						|| (playerTypeData[1] == "MCTS" && playerTypeData[0] == "AIPlayer")) {
-					createStartFrame(frame);
+				if ((playerTypeData[0] != "HumanPlayer" && playerTypeData[1] != "HumanPlayer")) {
+                    createStartFrame(frame);
 					game.autofill();
 					game.changeTurn();
 					game.autofill();
@@ -96,8 +91,7 @@ public class GUI {
 					createGamePanel(frame);
 					gameLoop();
 				}
-
-				else if (playerTypeData[0] == "AIPlayer") {
+				else if (playerTypeData[0] != "HumanPlayer") {
 					createStartFrame(frame);
 					game.autofill();
 					game.changeTurn();
@@ -209,7 +203,7 @@ public class GUI {
 						game.currentPlayer = game.player_2;
 						frame.repaint();
 						if (playerTypeData[0] == "HumanPlayer"
-								&& ((playerTypeData[1] == "AIPlayer") || (playerTypeData[1] == "MCTS"))) {
+								&& ((playerTypeData[1] != "HumanPlayer"))){
 							game.autofill();
 							game.changeTurn();
 							createGamePanel(frame);
@@ -391,9 +385,9 @@ public class GUI {
 					frame.repaint();
 				}
 
-				// for(int i = 0; i<1; i++) {
-				// RandomAlg rand = new RandomAlg(game, game.currentPlayer);
-				// rand.randomMove();
+//				 for(int i = 0; i<1; i++) {
+//				 RandomAlg rand = new RandomAlg(game, game.currentPlayer);
+//				 rand.randomMove();
 //				try {
 //					// game.findPath(fromX, fromY, toX, toY);
 //				} catch (StackOverflowError err) {
@@ -403,19 +397,9 @@ public class GUI {
 //				System.out.println(game.path.size());
 //				game.printPath();
 
-				// int[] bposition = {9,10};
-				// rand.makeFinalMove(bposition);
-				// game.ranMovePiece();
-				// MCTS mcts = new MCTS();
-				// Node node = new Node(game);
-				// mcts.playout(node, game, rand);
-				// if(game.success) {
-				// frame.repaint();
-				// game.changeTurn();
-				// gameLoop();
-				// //JOptionPane.showMessageDialog(frame, "Turn");
-				// }
-				// }
+//				 int[] bposition = {9,10};
+//				 rand.makeFinalMove(bposition);
+//				 game.ranMovePiece();
 			}
 		});
 
@@ -494,11 +478,9 @@ public class GUI {
 						g2.fill(box1);
 						g2.setColor(Color.black);
 					}
-
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -519,143 +501,113 @@ public class GUI {
 	public static void gameLoop() {
 
 		if ((playerTypeData[0] == playerTypeData[1])
-				&& ((playerTypeData[0] == "AIPlayer") || (playerTypeData[0] == "MCTS"))) {
+				&& ((playerTypeData[0] != "HumanPlayer"))) {
 
             RandomAlg rand1 = new RandomAlg(game, game.player_1);
             RandomAlg rand2 = new RandomAlg(game, game.player_2);
 
-			while (!game.gameOver && game.findMovableCoords(game.currentPlayer).size() != 0 && game.gameActive) {
+            while (!game.gameOver && game.findMovableCoords(game.currentPlayer).size() != 0 && game.gameActive) {
 
-            if(playerTypeData[0] == "AIPlayer"){
-//                    RandomAlg rand = new RandomAlg(game, game.currentPlayer);
-//                    rand.randomMove();
+                if (playerTypeData[0] == "AIPlayer") {
 
-                System.out.println(game.currentPlayer_ID);
+                    System.out.println("\n Current turn:" + game.currentPlayer_ID);
 
-                    if(game.currentPlayer_ID == 1){
+                    if (game.currentPlayer_ID == 1) {
                         rand1.randomMove();
-                    }
-                    else if(game.currentPlayer_ID == 2){
+                    } else if (game.currentPlayer_ID == 2) {
                         rand2.randomMove();
                     }
 
                     frame.repaint();
                     frame.paint(frame.getGraphics());
-                    sleep(200);
+                    sleep(500);
                     game.changeTurn();
-                    // rand.generateMovementHeur();
-            }
 
-            if(playerTypeData[0] == "MCTS"){
-                MCTS mcts= new MCTS();
+                }
+                else if(playerTypeData[0] == "RandAIPlayer"){
 
-                mcts.setExplorationConstant(0.4);
-                mcts.setTimeDisplay(true);
-                Move move;
-                mcts.setOptimisticBias(0.0d);
-                mcts.setPessimisticBias(0.0d);
-                mcts.setMoveSelectionPolicy(FinalSelectionPolicy.robustChild);
-                int []scores = new int[3];
+                    System.out.println("\n Current turn:" + game.currentPlayer_ID);
 
-                while (!game.gameOver()){
+                    Move mv = null;
+
+                    if (game.currentPlayer_ID == 1) {
+                        mv = rand1.generateMovement();
+                    } else if (game.currentPlayer_ID == 2) {
+                        mv = rand2.generateMovement();
+                    }
+
+                    game.makeMove(mv);
+
+                    frame.repaint();
+                    frame.paint(frame.getGraphics());
+                    sleep(500);
+                    game.changeTurn();
+                }
+                else if(playerTypeData[0] == "MCTS") {
+                    MCTS mcts= new MCTS();
+                    mcts.setExplorationConstant(0.4);
+                    mcts.setTimeDisplay(true);
+                    Move move;
+                    mcts.setOptimisticBias(0.0d);
+                    mcts.setPessimisticBias(0.0d);
+                    mcts.setMoveSelectionPolicy(FinalSelectionPolicy.robustChild);
+                    int []scores = new int[3];
+
+                    while (!game.gameOver()){
                         move = mcts.runMCTS(game, 1000, false);
                         game.makeMove(move);
+                    }
+
+                    double []scr = game.getScore();
+                    if (scr[0] == 1.0) {
+                        scores[0]++; // player 1
+                    } else if (scr[1]==1.0) {
+                        scores[1]++; // player 2
+                    } else
+                        scores[2]++; // draw
+
+                    System.out.println(Arrays.toString(scr));
+                    System.out.println(Arrays.toString(scores));
+
+                    frame.repaint();
+                    frame.paint(frame.getGraphics());
+                    sleep(1000);
+                    game.changeTurn();
+//                    gameLoop();
+                }
+            }
+            JOptionPane.showMessageDialog(frame, "END");
+        }
+		else if (playerTypeData[0] != playerTypeData[1]) {
+            if (playerTypeData[0] != "HumanPlayer" && playerTypeData[1] != "HumanPlayer")
+            {
+                RandomAlg rand1 = new RandomAlg(game, game.player_1);
+                RandomAlg rand2 = new RandomAlg(game, game.player_2);
+
+                while (!game.gameOver && game.findMovableCoords(game.currentPlayer).size() != 0 && game.gameActive) {
+                    if(playerTypeData[0] == "AIPlayer" && game.currentPlayer_ID == 1) {
+                        rand1.randomMove();
+                    }
+                    else if(playerTypeData[0] == "RandAIPlayer" && game.currentPlayer_ID == 1) {
+                        game.makeMove(rand1.generateMovement());
+
+                    }
+
+                    if(playerTypeData[1] == "AIPlayer" && game.currentPlayer_ID == 2) {
+                        rand2.randomMove();
+                    }
+                    else if(playerTypeData[1] == "RandAIPlayer" && game.currentPlayer_ID == 2) {
+                        game.makeMove(rand2.generateMovement());
+                    }
+
+                    frame.repaint();
+                    frame.paint(frame.getGraphics());
+                    sleep(500);
+                    game.changeTurn();
                 }
 
-			
-			double []scr = game.getScore();
-			if (scr[0] == 1.0) {
-				scores[0]++; // player 1
-			} else if (scr[1]==1.0) {
-				scores[1]++; // player 2
-			} else
-				scores[2]++; // draw
-			
-			System.out.println(Arrays.toString(scr));
-			System.out.println(Arrays.toString(scores));
-
-				frame.repaint();
-				frame.paint(frame.getGraphics());
-				sleep(1000);
-				game.changeTurn();
-
-				// gameLoop();
-        //}
-			JOptionPane.showMessageDialog(frame, "END");
-    }
-    //test
-		else if (playerTypeData[0] != playerTypeData[1]) {
-
-                RandomAlg rand = new RandomAlg(game, game.currentPlayer);
-
-			while (!game.gameOver && game.findMovableCoords(game.currentPlayer).size() != 0
-					&& ((game.currentPlayer.getType() == "AIPlayer") || (game.currentPlayer.getType() == "MCTS"))) {
-				if(playerTypeData[0] == "AIPlayer"){
-					rand.randomMove();
-					// rand.generateMovementHeur();
-                    frame.repaint();
-                    frame.paint(frame.getGraphics());
-                    sleep(0);
-                    game.changeTurn();
-				}
-				if(playerTypeData[0] == "MCTS"){
-//					MCTS mcts= new MCTS(game,game.currentPlayer);
-//	     
-//					mcts.setExplorationConstant(0.4);
-//					mcts.setTimeDisplay(true);
-//					Move move;
-//					mcts.setOptimisticBias(0.0d);
-//					mcts.setPessimisticBias(0.0d);
-//					mcts.setMoveSelectionPolicy(FinalSelectionPolicy.robustChild);
-//					int []scores = new int[3];
-//					while (!game.gameOver()){
-//						move = mcts.runMCTS(game, 100, false);
-//						game.makeMove(move);
-					// LIST OF MOVES FOR CURRENT PLAYER (TO CHECK IF A USER IS ALLOWED A MOVE DURING GUI, CHECK IF THIS LIST CONTAINS THAT MOVE)
-//					ArrayList<Move> list = game.getMoves(CallLocation.playout);
-//					game.makeMove(list.get((int)new Random().nextInt(list.size())));
-//					}
-				
-
-//				
-//				double []scr = game.getScore();
-//				if (scr[0] == 1.0) {
-//					scores[0]++; // player 1
-//				} else if (scr[1]==1.0) {
-//					scores[1]++; // player 2
-//				} else
-//					scores[2]++; // draw
-//				
-//				System.out.println(Arrays.toString(scr));
-//				System.out.println(Arrays.toString(scores));
-	}
-				game.changeTurn();
-				frame.repaint();
-
-			}
-//                    double []scr = game.getScore();
-//                    if (scr[0] == 1.0) {
-//                        scores[0]++; // player 1
-//                    } else if (scr[1]==1.0) {
-//                        scores[1]++; // player 2
-//                    } else
-//                        scores[2]++; // draw
-//
-//                    System.out.println(Arrays.toString(scr));
-//                    System.out.println(Arrays.toString(scores));
-
-                    frame.repaint();
-                    frame.paint(frame.getGraphics());
-                    sleep(0);
-                    game.changeTurn();
-	            }
-//                frame.repaint();
-//                frame.paint(frame.getGraphics());
-//                sleep(0);
-//                game.changeTurn();
-
-			}
+                JOptionPane.showMessageDialog(frame, "END");
+            }
 		}
 	}
-
 }

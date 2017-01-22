@@ -90,6 +90,12 @@ public class Pathfinding
 //						+ " coordinates = " + successors.get(i).getContent().getPosition()[0] + 
 //						successors.get(i).getContent().getPosition()[1]);
 				
+				if (closedSet.size() == 6 )
+				{
+//					System.out.println("successor of 59 is " + successors.get(i).getContent().getPosition()[0] +
+//						successors.get(i).getContent().getPosition()[1]);
+				}
+				
 				for( int j = 0; j<openSet.size(); j++ )
 				{
 					if(openSet.get(j).getContent().getPosition() == successors.get(i).getContent().getPosition()
@@ -164,7 +170,7 @@ public class Pathfinding
 			else if(node.getContent() != first)
 			{
 				path.add(node.getContent());
-				System.out.println("node coords = " + node.getContent().getPosition()[0] + node.getContent().getPosition()[1]);
+//				System.out.println("node coords = " + node.getContent().getPosition()[0] + node.getContent().getPosition()[1]);
 				ANode parent = node.getParent();
 				node = parent;
 			}
@@ -185,7 +191,7 @@ public class Pathfinding
 		int[] pos = node.getContent().getPosition();
 		
 		//up
-		if( (pos[0]-1 == goal[0] && pos[1] == goal[1]) ||( pos[0]-1 > 1 && board[pos[0]-1][pos[1]].getContent() == null
+		if( (pos[0]-1 == goal[0] && pos[1] == goal[1]) ||( pos[0]-1 > 0 && board[pos[0]-1][pos[1]].getContent() == null
 				&& board[pos[0]-1][pos[1]].getCellState() != -1 ))
 		{
 			if(i==6)
@@ -221,7 +227,7 @@ public class Pathfinding
 			list.add(child);
 		}
 		//left
-		if( (pos[0] == goal[0] && pos[1]-1 == goal[1]) || (pos[1]-1 > 1 && board[pos[0]][pos[1]-1].getContent() == null
+		if( (pos[0] == goal[0] && pos[1]-1 == goal[1]) || (pos[1]-1 > 0 && board[pos[0]][pos[1]-1].getContent() == null
 				&& board[pos[0]][pos[1]-1].getCellState() != -1))
 		{
 			if(i==6)
