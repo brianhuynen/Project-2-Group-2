@@ -585,12 +585,14 @@ public class GUI {
                 RandomAlg rand2 = new RandomAlg(game, game.player_2);
 
                 while (!game.gameOver && game.findMovableCoords(game.currentPlayer).size() != 0 && game.gameActive) {
+
+                    System.out.println("\n Current turn:" + game.currentPlayer_ID);
+
                     if(playerTypeData[0] == "AIPlayer" && game.currentPlayer_ID == 1) {
                         rand1.randomMove();
                     }
                     else if(playerTypeData[0] == "RandAIPlayer" && game.currentPlayer_ID == 1) {
                         game.makeMove(rand1.generateMovement());
-
                     }
 
                     if(playerTypeData[1] == "AIPlayer" && game.currentPlayer_ID == 2) {
