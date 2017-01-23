@@ -758,7 +758,7 @@ public class Game {
      * Find coordinates of pieces who can make a move
      * @return list of coordinates which can make a move
      */
-    public ArrayList<Pieces> findMovablePieces(){
+    public ArrayList<Pieces> findMovablePieces(Player p){
         ArrayList<Pieces> list = new ArrayList<Pieces>();
         for (int x=1; x<board.length-1; x++){
             for (int y=1; y<board[0].length-1; y++){
@@ -777,7 +777,7 @@ public class Game {
                                     (left.getCellState() == 1 && left.getContent().getPlayer_ID() != current.getContent().getPlayer_ID())||
                                     (down.getCellState() == 1 && down.getContent().getPlayer_ID() != current.getContent().getPlayer_ID())||
                                     (up.getCellState() == 1 && up.getContent().getPlayer_ID() != current.getContent().getPlayer_ID()))){
-                        if(current.getContent().getPlayer_ID() == currentPlayer_ID) {
+                        if(current.getContent().getPlayer_ID() == p.player_ID) {
                             //int[] coord = {x, y};
                             Pieces piece = board[x][y].getContent();
                             if(piece.getRank() != 0 && piece.getRank() != 11){
@@ -801,9 +801,9 @@ public class Game {
      * @param board
      * @return list of all available moves
      */
-    public ArrayList<Move2> movesAvailable2(){
+    public ArrayList<Move2> movesAvailable2(Player p){
 		ArrayList<Move2> moves = new ArrayList<Move2>();
-		ArrayList<Pieces> movables = findMovablePieces();
+		ArrayList<Pieces> movables = findMovablePieces(p);
 		
 		for (int i=0; i<movables.size(); i++){
 			Pieces piece = movables.get(i);
@@ -928,7 +928,7 @@ public class Game {
      */
     public ArrayList<Move> movesAvailable(){
 		ArrayList<Move> moves = new ArrayList<Move>();
-		ArrayList<Pieces> movables = findMovablePieces();
+		ArrayList<Pieces> movables = findMovablePieces(currentPlayer);
 
 		/*for(int i=0; i<movables.size(); i++)
 		{

@@ -50,9 +50,9 @@ public class Setups {
 
         setups1 = new ArrayList<int[][]>();
         setups1.add(s11);
-        setups1.add(s21);
-        setups1.add(s31);
-        setups1.add(s41);
+//        setups1.add(s21);
+//        setups1.add(s31);
+//        setups1.add(s41);
 
         //Mirrored setups for player 2, stored in arraylist setups2
         int[][] s12 = {{ 6, 2, 2, 5, 2, 6, 3,10, 2, 6},
@@ -82,9 +82,9 @@ public class Setups {
 
         setups2 = new ArrayList<int[][]>();
         setups2.add(s12);
-        setups2.add(s22);
-        setups2.add(s32);
-        setups2.add(s42);
+//        setups2.add(s22);
+//        setups2.add(s32);
+//        setups2.add(s42);
 
     }
     //Returns a random setup for a player.

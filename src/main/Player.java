@@ -7,8 +7,8 @@ public class Player {
 	public int player_ID;
 	public int pieces[];
 	public Color pColor;
-	public ArrayList<Pieces> piecesCoord = new ArrayList<Pieces>();
-	public ArrayList<Pieces> knownPieces = new ArrayList<Pieces>();
+	public ArrayList<Pieces> piecesCoord;
+	public ArrayList<Pieces> knownPieces;
 	public int numberPieces;
 	public int offBoard;
 	public String type;
@@ -19,6 +19,8 @@ public class Player {
 //		int pieces [] = {1,1,8,5,4,4,4,3,2,1,1,6}; //Stores how many pieces of each rank can be stored.
 //		int pieces [] = {1,0,0,1,3,0,0,0,0,0,0,3}; //For testing purposes.
 		int pieces [] = {1,0,0,5,0,0,0,0,0,0,0,6}; //test stuff
+		piecesCoord = new ArrayList<Pieces>();
+		knownPieces = new ArrayList<Pieces>();
 		this.pieces  = pieces;
 		this.numberPieces = 0;
 		this.pColor = color;

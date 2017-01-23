@@ -19,18 +19,21 @@ public class ExpectiNode
 	public int sumRank1;
 	public int sumRank2;
 
-	public ExpectiNode(double score, int playerID) {
+	public ExpectiNode(double score, int playerID, Game game) {
 		parent = null;
 		children = new ArrayList<ExpectiNode>();
+		this.game = game;
 		this.score = score;
 		this.playerID = playerID;
 	}
 
-	public ExpectiNode(ExpectiNode parent, double score, int playerID, Move2 move) {
+	public ExpectiNode(ExpectiNode parent, double score, int playerID, Move2 move, Game game) {
 		this.parent = parent;
 		children = new ArrayList<ExpectiNode>();
 		this.score = score;
+		this.game = game;
 		this.playerID = playerID;
+		this.move = move;
 	}
 
 	public void assignMove(Move2 move) {
@@ -43,7 +46,8 @@ public class ExpectiNode
 
 	public void assignScore(int player_ID)
 	{
-
+		//System.out.println(game == null);
+		
 		for (int i = 0; i < game.player_1.piecesCoord.size(); i++) {
 			sumRank1 += game.player_1.piecesCoord.get(i).getRank();
 		}
