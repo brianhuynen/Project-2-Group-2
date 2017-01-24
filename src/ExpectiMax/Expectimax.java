@@ -41,7 +41,7 @@ public class Expectimax {
     	else
     		probs = new Probabilities(1);
     	this.root = root;
-    	this.game = game;
+    	this.game = game.duplicateG();
     	this.maxPlayer = maxPlayer;
     	this.minPlayer = minPlayer;
     	buildTree(depth, game);
@@ -49,7 +49,7 @@ public class Expectimax {
     
     public void buildTree(int depth, Game game)
     {
-    	//game = game.duplicateG();
+    	game = game.duplicateG();
     	ExpectiNode root = new ExpectiNode(0, 1, game);
     	for( int i = 0; i<depth; i++)
     	{
@@ -65,25 +65,25 @@ public class Expectimax {
      */
     public Move2 buildLayer(ExpectiNode root)
     {
-
+    	this.game.expectimax = true;
     	maxNodes = new ArrayList<ExpectiNode>();
     	minNodes = new ArrayList<ExpectiNode>();
     	chancenodes1 = new ArrayList<ChanceNode>();
     	chancenodes2 = new ArrayList<ChanceNode>();
-    	System.out.println("arraylists initialized");
+//    	System.out.println("arraylists initialized");
     	Move2 move  = null;
     	double score = 0;
     	
     	
     	//generating max nodes from the acailable moves
-    	System.out.println("next generate max nodes");
+//    	System.out.println("next generate max nodes");
     	generateMaxNodes(root, maxPlayer);
     	//generating chance nodes from the max nodes
     	
     	move = maxNodes.get(0).move;
-    	System.out.println(" in buildlayer move 0 from " + move.from[0] + move.from[1] + " to " + move.to[0] + move.to[1]);
+//    	System.out.println(" in buildlayer move 0 from " + move.from[0] + move.from[1] + " to " + move.to[0] + move.to[1]);
     	
-    	System.out.println("generating chance nodes after max nodes");
+//    	System.out.println("generating chance nodes after max nodes");
     	generateChanceNodes(maxNodes, maxPlayer);
     	
     	//generating min nodes from max nodes/chance nodes
@@ -91,7 +91,7 @@ public class Expectimax {
     	{
     		if( !maxNodes.get(i).chanceGenerated )
     		{
-    			System.out.println("generating min nodes immediately after max nodes");
+//    			System.out.println("generating min nodes immediately after max nodes");
     			generateMinNodes(maxNodes.get(i), minPlayer);
     		}
     	}
@@ -99,28 +99,42 @@ public class Expectimax {
 		{
 			for(int i = 0; i<chancenodes1.size(); i++)
 			{
-				System.out.println("generating min nodes immediately after chance nodes");
+//				System.out.println("generating min nodes immediately after chance nodes");
 				generateMinNodes(chancenodes1.get(i), minPlayer);
 			}
 		}
     	//generating chance nodes from the min nodes
-    	System.out.println("generating chance nodes after min nodes");
+//    	System.out.println("generating chance nodes after min nodes");
     	generateChanceNodes(minNodes, maxPlayer);
     	
     	for(int i = 0; i<minNodes.size(); i++)
     	{
     		if(!minNodes.get(i).chanceGenerated)
     		{
-    			System.out.println("finding lowest score");
+//    			System.out.println("finding highest score");
 	    		if(move == null)
 	    		{
-	    			move = minNodes.get(i).move;
+	    			ExpectiNode current = null;
+	    			for(int j = 0; j<minNodes.get(i).nParents; j++ )
+	    			{
+	    				current = minNodes.get(i).parent;
+	    			}
+	    			move = current.move;
 	    			score = minNodes.get(i).score;
+//	    			System.out.println("score = " + score);
 	    		}
+	    		
 	    		else if(minNodes.get(i).score > score)
 	    		{
-	    			move = minNodes.get(i).move;
+	    			ExpectiNode current = null;
+	    			for(int j = 0; j<minNodes.get(i).nParents; j++ )
+	    			{
+	    				current = minNodes.get(i).parent;
+	    			}
+	    			move = current.move;
 	    			score = minNodes.get(i).score;
+//
+//	    			System.out.println("score = " + score);
 	    		}
     		}
     	}
@@ -130,13 +144,25 @@ public class Expectimax {
     		{
     			if(move == null)
 	    		{
-	    			move = chancenodes2.get(i).move;
+    				ExpectiNode current = null;
+	    			for(int j = 0; j<chancenodes2.get(i).nParents; j++ )
+	    			{
+	    				current = chancenodes2.get(i).parent;
+	    			}
+	    			move = current.move;
 	    			score = chancenodes2.get(i).score;
+//	    			System.out.println("score = " + score);
 	    		}
 	    		else if(minNodes.get(i).score > score)
 	    		{
-	    			move = chancenodes2.get(i).move;
+	    			ExpectiNode current = null;
+	    			for(int j = 0; j<chancenodes2.get(i).nParents; j++ )
+	    			{
+	    				current = chancenodes2.get(i).parent;
+	    			}
+	    			move = current.move;
 	    			score = chancenodes2.get(i).score;
+//	    			System.out.println("score = " + score);
 	    		}
     		}
     	}
@@ -148,6 +174,8 @@ public class Expectimax {
     			score = maxNodes.get(i).score;
     		}
     	}
+    	
+    	System.out.println("lowest score is " + score);
     	//clearing the lists before we make a new layer
     	if(!maxNodes.isEmpty())
     		maxNodes.clear();
@@ -157,6 +185,8 @@ public class Expectimax {
     		chancenodes1.clear();
     	if(!chancenodes2.isEmpty())
     		chancenodes2.clear();
+    	
+    	this.game.expectimax = false;
     	return move;
     }
     
@@ -169,7 +199,7 @@ public class Expectimax {
     {
     	//idk if score should be 0, maybe should be assigned from the method
     	int score = 0;
-    	System.out.println("score set to 0");
+//    	System.out.println("score set to 0");
     	ArrayList<Move2> movables = game.movesAvailable2(player);
     	if (!movables.isEmpty())
     	{
@@ -177,14 +207,14 @@ public class Expectimax {
     	}
     	for(int i = 0; i<movables.size(); i++)
     	{
-    		System.out.println("going through moves to add them to max nodes");
+//    		System.out.println("going through moves to add them to max nodes");
 	    	MaxNode max = new MaxNode(parent, score, player.player_ID, movables.get(i), game);
-	    	System.out.println("move from " + movables.get(i).from[0] + movables.get(i).from[1] +
-	    			" to " + movables.get(i).to[0] + movables.get(i).to[1]);
+//	    	System.out.println("move from " + movables.get(i).from[0] + movables.get(i).from[1] +
+//	    			" to " + movables.get(i).to[0] + movables.get(i).to[1]);
 	    	max.assignScore(player.player_ID);
-	    	System.out.println("score assigned = " + max.score);
+//	    	System.out.println("score assigned = " + max.score);
 	    	maxNodes.add(max);
-	    	System.out.println("max added to max nodes");
+//	    	System.out.println("max added to max nodes");
     	}
     }
     
@@ -219,14 +249,14 @@ public class Expectimax {
     	//checking which
     	if( parents.get(0) instanceof MaxNode )
     	{
-    		System.out.println("chance node to be generated after max node");
+//    		System.out.println("chance node to be generated after max node");
     		for( int i=0; i<parents.size(); i++ )
     		{
     			Move2 move = parents.get(i).move;
-    			System.out.println("move from " + move.from[0] + move.from[1] + " to " + move.to[0] + move.to[1]);
+//    			System.out.println("move from " + move.from[0] + move.from[1] + " to " + move.to[0] + move.to[1]);
     			if(move == null)
     			{
-    				System.out.println("move = null");
+//    				System.out.println("move = null");
     			}
     			game.movePiece(move.from[0], move.from[1], move.to[0], move.to[1]);
     			/**
@@ -306,8 +336,8 @@ public class Expectimax {
     			
     				
     			Move2 move = parents.get(i).move;
-    			System.out.println("there is move from " + move.from[0] + move.from[1] + 
-						" to " + move.to[0] + move.to[1]);
+//    			System.out.println("there is move from " + move.from[0] + move.from[1] + 
+//						" to " + move.to[0] + move.to[1]);
     			if(move.from[0] == 2 && move.from[1] == 10 && move.to[0] == 1 && move.to[1] == 10)
     			{
     				continue bigloop;
@@ -381,12 +411,12 @@ public class Expectimax {
     				}
         			parents.get(i).chanceGenerated = true;
     			}
-    			if(move == null)
-    			{
-    				System.out.println("no move");
-    			} else {
-    				System.out.println("yes move");
-    			}
+//    			if(move == null)
+//    			{
+//    				System.out.println("no move");
+//    			} else {
+//    				System.out.println("yes move");
+//    			}
     			game.reverseMove2(move);
     			game.reverseMove2(moveparent);
     		}

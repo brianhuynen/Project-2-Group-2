@@ -368,7 +368,17 @@ public class GUI {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				ExpectiNode root = new ExpectiNode(0, game.currentPlayer_ID, game);
 				Expectimax em = new Expectimax(root, 2, game, game.currentPlayer, game.oppositePlayer());
-				em.buildLayer(root);
+				//game.expectimax = true;
+				Move2 move = em.buildLayer(root);
+				game.makeMove2(move);
+				System.out.println("move is from " + move.from[0] + move.from[1]
+						+ " to " + move.to[0] + move.to[1]);
+				
+				frame.repaint();
+				frame.paint(frame.getGraphics());
+                sleep(500);
+                game.changeTurn();
+				//game.expectimax = false;
 //				game.path.clear();
 				
 //	

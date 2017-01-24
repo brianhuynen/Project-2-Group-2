@@ -16,9 +16,9 @@ public class Player {
 	
 	public Player(int i, Color color){
 		this.player_ID = i;
-//		int pieces [] = {1,1,8,5,4,4,4,3,2,1,1,6}; //Stores how many pieces of each rank can be stored.
+		int pieces [] = {1,1,8,5,4,4,4,3,2,1,1,6}; //Stores how many pieces of each rank can be stored.
 //		int pieces [] = {1,0,0,1,3,0,0,0,0,0,0,3}; //For testing purposes.
-		int pieces [] = {1,0,0,5,0,0,0,0,0,0,0,6}; //test stuff
+//		int pieces [] = {1,0,0,5,0,0,0,0,0,0,0,6}; //test stuff
 		piecesCoord = new ArrayList<Pieces>();
 		knownPieces = new ArrayList<Pieces>();
 		this.pieces  = pieces;

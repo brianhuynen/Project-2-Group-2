@@ -52,6 +52,7 @@ public class Game {
 	boolean gameWon;
 	int freecells;
 	int turns;
+	public boolean expectimax;
 	
 	public Game(Player[] playerTypeData){
 		player = playerTypeData;
@@ -306,9 +307,13 @@ public class Game {
 		{
 			System.out.println("no content");
 		}
-		if(board[x1][y1].getContent().getPlayer_ID() != currentPlayer.getPlayer_ID()){
+		if(expectimax)
+			System.out.println("expectimax true");
+		else
+			System.out.println("expectimax false");
+		if(!expectimax && board[x1][y1].getContent().getPlayer_ID() != currentPlayer.getPlayer_ID()){
 			//return error
-			
+			System.out.println("in the bad if");
 				return false;
 		}
 		int spaces;

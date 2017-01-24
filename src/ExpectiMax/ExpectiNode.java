@@ -18,6 +18,7 @@ public class ExpectiNode
 	public boolean chanceGenerated;
 	public int sumRank1;
 	public int sumRank2;
+	public int nParents;
 
 	public ExpectiNode(double score, int playerID, Game game) {
 		parent = null;
@@ -25,10 +26,12 @@ public class ExpectiNode
 		this.game = game;
 		this.score = score;
 		this.playerID = playerID;
+		this.nParents = 0;
 	}
 
 	public ExpectiNode(ExpectiNode parent, double score, int playerID, Move2 move, Game game) {
 		this.parent = parent;
+		this.nParents++;
 		children = new ArrayList<ExpectiNode>();
 		this.score = score;
 		this.game = game;
