@@ -102,10 +102,27 @@ public class Game {
 		g.draw = draw;
 		g.freecells = freecells;
 		g.gameWon = gameWon;
-		g.turnCount = turnCount;		
-		Cell[][] board = field.getBoard();
 
-		g.board=board;
+		g.turnCount = turnCount;
+		//player = SetPlayers(playerTypeData);
+		//player_1 = player[0];
+		//player_2 = player[1];
+
+		
+		Cell [][] board = new Cell[g.board.length][g.board[0].length];
+		for (int i = 0; i < board.length; i++)
+		{
+			for (int j = 0; j < board[0].length; j++)
+			{
+				//board[i][j] = (Cell) g.board[i][j].clone();
+			}
+		}
+
+		g.turnCount = turnCount;		
+		//Cell[][] board = field.getBoard();
+
+
+		//g.board=board;
 		g.gameOver = false;
 		return g;
 	}
@@ -245,6 +262,7 @@ public class Game {
 	 * @param y2 y-coordinate of where you want to move the piece to
 	 */
 	public void movePiece(int x1, int y1, int x2, int y2){
+		System.out.println("moving from " + x1 + y1 + " to " + x2 + y2);
 		if( inBound(x2,y2) && validMove(x1,y1,x2,y2) && board[x2][y2].getCellState()==0){
 			board[x2][y2].setContent(board[x1][y1].getContent());
 			board[x1][y1].getContent().setPosition(x2, y2);
@@ -268,7 +286,10 @@ public class Game {
 			//return error
 		}
 //		System.out.println(currentPlayer.getPlayer_ID() + " moved " + x1 + "," + y1 + " to " + x2 + ","  + y2 + ", " + success);
-		currentPlayer.printKnown();
+		//currentPlayer.printKnown();
+		if(success)
+		System.out.println("move done");
+		printBoard();
 	}
 
 
@@ -281,10 +302,13 @@ public class Game {
 	 * @return true if the move was valid. false if move was invalid
 	 */
 	public boolean validMove(int x1, int y1, int x2, int y2){
-		
+		if(board[x1][y1].getContent()==null)
+		{
+			System.out.println("no content");
+		}
 		if(board[x1][y1].getContent().getPlayer_ID() != currentPlayer.getPlayer_ID()){
 			//return error
-		
+			
 				return false;
 		}
 		int spaces;

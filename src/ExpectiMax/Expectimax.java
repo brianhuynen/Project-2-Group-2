@@ -301,13 +301,17 @@ public class Expectimax {
     	}
     	else if( parents.get(0) instanceof MinNode )
     	{
-    		for( int i=0; i<parents.size(); i++ )
+    		bigloop: for( int i=0; i<parents.size(); i++ )
     		{
     			
     				
     			Move2 move = parents.get(i).move;
     			System.out.println("there is move from " + move.from[0] + move.from[1] + 
 						" to " + move.to[0] + move.to[1]);
+    			if(move.from[0] == 2 && move.from[1] == 10 && move.to[0] == 1 && move.to[1] == 10)
+    			{
+    				continue bigloop;
+    			}
     			Move2 moveparent = parents.get(i).parent.move;
     			game.movePiece(moveparent.from[0], moveparent.from[1], moveparent.to[0], moveparent.to[1]);
     			game.movePiece(move.from[0], move.from[1], move.to[0], move.to[1]);
@@ -376,6 +380,12 @@ public class Expectimax {
     					chancenodes2.add(chanceN);
     				}
         			parents.get(i).chanceGenerated = true;
+    			}
+    			if(move == null)
+    			{
+    				System.out.println("no move");
+    			} else {
+    				System.out.println("yes move");
     			}
     			game.reverseMove2(move);
     			game.reverseMove2(moveparent);

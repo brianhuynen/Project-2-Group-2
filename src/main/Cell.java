@@ -17,6 +17,19 @@ public class Cell {
 		fcost = Integer.MAX_VALUE;
 	}
 	
+	public Cell(Cell toClone)
+	{
+		if (toClone.content == null)
+			this.content = null;
+		else
+			this.content = new Pieces(toClone.content);
+		this.cellState = toClone.cellState;
+		this.position = toClone.position.clone();
+		this.gcost = toClone.gcost;
+		this.hcost = toClone.hcost;
+		this.fcost = toClone.fcost;
+	}
+	
 	public void setPosition(int x, int y)
 	{
 		position[0] = x;
@@ -71,6 +84,11 @@ public class Cell {
 	public int[] getPosition()
 	{
 		return position;
+	}
+	
+	public Object clone()
+	{
+		return new Cell(this);
 	}
 
 }

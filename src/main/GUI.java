@@ -370,7 +370,8 @@ public class GUI {
 				Expectimax em = new Expectimax(root, 2, game, game.currentPlayer, game.oppositePlayer());
 				em.buildLayer(root);
 //				game.path.clear();
-//
+				
+//	
 //				int fromX = Integer.parseInt(x1.getText());
 //				int fromY = Integer.parseInt(y1.getText());
 //				int toX = Integer.parseInt(x2.getText());
