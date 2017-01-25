@@ -13,6 +13,7 @@ public class Cell {
 	public Cell(Pieces content, int cellState){
 		this.content=content;	
 		this.cellState = cellState;
+		//System.out.println("original cell state " + cellState );
 		position = new int[2];
 		fcost = Integer.MAX_VALUE;
 	}
@@ -24,6 +25,7 @@ public class Cell {
 		else
 			this.content = new Pieces(toClone.content);
 		this.cellState = toClone.cellState;
+		//System.out.println("toclone cell state = " + toClone.cellState );
 		this.position = toClone.position.clone();
 		this.gcost = toClone.gcost;
 		this.hcost = toClone.hcost;

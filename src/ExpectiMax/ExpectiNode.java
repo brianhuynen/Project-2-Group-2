@@ -23,7 +23,7 @@ public class ExpectiNode
 	public ExpectiNode(double score, int playerID, Game game) {
 		parent = null;
 		children = new ArrayList<ExpectiNode>();
-		this.game = game;
+		this.game = game.duplicateG();
 		this.score = score;
 		this.playerID = playerID;
 		this.nParents = 0;
@@ -34,7 +34,6 @@ public class ExpectiNode
 		this.nParents++;
 		children = new ArrayList<ExpectiNode>();
 		this.score = score;
-		this.game = game;
 		this.playerID = playerID;
 		this.move = move;
 	}
@@ -51,26 +50,34 @@ public class ExpectiNode
 	{
 		//System.out.println(game == null);
 		
-		for (int i = 0; i < game.player_1.piecesCoord.size(); i++) {
-			sumRank1 += game.player_1.piecesCoord.get(i).getRank();
-		}
-
-		for (int i = 0; i < game.player_2.piecesCoord.size(); i++) {
-			sumRank2 += game.player_2.piecesCoord.get(i).getRank();
-		}
-
+//		for (int i = 0; i < game.nPieces(1); i++) {
+//			sumRank1 ++;
+//		}
+//
+//		for (int i = 0; i < game.nPieces(2); i++) {
+//			sumRank2 ++;
+//		}
+//
+//		if (player_ID == 1)
+//		{
+//			score = sumRank1/sumRank2;
+//		}
+//
+//		if (player_ID == 2)
+//		{
+//			score = sumRank2/sumRank1;
+//		}
+//		
+//		sumRank1=0;
+//		sumRank2=0;
 		if (player_ID == 1)
 		{
-			score = sumRank1/sumRank2;
+			score = -sumRank2;
 		}
-
-		if (player_ID == 2)
+		else if(player_ID == 2)
 		{
-			score = sumRank2/sumRank1;
+			score = -sumRank1;
 		}
-		
-		sumRank1=0;
-		sumRank2=0;
 	}
 	
 	public void assignSum(int rank, int playerID)

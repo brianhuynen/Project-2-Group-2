@@ -367,6 +367,7 @@ public class GUI {
 		findPath.addActionListener(new ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				ExpectiNode root = new ExpectiNode(0, game.currentPlayer_ID, game);
+				game.printBoard();
 				Expectimax em = new Expectimax(root, 2, game, game.currentPlayer, game.oppositePlayer());
 				//game.expectimax = true;
 				Move2 move = em.buildLayer(root);

@@ -53,6 +53,8 @@ public class Game {
 	int freecells;
 	int turns;
 	public boolean expectimax;
+	public String[] playerTypeData;
+	
 	
 	public Game(Player[] playerTypeData){
 		player = playerTypeData;
@@ -75,7 +77,7 @@ public class Game {
 //		Player player_1 = new Player(1, Color.BLUE);
 //		this.player_2 = player_2;
 //		Player player_2 = new Player(2, Color.RED);
-
+		this.playerTypeData=playerTypeData;
 		player = SetPlayers(playerTypeData);
 		player_1 = player[0];
 		player_2 = player[1];
@@ -96,18 +98,20 @@ public class Game {
 	 */
 	public Game duplicateG(){
 
-		Game g= new Game(player);
+		Game g= new Game(playerTypeData);
 		g.winner = winner;
+		g.player_1 = this.player_1;
+		g.player_2 = this.player_2;
+		g.currentPlayer = this.currentPlayer;
 		g.currentPlayer_ID = currentPlayer_ID;
-		g.currentPlayer = currentPlayer;
 		g.draw = draw;
 		g.freecells = freecells;
 		g.gameWon = gameWon;
 
 		g.turnCount = turnCount;
-		//player = SetPlayers(playerTypeData);
-		//player_1 = player[0];
-		//player_2 = player[1];
+//		g.player = SetPlayers(playerTypeData);
+//		g.player_1 = player[0];
+//		g.player_2 = player[1];
 
 		
 		Cell [][] board = new Cell[g.board.length][g.board[0].length];
@@ -115,7 +119,11 @@ public class Game {
 		{
 			for (int j = 0; j < board[0].length; j++)
 			{
-				//board[i][j] = (Cell) g.board[i][j].clone();
+				board[i][j] = (Cell) this.board[i][j].clone();
+				
+//				System.out.println("cloned cell " + i + j);
+//				System.out.println("cell state = " + board[i][j].getCellState() 
+//						+ "\n original cell state = " + this.board[i][j].getCellState());
 			}
 		}
 
@@ -123,10 +131,29 @@ public class Game {
 		//Cell[][] board = field.getBoard();
 
 
-		//g.board=board;
+		g.board=board;
 		g.gameOver = false;
 		return g;
 	}
+	
+	public int nPieces(int p)
+	{
+		int n = 0;
+		//ArrayList<Pieces> pieces = new ArrayList<Pieces>();
+		for(int i = 0; i<board.length; i++)
+		{
+			for( int j = 0; j<board[0].length; j++)
+			{
+				if( board[i][j].getCellState() == 1 && board[i][j].getContent().player_ID == p)
+				{
+					//pieces.add(board[i][j].getContent());
+					n++;
+				}
+			}
+		}
+		return n;
+	}
+	
 	/**
 	 * Sets the type of players, either human or AI
 	 * @param playerTypeData the player types, AI Or human
@@ -187,6 +214,7 @@ public class Game {
 					success = true;
 					piece.setPosition(x, y);
 					board[x][y].setCellState(1);
+					System.out.println(x + y + "cell state = " + board[x][y].getCellState());
 					board[x][y].setContent(piece);
 				}
 				else{
@@ -381,37 +409,46 @@ public class Game {
 	 * @param p player whose movable pieces coordinates who you want to find out
 	 * @return list of coordinates of movable pieces
 	 */
-	public ArrayList<int[]> findMovableCoords(Player p){
-		ArrayList<int[]> list = new ArrayList<int[]>();
-		for (int x=1; x<board.length-1; x++){
-			for (int y=1; y<board[0].length-1; y++){
-				//looks for piece
-				Cell current = board[x][y];
-				if(board[x][y].getCellState() == 1){
-					if(board[x][y].getContent().getRank() != 11) {
-						Cell right = board[x + 1][y];
-						Cell left = board[x - 1][y];
-						Cell up = board[x][y - 1];
-						Cell down = board[x][y + 1];
-						//checks adjacent cells (if chosen piece is movable)
-						//either a empty cell or opponent piece
-						if ((right.getCellState() == 0 || left.getCellState() == 0 || down.getCellState() == 0 || up.getCellState() == 0) ||
-								((right.getCellState() == 1 && (right.getContent().getPlayer_ID() != current.getContent().getPlayer_ID())) ||
-										(left.getCellState() == 1 && (left.getContent().getPlayer_ID() != current.getContent().getPlayer_ID())) ||
-										(down.getCellState() == 1 && (down.getContent().getPlayer_ID() != current.getContent().getPlayer_ID())) ||
-										(up.getCellState() == 1 && (up.getContent().getPlayer_ID() != current.getContent().getPlayer_ID())))) {
-							if (current.getContent().getPlayer_ID() == p.getPlayer_ID()) {
-								int[] coord = {x, y};
-								list.add(coord);
-							}
-						}
-					}
-				}
-			}
-		}
-		//System.out.println(list.size() + " movable pieces for player " + currentPlayer.getPlayer_ID());
-		return list;
-	}
+    public ArrayList<Pieces> findMovableCoords(Player p){
+        ArrayList<Pieces> list = new ArrayList<Pieces>();
+//        System.out.println("in find moovable coords");
+        for (int x=1; x<board.length-1; x++){
+            for (int y=1; y<board[0].length-1; y++){
+//            	System.out.println("in 2nd for loop x = " + x + " y = " + y);
+                //looks for piece
+                Cell current = board[x][y];
+       
+                if(board[x][y].getCellState() == 1){
+//                	System.out.println("in first if");
+                    Cell right = board[x+1][y];
+                    Cell left = board[x-1][y];
+                    Cell up = board[x][y-1];
+                    Cell down = board[x][y+1];
+                    //checks adjacent cells (if chosen piece is movable)
+                    //either a empty cell or opponent piece
+                    if((right.getCellState() == 0 || left.getCellState() == 0 || down.getCellState() == 0 || up.getCellState() == 0) ||
+                            ((right.getCellState() == 1 && right.getContent().getPlayer_ID() != current.getContent().getPlayer_ID()) ||
+                                    (left.getCellState() == 1 && left.getContent().getPlayer_ID() != current.getContent().getPlayer_ID())||
+                                    (down.getCellState() == 1 && down.getContent().getPlayer_ID() != current.getContent().getPlayer_ID())||
+                                    (up.getCellState() == 1 && up.getContent().getPlayer_ID() != current.getContent().getPlayer_ID()))){
+//                    	System.out.println("in if");
+                    	if(current.getContent().getPlayer_ID() == p.getPlayer_ID()) {
+                            //int[] coord = {x, y};
+                            Pieces piece = board[x][y].getContent();
+                            if(piece.getRank() != 0 && piece.getRank() != 11){
+                            list.add(piece);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+//        if(list.size()==0){
+//        	t.endgame();
+//        }
+        //System.out.println("listsize movables = " + list.size() + " ");
+        return list;
+    }
 
 	
 	
@@ -795,6 +832,7 @@ public class Game {
                 Cell current = board[x][y];
        
                 if(board[x][y].getCellState() == 1){
+                	System.out.println("cell state is 1");
                     Cell right = board[x+1][y];
                     Cell left = board[x-1][y];
                     Cell up = board[x][y-1];
@@ -806,6 +844,7 @@ public class Game {
                                     (left.getCellState() == 1 && left.getContent().getPlayer_ID() != current.getContent().getPlayer_ID())||
                                     (down.getCellState() == 1 && down.getContent().getPlayer_ID() != current.getContent().getPlayer_ID())||
                                     (up.getCellState() == 1 && up.getContent().getPlayer_ID() != current.getContent().getPlayer_ID()))){
+                    	System.out.println("in if");
                         if(current.getContent().getPlayer_ID() == p.player_ID) {
                             //int[] coord = {x, y};
                             Pieces piece = board[x][y].getContent();
@@ -817,10 +856,10 @@ public class Game {
                 }
             }
         }
-        if(list.size()==0){
-        	endgame();
-        	
-        }
+//        if(list.size()==0){
+//        	endgame();
+//        	
+//        }
      System.out.println("listsize movables = " + list.size() + " ");
         return list;
     }
@@ -832,7 +871,7 @@ public class Game {
      */
     public ArrayList<Move2> movesAvailable2(Player p){
 		ArrayList<Move2> moves = new ArrayList<Move2>();
-		ArrayList<Pieces> movables = findMovablePieces(p);
+		ArrayList<Pieces> movables = findMovableCoords(p);
 		
 		for (int i=0; i<movables.size(); i++){
 			Pieces piece = movables.get(i);

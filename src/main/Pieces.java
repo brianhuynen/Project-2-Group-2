@@ -20,8 +20,6 @@ public class Pieces {
 
 	public Pieces(Pieces toClone)
 	{
-		if (toClone == null)
-			System.out.println("Michael should listen to Taghi more");
 		this.rank = toClone.rank;
 		this.name = toClone.name;
 		this.player_ID = toClone.player_ID;

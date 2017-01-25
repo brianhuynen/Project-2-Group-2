@@ -14,6 +14,7 @@ public class MinNode extends ExpectiNode
 	public MinNode(ExpectiNode parent, double score, int playerID, Move2 move, Game game) 
 	{
 		super(parent, score, playerID, move, game);
+
 	}
 	
 }
