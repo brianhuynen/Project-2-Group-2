@@ -327,7 +327,7 @@ public class GUI {
 
 		JLabel to_X = new JLabel("To X");
 		JButton move = new JButton("Move");
-		JButton findPath = new JButton("Find Path");
+		JButton findPath = new JButton("Expectimax");
 		move.addActionListener(new ActionListener() {
 
 			public void actionPerformed(java.awt.event.ActionEvent e) {

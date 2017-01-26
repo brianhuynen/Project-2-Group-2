@@ -307,7 +307,7 @@ public class Expectimax {
     					else if (handle == 1 )
     					{
     						//our player loses the battle
-    						chanceN.assignSum(-game.board[move.from[0]][move.from[1]].getContent().getRank(), player.player_ID);
+    						chanceN.assignSum(game.board[move.from[0]][move.from[1]].getContent().getRank(), player.player_ID);
     						chanceN.assignScore(player.player_ID);
     					}
     					else if (handle == 2)
@@ -321,7 +321,7 @@ public class Expectimax {
     						{
     							id = 1;
     						}
-    						chanceN.assignSum(-chanceN.piece, id);
+    						chanceN.assignSum(chanceN.piece, id);
     						chanceN.assignScore(player.player_ID);
     					}
     					else if (handle == 3)
@@ -334,8 +334,8 @@ public class Expectimax {
     						{
     							id = 1;
     						}
-    						chanceN.assignSum(-game.board[move.from[0]][move.from[1]].getContent().getRank(), player.player_ID);
-    						chanceN.assignSum(-chanceN.piece, id);
+    						chanceN.assignSum(game.board[move.from[0]][move.from[1]].getContent().getRank(), player.player_ID);
+    						chanceN.assignSum(chanceN.piece, id);
     						chanceN.assignScore(player.player_ID);
     					}
     					chancenodes1.add(chanceN);
@@ -397,14 +397,14 @@ public class Expectimax {
     						{
     							id = 1;
     						}
-    						chanceN.assignSum(-chanceN.piece, id);
+    						chanceN.assignSum(chanceN.piece, id);
     						chanceN.assignScore(player.player_ID);
     						
     					}
     					else if (handle == 2)
     					{
     						//our player loses the battle
-    						chanceN.assignSum(-game.board[move.from[0]][move.from[1]].getContent().getRank(), player.player_ID);
+    						chanceN.assignSum(game.board[move.from[0]][move.from[1]].getContent().getRank(), player.player_ID);
     						chanceN.assignScore(player.player_ID);
     					}
     					else if (handle == 3)
@@ -417,8 +417,8 @@ public class Expectimax {
     						{
     							id = 1;
     						}
-    						chanceN.assignSum(-game.board[move.from[0]][move.from[1]].getContent().getRank(), player.player_ID);
-    						chanceN.assignSum(-chanceN.piece, id);
+    						chanceN.assignSum(game.board[move.from[0]][move.from[1]].getContent().getRank(), player.player_ID);
+    						chanceN.assignSum(chanceN.piece, id);
     						chanceN.assignScore(player.player_ID);
     					}
     					chancenodes2.add(chanceN);

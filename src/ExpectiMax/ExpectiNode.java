@@ -72,11 +72,11 @@ public class ExpectiNode
 //		sumRank2=0;
 		if (player_ID == 1)
 		{
-			score = -sumRank2;
+			score = sumRank2;
 		}
 		else if(player_ID == 2)
 		{
-			score = -sumRank1;
+			score = sumRank1;
 		}
 	}
 	
