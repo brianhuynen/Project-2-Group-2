@@ -57,7 +57,7 @@ public class RandomAlg {
     //starts heuristic ranalg
     public Move generateMovementHeur(){
 
-        if(oppositePlayer().piecesCoord.size() > 30){
+        if(oppositePlayer().piecesCoord.size() > 35){
             bias = true;
         }
         else {
@@ -71,7 +71,7 @@ public class RandomAlg {
 
         Random rand = new Random();
 
-		while(oppositePlayer().piecesCoord.size() > 25)
+		while(oppositePlayer().piecesCoord.size() > 10)
 		{
 			if(moves.size() != 0) {
 

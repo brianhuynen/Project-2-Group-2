@@ -66,9 +66,9 @@ public class GUI {
 		JButton startGame = new JButton("Start Game");
 		JLabel player1 = new JLabel("player 1");
 		JLabel player2 = new JLabel("player 2");
-		String[] players1 = { "HumanPlayer", "AIPlayer", "RandAIPlayer", "MCTS" };
+		String[] players1 = { "HumanPlayer", "AIPlayer", "RandAIPlayer", "MCTS", "ExpectiMax"};
 		final JComboBox<String> cb1 = new JComboBox<String>(players1);
-		String[] players2 = { "HumanPlayer", "AIPlayer", "RandAIPlayer", "MCTS" };
+		String[] players2 = { "HumanPlayer", "AIPlayer", "RandAIPlayer", "MCTS", "ExpectiMax"};
 		final JComboBox<String> cb2 = new JComboBox<String>(players2);
 
 		startGame.addActionListener(new ActionListener() {
@@ -366,40 +366,26 @@ public class GUI {
 		});
 		findPath.addActionListener(new ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				ExpectiNode root = new ExpectiNode(0, game.currentPlayer_ID, game);
-				game.printBoard();
-				Expectimax em = new Expectimax(root, 2, game, game.currentPlayer, game.oppositePlayer());
-				//game.expectimax = true;
-				Move2 move = em.buildLayer(root);
-				game.makeMove2(move);
-				System.out.println("move is from " + move.from[0] + move.from[1]
-						+ " to " + move.to[0] + move.to[1]);
-				
-				frame.repaint();
-				frame.paint(frame.getGraphics());
-                sleep(500);
-                game.changeTurn();
-				//game.expectimax = false;
+
 //				game.path.clear();
-				
-//	
+//
 //				int fromX = Integer.parseInt(x1.getText());
 //				int fromY = Integer.parseInt(y1.getText());
 //				int toX = Integer.parseInt(x2.getText());
 //				int toY = Integer.parseInt(y2.getText());
 				
-				//Pathfinding astar = new Pathfinding(game.board, game.currentPlayer.getPlayer_ID());
+				Pathfinding astar = new Pathfinding(game.board, game.currentPlayer.getPlayer_ID());
 //				ArrayList<Cell> path = astar.aStar(game.board[7][4], game.board[6][10]);
-                //ArrayList<Cell> path = astar.aStar(game.board[2][1], game.board[6][10]);
+                ArrayList<Cell> path = astar.aStar(game.board[2][1], game.board[6][10]);
 //
-//				for (int i = path.size()-1; i>0; i--)
-//				{
-//					int[] from = path.get(i).getPosition();
-//					int[] to = path.get(i-1).getPosition();
-//					System.out.println("from: " + "(" + i + ")" + from[0] + from[1] + " to: " + "(" + (i-1) + ")" + to[0] + to[1]);
-//					game.movePiece(from[0], from[1], to[0], to[1]);
-//					frame.repaint();
-//				}
+				for (int i = path.size()-1; i>0; i--)
+				{
+					int[] from = path.get(i).getPosition();
+					int[] to = path.get(i-1).getPosition();
+					System.out.println("from: " + "(" + i + ")" + from[0] + from[1] + " to: " + "(" + (i-1) + ")" + to[0] + to[1]);
+					game.movePiece(from[0], from[1], to[0], to[1]);
+					frame.repaint();
+				}
 
 //				 for(int i = 0; i<1; i++) {
 //				 RandomAlg rand = new RandomAlg(game, game.currentPlayer);
@@ -522,11 +508,19 @@ public class GUI {
             RandomAlg rand1 = new RandomAlg(game, game.player_1);
             RandomAlg rand2 = new RandomAlg(game, game.player_2);
 
+//            Expectimax exp1 = new Expectimax(new ExpectiNode(0d, 1), 400, game, game.player_1, 1);
+//            Expectimax exp2 = new Expectimax(new ExpectiNode(0d, 2), 400, game, game.player_1, 2);
+
+            int turns = 0;
+            long totalTime = 0;
+
             while (!game.gameOver && game.findMovableCoords(game.currentPlayer).size() != 0 && game.gameActive) {
 
                 if (playerTypeData[0] == "AIPlayer") {
 
                     System.out.println("\n Current turn:" + game.currentPlayer_ID);
+
+                    long startTime = System.nanoTime();
 
                     if (game.currentPlayer_ID == 1) {
                         rand1.randomMove();
@@ -534,9 +528,16 @@ public class GUI {
                         rand2.randomMove();
                     }
 
+                    long endTime = System.nanoTime();
+
+                    System.out.println("Turn " + turns + ", time per move = " + ((endTime - startTime)/1e6) + "ms");
+
+                    totalTime += (endTime - startTime);
+                    turns++;
+
                     frame.repaint();
                     frame.paint(frame.getGraphics());
-                    sleep(500);
+                    sleep(0);
                     game.changeTurn();
 
                 }
@@ -552,11 +553,13 @@ public class GUI {
                         mv = rand2.generateMovement();
                     }
 
+                    turns++;
+
                     game.makeMove(mv);
 
                     frame.repaint();
                     frame.paint(frame.getGraphics());
-                    sleep(500);
+                    sleep(0);
                     game.changeTurn();
                 }
                 else if(playerTypeData[0] == "MCTS") {
@@ -592,6 +595,7 @@ public class GUI {
 //                    gameLoop();
                 }
             }
+            System.out.println("Total turns = " + (turns-1) + ", total time = " + (totalTime/1e6) /*+ "ms, average computing time = " + ((totalTime/1e6)/(turns-1))*/);
             JOptionPane.showMessageDialog(frame, "END");
         }
 		else if (playerTypeData[0] != playerTypeData[1]) {
@@ -599,6 +603,8 @@ public class GUI {
             {
                 RandomAlg rand1 = new RandomAlg(game, game.player_1);
                 RandomAlg rand2 = new RandomAlg(game, game.player_2);
+
+                int turns = 0;
 
                 while (!game.gameOver && game.findMovableCoords(game.currentPlayer).size() != 0 && game.gameActive) {
 
@@ -618,12 +624,16 @@ public class GUI {
                         game.makeMove(rand2.generateMovement());
                     }
 
+                    turns++;
+
+                    System.out.println("Turn: " + turns);
+
                     frame.repaint();
                     frame.paint(frame.getGraphics());
-                    sleep(500);
+                    sleep(0);
                     game.changeTurn();
                 }
-
+                System.out.println("Amount of turns: " + (turns));
                 JOptionPane.showMessageDialog(frame, "END");
             }
 		}
