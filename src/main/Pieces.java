@@ -18,6 +18,15 @@ public class Pieces {
 		this.known = false;
 	}
 
+	public Pieces(Pieces toClone)
+	{
+		this.rank = toClone.rank;
+		this.name = toClone.name;
+		this.player_ID = toClone.player_ID;
+		this.known = toClone.known;
+		this.position = toClone.position.clone();
+	}
+	
 	public int getPlayer_ID(){
 		return player_ID;
 	}
@@ -55,6 +64,11 @@ public class Pieces {
 	
 	public boolean known(){
 		return known;
+	}
+	
+	public Object clone()
+	{
+		return new Pieces(this);
 	}
 
 }

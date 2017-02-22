@@ -13,8 +13,23 @@ public class Cell {
 	public Cell(Pieces content, int cellState){
 		this.content=content;	
 		this.cellState = cellState;
+		//System.out.println("original cell state " + cellState );
 		position = new int[2];
 		fcost = Integer.MAX_VALUE;
+	}
+	
+	public Cell(Cell toClone)
+	{
+		if (toClone.content == null)
+			this.content = null;
+		else
+			this.content = new Pieces(toClone.content);
+		this.cellState = toClone.cellState;
+		//System.out.println("toclone cell state = " + toClone.cellState );
+		this.position = toClone.position.clone();
+		this.gcost = toClone.gcost;
+		this.hcost = toClone.hcost;
+		this.fcost = toClone.fcost;
 	}
 	
 	public void setPosition(int x, int y)
@@ -71,6 +86,11 @@ public class Cell {
 	public int[] getPosition()
 	{
 		return position;
+	}
+	
+	public Object clone()
+	{
+		return new Cell(this);
 	}
 
 }

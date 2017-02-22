@@ -8,6 +8,7 @@ public class ANode
 	
 	public ANode (Cell cell)
 	{
+		
 		this.cell = cell;
 		parent = null;
 	}
